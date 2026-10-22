@@ -3,41 +3,70 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PETRONAS ACP 2026 — Procurement Analytics Dashboard</title>
+<title>ACP 2026 — Advanced Procurement Analytics Dashboard</title>
+<script>
+  /* Pre-paint: resolve theme + lock state so there is no flash of wrong theme / unlocked content */
+  (function(){
+    try {
+      var t = localStorage.getItem('acp_theme');
+      if (t !== 'light' && t !== 'dark') t = (window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+      var r = document.documentElement;
+      r.setAttribute('data-theme', t);
+      r.classList.toggle('dark', t === 'dark');
+      var until = parseInt(localStorage.getItem('acp_session_until') || '0', 10);
+      var ok = (until && until > Date.now()) || sessionStorage.getItem('acp_session_ok') === '1';
+      if (!ok) r.classList.add('locked');
+    } catch (e) { document.documentElement.classList.add('locked'); }
+  })();
+</script>
+<script src="https://cdn.tailwindcss.com/3.4.1"></script>
+<script>
+  tailwind.config = { darkMode: 'class', corePlugins: { preflight: false } };
+</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <style>
   :root {
-    --bg: #f5f4f0;
+    --bg: #f8fafc;
     --surface: #ffffff;
-    --surface2: #f9f8f5;
-    --border: rgba(0,0,0,0.08);
-    --border2: rgba(0,0,0,0.14);
-    --text: #1a1917;
-    --text2: #5c5b57;
-    --text3: #8a8984;
-    --accent: #0f4c81;
-    --accent2: #1a6fba;
-    --gold: #c47d1a;
-    --teal: #0f6e56;
-    --red: #a32d2d;
+    --surface2: #f1f5f9;
+    --border: #e2e8f0;
+    --border2: #cbd5e1;
+    --text: #0f172a;
+    --text2: #475569;
+    --text3: #64748b;
+    --accent: #0f766e;
+    --accent2: #0d9488;
+    --accent-solid: #0f766e;
+    --gold: #b45309;
+    --teal: #0f766e;
+    --red: #b91c1c;
     --purple: #534ab7;
+    --nav-bg: linear-gradient(90deg,#0f766e,#115e59);
+    --nav-text: #ffffff;
+    --shadow: 0 10px 25px -8px rgba(15,23,42,0.18);
+    --stack-h: 100px;
+    color-scheme: light;
   }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #1a1917;
-      --surface: #242320;
-      --surface2: #2c2c28;
-      --border: rgba(255,255,255,0.09);
-      --border2: rgba(255,255,255,0.15);
-      --text: #f0ede8;
-      --text2: #a8a49e;
-      --text3: #6e6b65;
-      --accent: #5b9fd4;
-      --accent2: #7ab8e8;
-      --gold: #d4922a;
-      --teal: #1d9e75;
-      --red: #e24b4a;
-      --purple: #7f77dd;
-    }
+  :root[data-theme="dark"] {
+    --bg: #0f172a;
+    --surface: #1e293b;
+    --surface2: #172033;
+    --border: #334155;
+    --border2: #475569;
+    --text: #f8fafc;
+    --text2: #cbd5e1;
+    --text3: #94a3b8;
+    --accent: #10b981;
+    --accent2: #34d399;
+    --accent-solid: #0d9488;
+    --gold: #f59e0b;
+    --teal: #10b981;
+    --red: #f87171;
+    --purple: #a5b4fc;
+    --nav-bg: linear-gradient(90deg,#090d16,#0f172a);
+    --nav-text: #f8fafc;
+    --shadow: 0 10px 25px -8px rgba(0,0,0,0.6);
+    color-scheme: dark;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
@@ -51,7 +80,7 @@
 
   /* Header */
   .header {
-    background: var(--accent);
+    background:var(--accent-solid);
     padding: 20px 32px;
     display: flex;
     align-items: center;
@@ -383,7 +412,7 @@
     transition: all 0.15s;
   }
   .filter-btn:hover { background: var(--surface2); color: var(--text); }
-  .filter-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .filter-btn.active { background:var(--accent-solid); color: #fff; border-color: var(--accent); }
 
   /* Heatmap */
   .heatmap-cell {
@@ -493,7 +522,7 @@
     transition: all 0.15s; user-select: none;
   }
   .vendor-chip:hover { border-color: var(--accent); color: var(--accent); }
-  .vendor-chip.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .vendor-chip.active { background:var(--accent-solid); color: #fff; border-color: var(--accent); }
 
   .tab-panel { display: none; }
   .tab-panel.active { display: block; }
@@ -509,6 +538,121 @@
     #tab-vendor > div { grid-template-columns: 1fr !important; }
     #tab-vendor > div > div:first-child { position: static !important; max-height: none !important; }
   }
+  /* ═══════ ACP 2026 Hub shell: nav, gate, drawer, responsive ═══════ */
+  html { scroll-behavior: smooth; }
+  body { transition: background-color .3s, color .3s; overflow-x: hidden; }
+  .kpi, .chart-card, .tab, .filter-btn, .vendor-chip, .data-table td, .data-table th { transition: all .3s ease; }
+  .kpi, .chart-card { min-width: 0; }
+  .kpi:hover, .chart-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+  .chart-card canvas { max-width: 100%; }
+  canvas { max-width: 100%; }
+
+  #stickyTop { position: sticky; top: 0; z-index: 40; box-shadow: 0 1px 0 var(--border2); }
+  .app-nav { background: var(--nav-bg); color: var(--nav-text); display: flex; align-items: center; gap: 12px; padding: 10px 32px; min-height: 60px; }
+  .app-nav h1 { font-size: 17px; font-weight: 600; letter-spacing: -0.2px; line-height: 1.2; color: var(--nav-text); }
+  .app-nav .sub { font-size: 11px; color: rgba(255,255,255,.7); margin-top: 1px; }
+  .nav-titles { min-width: 0; flex: 1; }
+  .logo-chip { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; font-size: 12px; letter-spacing: .3px; padding: 5px 11px; border-radius: 999px; background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.28); white-space: nowrap; }
+  .logo-chip i { color: #5eead4; }
+  .nav-actions { display: flex; align-items: center; gap: 8px; }
+  .nav-actions .badge { display: inline-block; }
+  .icon-btn { width: 40px; height: 40px; border-radius: 10px; border: 1px solid rgba(255,255,255,.28); background: rgba(255,255,255,.12); color: var(--nav-text); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; font-size: 15px; transition: all .3s; flex: none; }
+  .icon-btn:hover { background: rgba(255,255,255,.24); transform: translateY(-1px); }
+  .icon-btn .fa-sun { display: none; }
+  :root[data-theme="dark"] .icon-btn .fa-sun { display: inline; }
+  :root[data-theme="dark"] .icon-btn .fa-moon { display: none; }
+  #navMenuBtn { display: none; }
+  .lock-btn { width: auto; padding: 0 12px; gap: 6px; font-size: 12px; font-weight: 600; }
+
+  .tabs { scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch; scrollbar-width: none; gap: 4px; align-items: center; padding-top: 6px; padding-bottom: 6px; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab { scroll-snap-align: center; border-bottom: none !important; border-radius: 999px; padding: 8px 16px; }
+  .tab:hover { background: var(--surface2); }
+  .tab.active { background: var(--accent-solid); color: #fff; box-shadow: 0 2px 8px -2px rgba(13,148,136,.6); }
+
+  .filter-bar { position: sticky; top: var(--stack-h); z-index: 30; }
+  select, input[type="text"], input[type="search"], input[type="number"], textarea { background: var(--surface); color: var(--text); border-color: var(--border2); }
+
+  /* Tables: scroll wrapper + sticky first column */
+  .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; max-width: 100%; }
+  .table-scroll table th:first-child, .table-scroll table td:first-child { position: sticky; left: 0; z-index: 2; background: var(--surface); }
+  .table-scroll table thead th:first-child { z-index: 3; }
+  .table-scroll tr:hover td:first-child { background: var(--surface2); }
+  .table-scroll .data-table { font-variant-numeric: tabular-nums; }
+  @media (min-width: 1025px) { .data-table th, .data-table td { padding-top: 6px; padding-bottom: 6px; } }
+
+  /* Mobile drawer */
+  .drawer-backdrop { position: fixed; inset: 0; background: rgba(2,6,23,.6); backdrop-filter: blur(3px); opacity: 0; pointer-events: none; transition: opacity .3s; z-index: 70; }
+  .drawer { position: fixed; top: 0; left: 0; bottom: 0; width: min(84vw, 320px); background: var(--surface); border-right: 1px solid var(--border2); transform: translateX(-102%); transition: transform .3s ease; z-index: 71; display: flex; flex-direction: column; box-shadow: var(--shadow); }
+  body.drawer-open .drawer { transform: none; }
+  body.drawer-open .drawer-backdrop { opacity: 1; pointer-events: auto; }
+  .drawer-head { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; border-bottom: 1px solid var(--border); font-weight: 700; color: var(--text); }
+  .drawer-head button { width: 44px; height: 44px; border: none; background: none; color: var(--text2); font-size: 18px; cursor: pointer; }
+  .drawer-list { padding: 10px; overflow-y: auto; display: flex; flex-direction: column; gap: 4px; }
+  .drawer-item { display: flex; align-items: center; gap: 12px; min-height: 48px; padding: 0 14px; border-radius: 10px; border: none; background: none; color: var(--text2); font-size: 14px; font-weight: 500; text-align: left; cursor: pointer; transition: all .3s; }
+  .drawer-item i { width: 18px; text-align: center; color: var(--text3); }
+  .drawer-item:hover { background: var(--surface2); }
+  .drawer-item.active { background: var(--accent-solid); color: #fff; }
+  .drawer-item.active i { color: #fff; }
+  .drawer-foot { margin-top: auto; padding: 12px; border-top: 1px solid var(--border); display: flex; gap: 8px; }
+  .drawer-foot button { flex: 1; min-height: 44px; border-radius: 10px; border: 1px solid var(--border2); background: var(--surface2); color: var(--text); cursor: pointer; font-weight: 600; font-size: 13px; }
+
+  /* Security gate */
+  .gate { position: fixed; inset: 0; z-index: 100; display: none; align-items: center; justify-content: center; padding: 16px; background: radial-gradient(circle at 20% 15%, rgba(13,148,136,.35), transparent 45%), radial-gradient(circle at 85% 85%, rgba(16,185,129,.25), transparent 45%), rgba(9,13,22,.88); backdrop-filter: blur(14px); }
+  html.locked .gate { display: flex; }
+  html.locked body { overflow: hidden; }
+  .gate-card { width: 100%; max-width: 400px; padding: 28px 26px; border-radius: 20px; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.22); box-shadow: 0 25px 60px -15px rgba(0,0,0,.6); backdrop-filter: blur(24px) saturate(140%); -webkit-backdrop-filter: blur(24px) saturate(140%); color: #f8fafc; }
+  .gate-card.shake { animation: gateShake .45s; }
+  @keyframes gateShake { 10%,90%{transform:translateX(-2px)} 20%,80%{transform:translateX(4px)} 30%,50%,70%{transform:translateX(-8px)} 40%,60%{transform:translateX(8px)} }
+  .gate-icon { width: 54px; height: 54px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 22px; background: linear-gradient(135deg,#0d9488,#10b981); color: #fff; margin-bottom: 16px; box-shadow: 0 8px 20px -6px rgba(16,185,129,.7); }
+  .gate-card h2 { font-size: 20px; font-weight: 700; letter-spacing: -.3px; }
+  .gate-card p.lead { font-size: 13px; color: rgba(248,250,252,.72); margin: 4px 0 18px; }
+  .gate-field { position: relative; }
+  .gate-field input { width: 100%; min-height: 48px; padding: 0 46px 0 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,.28); background: rgba(15,23,42,.55); color: #f8fafc; font-size: 15px; outline: none; transition: all .3s; }
+  .gate-field input:focus { border-color: #10b981; box-shadow: 0 0 0 3px rgba(16,185,129,.28); }
+  .gate-field.err input { border-color: #f87171; box-shadow: 0 0 0 3px rgba(248,113,113,.25); }
+  .gate-field button { position: absolute; right: 2px; top: 2px; width: 44px; height: 44px; border: none; background: none; color: rgba(248,250,252,.75); cursor: pointer; font-size: 15px; }
+  .gate-err { min-height: 18px; margin-top: 8px; font-size: 12px; color: #fca5a5; }
+  .gate-remember { display: flex; align-items: center; gap: 10px; margin: 6px 0 16px; font-size: 13px; color: rgba(248,250,252,.85); cursor: pointer; min-height: 32px; }
+  .gate-remember input { width: 18px; height: 18px; accent-color: #10b981; }
+  .gate-submit { width: 100%; min-height: 48px; border: none; border-radius: 12px; cursor: pointer; font-size: 15px; font-weight: 700; color: #fff; background: linear-gradient(135deg,#0d9488,#10b981); transition: all .3s; }
+  .gate-submit:hover { transform: translateY(-2px); box-shadow: 0 10px 22px -8px rgba(16,185,129,.8); }
+
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .charts-grid-3 { grid-template-columns: 1fr 1fr; }
+    .app-nav, .main, .filter-bar { padding-left: 20px; padding-right: 20px; }
+    .tabs { padding-left: 20px; padding-right: 20px; }
+  }
+  @media (max-width: 767px) {
+    .charts-grid, .charts-grid-3 { grid-template-columns: 1fr; }
+    .kpi-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .kpi { padding: 12px; }
+    .app-nav { padding: 8px 12px; gap: 8px; min-height: 56px; }
+    .app-nav h1 { font-size: 13px; }
+    .app-nav .sub, .nav-actions .badge, .nav-actions .logo-chip { display: none; }
+    .app-nav h1 { font-size: 13px; }
+    .lock-btn span { display: none; }
+    .lock-btn { width: 40px; padding: 0; }
+    #navMenuBtn { display: inline-flex; }
+    .tabs { padding-left: 12px; padding-right: 12px; }
+    .filter-bar { position: static; }
+    .tab, .filter-btn, .vendor-chip, .kao-sub button, .tr-sub button, .tr-pill, button, select, input:not([type="checkbox"]):not([type="radio"]) { min-height: 44px; }
+    .icon-btn { min-height: 40px; }
+    .chart-card { padding: 14px; }
+    .chart-card > div[style*="height"], .chart-card .chart-wrap { max-width: 100%; }
+    .swec-modal { width: 96vw; max-height: 92vh; }
+  }
+  @media (min-width: 768px) and (max-width: 1024px) {
+    .kpi-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+  /* Keep hard-coded accent colours legible on the dark surface */
+  :root[data-theme="dark"] .kpi-value[style*="#534ab7"] { color: #a5b4fc !important; }
+  :root[data-theme="dark"] .kpi-value[style*="#a32d2d"] { color: #f87171 !important; }
+  :root[data-theme="dark"] .kpi-value[style*="#0f6e56"] { color: #34d399 !important; }
+  :root[data-theme="dark"] .kpi-value[style*="#1a6fba"] { color: #60a5fa !important; }
+  :root[data-theme="dark"] .kpi-value[style*="#c47d1a"] { color: #fbbf24 !important; }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; animation: none !important; } }
 </style>
 </head>
 <body>
@@ -548,18 +692,49 @@
   </div>
 </div>
 
-<div class="header">
-  <div class="header-left">
-    <h1>Annual Contract Plan 2026</h1>
-    <p>Procurement Activity Analytics Dashboard &nbsp;·&nbsp; Activities 2026-0001 to 2026-2562</p>
-  </div>
-  <div class="header-right">
-    <span class="badge">2,228 Activities</span>
-    <span class="badge">As of June 2026</span>
-  </div>
+<!-- Security gate -->
+<div class="gate" id="gate" role="dialog" aria-modal="true" aria-labelledby="gateTitle">
+  <form class="gate-card" id="gateCard" autocomplete="off" novalidate>
+    <div class="gate-icon"><i class="fa-solid fa-shield-halved"></i></div>
+    <h2 id="gateTitle">ACP 2026 Hub</h2>
+    <p class="lead">Restricted analytics workspace. Enter your access passcode to continue.</p>
+    <div class="gate-field" id="gateField">
+      <input type="password" id="gateInput" placeholder="Access passcode" aria-label="Access passcode" autocomplete="current-password" required>
+      <button type="button" id="gateEye" aria-label="Show passcode"><i class="fa-solid fa-eye"></i></button>
+    </div>
+    <div class="gate-err" id="gateErr" role="alert" aria-live="polite"></div>
+    <label class="gate-remember"><input type="checkbox" id="gateRemember"> Remember session for 24 hours</label>
+    <button type="submit" class="gate-submit"><i class="fa-solid fa-lock-open"></i>&nbsp; Unlock Dashboard</button>
+  </form>
 </div>
 
-<div class="tabs">
+<!-- Mobile slide-over navigation -->
+<div class="drawer-backdrop" id="drawerBackdrop"></div>
+<aside class="drawer" id="drawer" aria-label="Dashboard sections">
+  <div class="drawer-head"><span><i class="fa-solid fa-chart-line" style="color:var(--accent);margin-right:8px"></i>ACP 2026 Hub</span><button type="button" id="drawerClose" aria-label="Close menu"><i class="fa-solid fa-xmark"></i></button></div>
+  <div class="drawer-list" id="drawerList"></div>
+  <div class="drawer-foot">
+    <button type="button" id="drawerTheme"><i class="fa-solid fa-circle-half-stroke"></i>&nbsp; Theme</button>
+    <button type="button" id="drawerLock"><i class="fa-solid fa-lock"></i>&nbsp; Lock</button>
+  </div>
+</aside>
+
+<div id="stickyTop">
+  <nav class="app-nav">
+    <button type="button" class="icon-btn" id="navMenuBtn" aria-label="Open navigation menu"><i class="fa-solid fa-bars"></i></button>
+    <div class="nav-titles">
+      <h1>ACP 2026 — Advanced Procurement Analytics Dashboard</h1>
+      <p class="sub">Procurement Activity Analytics &nbsp;·&nbsp; Activities 2026-0001 to 2026-2562</p>
+    </div>
+    <div class="nav-actions">
+      <span class="logo-chip"><i class="fa-solid fa-chart-line"></i>ACP 2026 Hub</span>
+      <span class="badge">2,228 Activities</span>
+      <span class="badge">As of June 2026</span>
+      <button type="button" class="icon-btn" id="themeToggle" aria-label="Toggle light / dark theme" title="Toggle theme"><i class="fa-solid fa-moon"></i><i class="fa-solid fa-sun"></i></button>
+      <button type="button" class="icon-btn lock-btn" id="lockBtn" aria-label="Lock session" title="Lock session"><i class="fa-solid fa-lock"></i><span>Lock</span></button>
+    </div>
+  </nav>
+  <div class="tabs" id="tabStrip" role="tablist">
   <button class="tab active" onclick="showTab('scope',this)">Activity Scope</button>
   <button class="tab" onclick="showTab('timeline',this)">Timeline</button>
   <button class="tab" onclick="showTab('scopetimeline',this)">Scope Timeline</button>
@@ -568,6 +743,7 @@
   <button class="tab" onclick="showTab('catalog',this)">Activity Catalog</button>
   <button class="tab" onclick="showTab('kao',this)">KAO Sabah Outlook</button>
   <button class="tab" onclick="showTab('tier',this)">SWEC Tiering</button>
+</div>
 </div>
 
 <!-- OVERVIEW TAB -->
@@ -650,12 +826,12 @@
         <div class="chart-sub">Pre-Award vs Post-Award vs PAC</div>
         <div style="margin-top:8px;">
           <div class="bar-row">
-            <div class="bar-label">PETRONAS Pre-Award</div>
+            <div class="bar-label">Core Entity Pre-Award</div>
             <div class="bar-track"><div class="bar-fill" style="width:75.7%;background:#1a6fba"></div></div>
             <div class="bar-val">1,687</div>
           </div>
           <div class="bar-row">
-            <div class="bar-label">PETRONAS Post-Award</div>
+            <div class="bar-label">Core Entity Post-Award</div>
             <div class="bar-track"><div class="bar-fill" style="width:22.4%;background:#0f6e56"></div></div>
             <div class="bar-val">498</div>
           </div>
@@ -775,7 +951,7 @@
   <div class="main">
     <div class="section">
       <div class="section-title">Activity scope categories — sanitized titles</div>
-      <p style="font-size:12px;color:var(--text2);margin-bottom:16px;">Titles have been sanitized by removing entity names (MRCSB, MLNG, PGB, etc.), location references, and contract duration clauses. Activities are grouped by inferred service scope. <span style="color:var(--accent2)">Click any underlined scope name ↗ to view its SWEC taxonomy codes.</span></p>
+      <p style="font-size:12px;color:var(--text2);margin-bottom:16px;">Titles have been sanitized by removing corporate entity names, location references, and contract duration clauses. Activities are grouped by inferred service scope. <span style="color:var(--accent2)">Click any underlined scope name ↗ to view its SWEC taxonomy codes.</span></p>
       <div class="charts-grid">
         <div class="chart-card full">
           <div class="chart-title">Top activity scope categories</div>
@@ -876,8 +1052,8 @@
           <div class="chart-title">Key OPU procurement volumes</div>
           <div class="chart-sub">Estimated activity count per operating unit</div>
           <div style="margin-top:12px;">
-            <div class="bar-row"><div class="bar-label">Procurement MLNG</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:#1a6fba"></div></div><div class="bar-val">~210</div></div>
-            <div class="bar-row"><div class="bar-label">Procurement MRCSB</div><div class="bar-track"><div class="bar-fill" style="width:85%;background:#534ab7"></div></div><div class="bar-val">~178</div></div>
+            <div class="bar-row"><div class="bar-label">Procurement Affiliate A</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:#1a6fba"></div></div><div class="bar-val">~210</div></div>
+            <div class="bar-row"><div class="bar-label">Procurement Affiliate B</div><div class="bar-track"><div class="bar-fill" style="width:85%;background:#534ab7"></div></div><div class="bar-val">~178</div></div>
             <div class="bar-row"><div class="bar-label">Procurement PCG 2</div><div class="bar-track"><div class="bar-fill" style="width:80%;background:#0f6e56"></div></div><div class="bar-val">~167</div></div>
             <div class="bar-row"><div class="bar-label">Procurement SKA</div><div class="bar-track"><div class="bar-fill" style="width:72%;background:#c47d1a"></div></div><div class="bar-val">~151</div></div>
             <div class="bar-row"><div class="bar-label">Procurement PRPC</div><div class="bar-track"><div class="bar-fill" style="width:68%;background:#a32d2d"></div></div><div class="bar-val">~143</div></div>
@@ -1100,7 +1276,7 @@
             </div>
             <div style="display:flex;gap:10px;font-size:11px;color:var(--text3);flex-shrink:0">
               <span style="display:inline-flex;align-items:center;gap:4px">
-                <span style="width:10px;height:10px;background:var(--accent);border-radius:2px;display:inline-block;opacity:0.6"></span>Contract Value
+                <span style="width:10px;height:10px;background:var(--accent-solid);border-radius:2px;display:inline-block;opacity:0.6"></span>Contract Value
               </span>
               <span style="display:inline-flex;align-items:center;gap:4px">
                 <span style="width:10px;height:10px;background:var(--teal);border-radius:2px;display:inline-block;opacity:0.6"></span>Utilised
@@ -1191,7 +1367,7 @@
       <!-- ACTION BUTTONS -->
       <div style="display:flex;flex-direction:column;gap:8px;margin-top:auto;padding-top:8px;border-top:1px solid var(--border)">
         <button onclick="runVendorSearch()"
-          style="width:100%;padding:10px;border-radius:7px;background:var(--accent);color:#fff;border:none;cursor:pointer;font-size:13px;font-weight:600">
+          style="width:100%;padding:10px;border-radius:7px;background:var(--accent-solid);color:#fff;border:none;cursor:pointer;font-size:13px;font-weight:600">
           Find Opportunities
         </button>
         <button onclick="clearVendorSearch()"
@@ -1222,7 +1398,7 @@
         <div style="display:flex;gap:0;border-bottom:2px solid var(--border2);margin-bottom:16px">
           <button id="vtab-matched" onclick="setVendorTab('matched')"
             style="padding:8px 18px;border:none;background:none;cursor:pointer;font-size:12px;font-weight:600;color:var(--accent);border-bottom:2px solid var(--accent);margin-bottom:-2px">
-            Matched Activities <span id="vtab-matched-count" style="margin-left:5px;font-size:10px;background:var(--accent);color:#fff;padding:1px 6px;border-radius:10px"></span>
+            Matched Activities <span id="vtab-matched-count" style="margin-left:5px;font-size:10px;background:var(--accent-solid);color:#fff;padding:1px 6px;border-radius:10px"></span>
           </button>
           <button id="vtab-gaps" onclick="setVendorTab('gaps')"
             style="padding:8px 18px;border:none;background:none;cursor:pointer;font-size:12px;font-weight:600;color:var(--text2);border-bottom:2px solid transparent;margin-bottom:-2px">
@@ -1386,7 +1562,7 @@
 <style>
   .kao-sub { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:18px; }
   .kao-sub button { padding:6px 12px; border-radius:20px; border:1px solid var(--border2); background:var(--surface); color:var(--text2); font-size:12px; font-weight:500; cursor:pointer; }
-  .kao-sub button.active { background:var(--accent); color:#fff; border-color:var(--accent); }
+  .kao-sub button.active { background:var(--accent-solid); color:#fff; border-color:var(--accent); }
   .kao-view { display:none; }
   .kao-view.active { display:block; }
   .kao-ctl { padding:8px 10px; border-radius:6px; border:1px solid var(--border2); background:var(--surface); color:var(--text); font-size:12px; }
@@ -1411,7 +1587,7 @@
 <div id="tab-kao" class="tab-panel">
   <div class="main">
     <div style="font-size:12px;color:var(--text2);margin-bottom:14px;">
-      <b style="color:var(--text)">Kinabalu Activity Outlook (KAO) 2026&ndash;2028</b> &mdash; Sabah OGSE activity and opportunity outlook for PETRONAS Group and PACs.
+      <b style="color:var(--text)">Kinabalu Activity Outlook (KAO) 2026&ndash;2028</b> &mdash; Sabah OGSE activity and opportunity outlook for the Core Entity Group and PACs.
       Source: <i>KAO 2026-2028 Report rev1</i> (working draft). Counts are planned tender initiations by estimated initiation quarter.
     </div>
 
@@ -1655,6 +1831,130 @@
 <script src="acl_data.js"></script>
 <script src="kao_data.js"></script>
 <script>
+// ───────── ACP 2026 Hub: copy sanitisation (display layer; source data files are untouched) ─────────
+const ENTITY_RULES = [[/PETRONAS/gi,'Core Entity'],[/MRCSB/gi,'Affiliate B'],[/MLNG/gi,'Affiliate A'],[/PGB/gi,'Affiliate C'],[/PFLNG\d*/gi,'Affiliate F'],[/PGOC/gi,'CEGC']];
+const ENTITY_TEST = /PETRONAS|MRCSB|MLNG|PGB|PFLNG|PGOC/i;
+function sanitizeCopy(str) {
+  if (typeof str !== 'string' || !ENTITY_TEST.test(str)) return str;
+  return ENTITY_RULES.reduce((t, [rx, r]) => t.replace(rx, m => (m === m.toUpperCase() ? r.toUpperCase() : r)), str);
+}
+function deepSanitize(o) {
+  if (!o || typeof o !== 'object') return o;
+  const keys = Array.isArray(o) ? o.keys() : Object.keys(o);
+  for (const k of keys) {
+    const v = o[k];
+    if (typeof v === 'string') { const n = sanitizeCopy(v); if (n !== v) o[k] = n; }
+    else if (v && typeof v === 'object') deepSanitize(v);
+  }
+  return o;
+}
+[ACP_DATA, ACL_DATA, KAO_DATA].forEach(deepSanitize);
+
+// ───────── Security gate ─────────
+const APP_ACCESS_KEY = "acp2026";
+const SESSION_MS = 24 * 60 * 60 * 1000;
+(function () {
+  const root = document.documentElement;
+  const gate = document.getElementById('gate');
+  const card = document.getElementById('gateCard');
+  const input = document.getElementById('gateInput');
+  const field = document.getElementById('gateField');
+  const err = document.getElementById('gateErr');
+  const remember = document.getElementById('gateRemember');
+  const store = {
+    get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+    set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} },
+    del(k) { try { localStorage.removeItem(k); sessionStorage.removeItem(k); } catch (e) {} }
+  };
+  function isAuthed() {
+    const until = parseInt(store.get('acp_session_until') || '0', 10);
+    let ss = null; try { ss = sessionStorage.getItem('acp_session_ok'); } catch (e) {}
+    return (until && until > Date.now()) || ss === '1';
+  }
+  function applyLock(locked) {
+    root.classList.toggle('locked', locked);
+    Array.from(document.body.children).forEach(el => {
+      if (el === gate || el.tagName === 'SCRIPT') return;
+      if (locked) el.setAttribute('inert', ''); else el.removeAttribute('inert');
+    });
+    if (locked) { input.value = ''; err.textContent = ''; field.classList.remove('err'); setTimeout(() => input.focus(), 50); }
+  }
+  window.lockSession = function () {
+    store.del('acp_session_until'); store.del('acp_session_ok');
+    applyLock(true);
+  };
+  card.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (input.value === APP_ACCESS_KEY) {
+      if (remember.checked) store.set('acp_session_until', String(Date.now() + SESSION_MS));
+      else { try { sessionStorage.setItem('acp_session_ok', '1'); } catch (x) {} }
+      applyLock(false);
+      window.dispatchEvent(new Event('resize'));
+    } else {
+      err.textContent = 'Incorrect passcode. Please try again.';
+      field.classList.add('err');
+      card.classList.remove('shake'); void card.offsetWidth; card.classList.add('shake');
+      input.select();
+    }
+  });
+  input.addEventListener('input', () => { err.textContent = ''; field.classList.remove('err'); });
+  document.getElementById('gateEye').addEventListener('click', function () {
+    const show = input.type === 'password';
+    input.type = show ? 'text' : 'password';
+    this.innerHTML = '<i class="fa-solid ' + (show ? 'fa-eye-slash' : 'fa-eye') + '"></i>';
+    this.setAttribute('aria-label', show ? 'Hide passcode' : 'Show passcode');
+  });
+  applyLock(!isAuthed());
+})();
+
+// ───────── Theme system (light / dark) + live chart re-theming ─────────
+const CHART_THEME = {
+  light: { text:'#475569', grid:'rgba(15,23,42,0.08)', tipBg:'#0f172a', tipText:'#f8fafc', tipBorder:'#334155' },
+  dark:  { text:'#cbd5e1', grid:'rgba(148,163,184,0.16)', tipBg:'#020617', tipText:'#f8fafc', tipBorder:'#475569' }
+};
+function currentTheme() { return document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light'; }
+function syncChartDefaults() {
+  const t = CHART_THEME[currentTheme()];
+  Chart.defaults.color = t.text;
+  Chart.defaults.borderColor = t.grid;
+}
+Chart.register({
+  id: 'acpTheme',
+  beforeUpdate(chart) {
+    const t = CHART_THEME[currentTheme()], o = chart.options;
+    if (o.scales) Object.keys(o.scales).forEach(id => {
+      const sc = o.scales[id]; if (!sc) return;
+      if (sc.ticks) sc.ticks.color = t.text;
+      if (sc.grid) sc.grid.color = t.grid;
+      if (sc.title) sc.title.color = t.text;
+      if (sc.angleLines) sc.angleLines.color = t.grid;
+    });
+    const pl = o.plugins; if (!pl) return;
+    if (pl.legend && pl.legend.labels) pl.legend.labels.color = t.text;
+    if (pl.title) pl.title.color = t.text;
+    if (pl.tooltip) Object.assign(pl.tooltip, { backgroundColor:t.tipBg, titleColor:t.tipText, bodyColor:t.tipText, footerColor:t.tipText, borderColor:t.tipBorder, borderWidth:1 });
+  }
+});
+function setTheme(t, persist) {
+  const r = document.documentElement;
+  r.setAttribute('data-theme', t);
+  r.classList.toggle('dark', t === 'dark');
+  if (persist) { try { localStorage.setItem('acp_theme', t); } catch (e) {} }
+  syncChartDefaults();
+  Object.values(Chart.instances).forEach(c => { try { c.update('none'); } catch (e) {} });
+}
+syncChartDefaults();
+(function () {
+  let saved = null; try { saved = localStorage.getItem('acp_theme'); } catch (e) {}
+  if (window.matchMedia) {
+    const mq = matchMedia('(prefers-color-scheme: dark)');
+    const onChange = e => { let s = null; try { s = localStorage.getItem('acp_theme'); } catch (x) {} if (!s) setTheme(e.matches ? 'dark' : 'light', false); };
+    mq.addEventListener ? mq.addEventListener('change', onChange) : mq.addListener(onChange);
+  }
+})();
+function toggleTheme() { setTheme(currentTheme() === 'dark' ? 'light' : 'dark', true); }
+</script>
+<script>
 // ACP activities loaded from acp_data.js
 const data = ACP_DATA;
 
@@ -1770,7 +2070,7 @@ const scopeData = {
 };
 
 const deptData = [
-  ['Procurement MLNG',210],['Procurement MRCSB',178],['Procurement PCG 2',167],
+  ['Procurement Affiliate A',210],['Procurement Affiliate B',178],['Procurement PCG 2',167],
   ['Procurement SKA',151],['Procurement PRPC',143],['Procurement Gas & Power',137],
   ['Procurement BTL Material',115],['Procurement PCG 3',110],['Procurement FLNG',101],
   ['Procurement PDB',94],['PED Contract Management',88],['Procurement PCG 1',85],
@@ -1919,14 +2219,14 @@ function renderScopeLists() {
 }
 
 const SAMPLE_ORIGINALS = [
-  ['2026-2562','TERM CONTRACT FOR MAINTENANCE SUPPORT OF PLANT MAINTENANCE SYSTEM IN MRCSB FOR DURATION OF THREE (3) YEARS','TERM CONTRACT FOR MAINTENANCE SUPPORT OF PLANT MAINTENANCE SYSTEM'],
-  ['2026-2559','PROVISION OF ENVIRONMENTAL IMPACT ASSESSMENT AND OTHER ENVIRONMENTAL SERVICES FOR MRCSB','PROVISION OF ENVIRONMENTAL IMPACT ASSESSMENT AND OTHER ENVIRONMENTAL SERVICES'],
-  ['2026-2546','STRATEGIC COLLABORATION AGREEMENT (SCA) FOR SUBSEA PRODUCTION SYSTEM (SPS), UMBILICAL, RISER AND FLOWLINES (SURF) FOR PETRONAS CARIGALI SDN. BHD.','STRATEGIC COLLABORATION AGREEMENT (SCA) FOR SUBSEA PRODUCTION SYSTEM (SPS), UMBILICAL, RISER AND FLOWLINES (SURF)'],
+  ['2026-2562','TERM CONTRACT FOR MAINTENANCE SUPPORT OF PLANT MAINTENANCE SYSTEM IN AFFILIATE B FOR DURATION OF THREE (3) YEARS','TERM CONTRACT FOR MAINTENANCE SUPPORT OF PLANT MAINTENANCE SYSTEM'],
+  ['2026-2559','PROVISION OF ENVIRONMENTAL IMPACT ASSESSMENT AND OTHER ENVIRONMENTAL SERVICES FOR AFFILIATE B','PROVISION OF ENVIRONMENTAL IMPACT ASSESSMENT AND OTHER ENVIRONMENTAL SERVICES'],
+  ['2026-2546','STRATEGIC COLLABORATION AGREEMENT (SCA) FOR SUBSEA PRODUCTION SYSTEM (SPS), UMBILICAL, RISER AND FLOWLINES (SURF) FOR CORE ENTITY CARIGALI SDN. BHD.','STRATEGIC COLLABORATION AGREEMENT (SCA) FOR SUBSEA PRODUCTION SYSTEM (SPS), UMBILICAL, RISER AND FLOWLINES (SURF)'],
   ['2026-2528','PANEL CONTRACTOR CONTRACT (PCC) FOR OFFSHORE SUPPORT VESSEL (OSV) SERVICES FOR PETROLEUM ARRANGEMENT CONTRACTORS (PACs) – ADDITIONAL PANEL CONTRACTORS','PANEL CONTRACTOR CONTRACT (PCC) FOR OFFSHORE SUPPORT VESSEL (OSV) SERVICES — ADDITIONAL PANEL CONTRACTORS'],
-  ['2026-2321','PROVISION OF RENTAL, CALIBRATION AND SERVICING WORK FOR XENTAUR XPDM PORTABLE MOISTURE METER, VAISALA DM70, AND SHAW SADP PORTABLE DEWPOINT METER FOR PETRONAS FLOATING LNG 2 (L) LTD. (PFLNG2)','PROVISION OF RENTAL, CALIBRATION AND SERVICING WORK FOR PORTABLE MOISTURE METER AND DEWPOINT METER'],
+  ['2026-2321','PROVISION OF RENTAL, CALIBRATION AND SERVICING WORK FOR XENTAUR XPDM PORTABLE MOISTURE METER, VAISALA DM70, AND SHAW SADP PORTABLE DEWPOINT METER FOR CORE ENTITY FLOATING LNG 2 (L) LTD. (AFFILIATE F)','PROVISION OF RENTAL, CALIBRATION AND SERVICING WORK FOR PORTABLE MOISTURE METER AND DEWPOINT METER'],
   ['2026-2104','TERM CONTRACT OF ROTATING EQUIPMENT FOR CSI2140 GUARDIAN SUPPORT AND AMS MACHINERY MANAGER SOFTWARE GUARDIAN SUPPORT SERVICE FOR MALAYSIAN REFINING COMPANY SDN BHD FOR A DURATION OF FIVE (5) YEARS','TERM CONTRACT OF ROTATING EQUIPMENT — CSI2140 GUARDIAN SUPPORT AND AMS MACHINERY MANAGER SOFTWARE SUPPORT SERVICE'],
   ['2026-0446','PROVISION OF FPSO CHARTER AND O&M SERVICES (EPCIC) FOR MEGAH PROJECT','PROVISION OF FPSO CHARTER AND O&M SERVICES (EPCIC) — MEGAH PROJECT'],
-  ['2026-0017','PROVISION OF DEEPWATER DRILLING RIG FOR PETRONAS CARIGALI SDN. BHD.','PROVISION OF DEEPWATER DRILLING RIG'],
+  ['2026-0017','PROVISION OF DEEPWATER DRILLING RIG FOR CORE ENTITY CARIGALI SDN. BHD.','PROVISION OF DEEPWATER DRILLING RIG'],
 ];
 
 function renderSampleTable() {
@@ -4267,6 +4567,7 @@ function trLoad(cb) {
 }
 
 function trIndex() {
+  deepSanitize(TIER_DATA);
   TIER_DATA.swec.forEach(x => { TR.byCode[x.c] = x; });
   // KAO demand per tiering code (scope contracts split equally across matched codes)
   TR.kdem = {}; TR.kao = { total:0, mapped:0, scopesTotal:0, scopesMapped:0, high:0 };
@@ -4544,6 +4845,78 @@ function kaoRenderLens() {
       <td style="text-align:right">${trNum(x.s25)}</td><td class="tr-heat" style="background:${bg};color:${fg}">${x.bp == null ? '–' : (x.bp*100).toFixed(1)+'%'}</td></tr>`; }).join('');
   });
 }
+</script>
+<script>
+// ───────── ACP 2026 Hub shell: nav, drawer, responsive tables ─────────
+(function () {
+  const TAB_ICONS = { scope:'fa-layer-group', timeline:'fa-timeline', scopetimeline:'fa-table-cells', acl:'fa-file-contract', vendor:'fa-handshake', catalog:'fa-book-open', kao:'fa-compass', tier:'fa-sitemap', overview:'fa-gauge-high', pipeline:'fa-filter', bu:'fa-building' };
+  const strip = document.getElementById('tabStrip');
+  const list = document.getElementById('drawerList');
+  const tabs = Array.from(strip.querySelectorAll('.tab'));
+
+  tabs.forEach(t => {
+    const m = /showTab\('([^']+)'/.exec(t.getAttribute('onclick') || '');
+    const name = m ? m[1] : '';
+    t.setAttribute('role', 'tab');
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'drawer-item'; b.dataset.tab = name;
+    b.innerHTML = '<i class="fa-solid ' + (TAB_ICONS[name] || 'fa-chart-pie') + '"></i><span>' + t.textContent.trim() + '</span>';
+    b.addEventListener('click', () => { t.click(); closeDrawer(); window.scrollTo({ top: 0, behavior: 'smooth' }); });
+    list.appendChild(b);
+  });
+
+  function syncActive() {
+    const active = strip.querySelector('.tab.active');
+    const idx = tabs.indexOf(active);
+    Array.from(list.children).forEach((b, i) => b.classList.toggle('active', i === idx));
+    tabs.forEach(t => t.setAttribute('aria-selected', t === active ? 'true' : 'false'));
+    if (active && active.scrollIntoView) active.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' });
+  }
+  const origShowTab = window.showTab;
+  window.showTab = function () {
+    const r = origShowTab.apply(this, arguments);
+    syncActive(); scheduleEnhance(); measureStack();
+    return r;
+  };
+
+  function openDrawer() { document.body.classList.add('drawer-open'); }
+  function closeDrawer() { document.body.classList.remove('drawer-open'); }
+  document.getElementById('navMenuBtn').addEventListener('click', openDrawer);
+  document.getElementById('drawerClose').addEventListener('click', closeDrawer);
+  document.getElementById('drawerBackdrop').addEventListener('click', closeDrawer);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer(); });
+  document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+  document.getElementById('drawerTheme').addEventListener('click', toggleTheme);
+  document.getElementById('lockBtn').addEventListener('click', () => { closeDrawer(); lockSession(); });
+  document.getElementById('drawerLock').addEventListener('click', () => { closeDrawer(); lockSession(); });
+
+  // sticky stack height drives the desktop sticky filter bar offset
+  function measureStack() {
+    const el = document.getElementById('stickyTop');
+    document.documentElement.style.setProperty('--stack-h', el.offsetHeight + 'px');
+  }
+  window.addEventListener('resize', measureStack);
+
+  // Tables: dedicated horizontal-scroll wrapper + sticky first column
+  let raf = 0;
+  function scheduleEnhance() { cancelAnimationFrame(raf); raf = requestAnimationFrame(enhanceTables); }
+  function enhanceTables() {
+    document.querySelectorAll('table.data-table, .tab-panel table[style*="border-collapse"]').forEach(tb => {
+      if (tb.closest('.swec-modal')) return;
+      const par = tb.parentElement;
+      if (par.classList.contains('table-scroll')) return;
+      const ov = getComputedStyle(par).overflowX;
+      if (ov === 'auto' || ov === 'scroll') { par.classList.add('table-scroll'); return; }
+      const w = document.createElement('div');
+      w.className = 'table-scroll';
+      par.insertBefore(w, tb); w.appendChild(tb);
+    });
+  }
+  new MutationObserver(scheduleEnhance).observe(document.querySelector('#stickyTop').nextElementSibling.parentNode, { childList: true, subtree: true });
+
+  syncActive(); enhanceTables(); measureStack();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(measureStack);
+})();
 </script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-// ACL — Active Contract List (PETRONAS)
+// ACL — Active Contract List
 // 29,329 contracts (deduplicated) | 7,755 LIVE | 4,487 expiring 2026-27
 // Dedup key: contract name + supplier + effective date
 
