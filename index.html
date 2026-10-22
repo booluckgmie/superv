@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ACP 2026 — Advanced Procurement Analytics Dashboard</title>
+<title>ProcureLens — Contract &amp; Procurement Analytics Dashboard</title>
 <script>
   /* Pre-paint: resolve theme + lock state so there is no flash of wrong theme / unlocked content */
   (function(){
@@ -538,7 +538,7 @@
     #tab-vendor > div { grid-template-columns: 1fr !important; }
     #tab-vendor > div > div:first-child { position: static !important; max-height: none !important; }
   }
-  /* ═══════ ACP 2026 Hub shell: nav, gate, drawer, responsive ═══════ */
+  /* ═══════ ProcureLens shell: nav, gate, drawer, responsive ═══════ */
   html { scroll-behavior: smooth; }
   body { transition: background-color .3s, color .3s; overflow-x: hidden; }
   .kpi, .chart-card, .tab, .filter-btn, .vendor-chip, .data-table td, .data-table th { transition: all .3s ease; }
@@ -696,7 +696,7 @@
 <div class="gate" id="gate" role="dialog" aria-modal="true" aria-labelledby="gateTitle">
   <form class="gate-card" id="gateCard" autocomplete="off" novalidate>
     <div class="gate-icon"><i class="fa-solid fa-shield-halved"></i></div>
-    <h2 id="gateTitle">ACP 2026 Hub</h2>
+    <h2 id="gateTitle">ProcureLens</h2>
     <p class="lead">Restricted analytics workspace. Enter your access passcode to continue.</p>
     <div class="gate-field" id="gateField">
       <input type="password" id="gateInput" placeholder="Access passcode" aria-label="Access passcode" autocomplete="current-password" required>
@@ -711,7 +711,7 @@
 <!-- Mobile slide-over navigation -->
 <div class="drawer-backdrop" id="drawerBackdrop"></div>
 <aside class="drawer" id="drawer" aria-label="Dashboard sections">
-  <div class="drawer-head"><span><i class="fa-solid fa-chart-line" style="color:var(--accent);margin-right:8px"></i>ACP 2026 Hub</span><button type="button" id="drawerClose" aria-label="Close menu"><i class="fa-solid fa-xmark"></i></button></div>
+  <div class="drawer-head"><span><i class="fa-solid fa-chart-line" style="color:var(--accent);margin-right:8px"></i>ProcureLens</span><button type="button" id="drawerClose" aria-label="Close menu"><i class="fa-solid fa-xmark"></i></button></div>
   <div class="drawer-list" id="drawerList"></div>
   <div class="drawer-foot">
     <button type="button" id="drawerTheme"><i class="fa-solid fa-circle-half-stroke"></i>&nbsp; Theme</button>
@@ -723,11 +723,11 @@
   <nav class="app-nav">
     <button type="button" class="icon-btn" id="navMenuBtn" aria-label="Open navigation menu"><i class="fa-solid fa-bars"></i></button>
     <div class="nav-titles">
-      <h1>ACP 2026 — Advanced Procurement Analytics Dashboard</h1>
-      <p class="sub">Procurement Activity Analytics &nbsp;·&nbsp; Activities 2026-0001 to 2026-2562</p>
+      <h1>ProcureLens — Contract &amp; Procurement Analytics Dashboard</h1>
+      <p class="sub">Annual Contract Plan 2026 · Procurement Activity Analytics &nbsp;·&nbsp; Activities 2026-0001 to 2026-2562</p>
     </div>
     <div class="nav-actions">
-      <span class="logo-chip"><i class="fa-solid fa-chart-line"></i>ACP 2026 Hub</span>
+      <span class="logo-chip"><i class="fa-solid fa-chart-line"></i>ProcureLens</span>
       <span class="badge">2,228 Activities</span>
       <span class="badge">As of June 2026</span>
       <button type="button" class="icon-btn" id="themeToggle" aria-label="Toggle light / dark theme" title="Toggle theme"><i class="fa-solid fa-moon"></i><i class="fa-solid fa-sun"></i></button>
@@ -1831,7 +1831,7 @@
 <script src="acl_data.js"></script>
 <script src="kao_data.js"></script>
 <script>
-// ───────── ACP 2026 Hub: copy sanitisation (display layer; source data files are untouched) ─────────
+// ───────── ProcureLens: copy sanitisation (display layer; source data files are untouched) ─────────
 const ENTITY_RULES = [[/PETRONAS/gi,'Core Entity'],[/MRCSB/gi,'Affiliate B'],[/MLNG/gi,'Affiliate A'],[/PGB/gi,'Affiliate C'],[/PFLNG\d*/gi,'Affiliate F'],[/PGOC/gi,'CEGC']];
 const ENTITY_TEST = /PETRONAS|MRCSB|MLNG|PGB|PFLNG|PGOC/i;
 function sanitizeCopy(str) {
@@ -4847,7 +4847,7 @@ function kaoRenderLens() {
 }
 </script>
 <script>
-// ───────── ACP 2026 Hub shell: nav, drawer, responsive tables ─────────
+// ───────── ProcureLens shell: nav, drawer, responsive tables ─────────
 (function () {
   const TAB_ICONS = { scope:'fa-layer-group', timeline:'fa-timeline', scopetimeline:'fa-table-cells', acl:'fa-file-contract', vendor:'fa-handshake', catalog:'fa-book-open', kao:'fa-compass', tier:'fa-sitemap', overview:'fa-gauge-high', pipeline:'fa-filter', bu:'fa-building' };
   const strip = document.getElementById('tabStrip');
