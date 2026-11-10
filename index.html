@@ -652,6 +652,14 @@
   :root[data-theme="dark"] .kpi-value[style*="#0f6e56"] { color: #34d399 !important; }
   :root[data-theme="dark"] .kpi-value[style*="#1a6fba"] { color: #60a5fa !important; }
   :root[data-theme="dark"] .kpi-value[style*="#c47d1a"] { color: #fbbf24 !important; }
+    /* Market Intel tab */
+  .mi-state { padding: 28px 16px; text-align: center; color: var(--text2); font-size: 13px; border: 1px dashed var(--border2); border-radius: 10px; background: var(--surface); }
+  .mi-state.err { color: var(--red); }
+  .mi-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 18px; }
+  .mi-pill { display: inline-block; padding: 2px 9px; border-radius: 999px; font-size: 10px; font-weight: 600; white-space: nowrap; color: var(--c); background: color-mix(in srgb, var(--c) 14%, transparent); border: 1px solid color-mix(in srgb, var(--c) 35%, transparent); }
+  .mi-up { color: #10b981; font-weight: 600; } .mi-down { color: var(--red); font-weight: 600; } .mi-flat { color: var(--text3); }
+  .mi-feed-title a { color: var(--text); text-decoration: none; } .mi-feed-title a:hover { color: var(--accent); text-decoration: underline; }
+  #miSearch:focus { outline: 2px solid var(--accent-solid); outline-offset: 1px; }
   @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; animation: none !important; } }
 </style>
 </head>
@@ -743,6 +751,7 @@
   <button class="tab" onclick="showTab('catalog',this)">Activity Catalog</button>
   <button class="tab" onclick="showTab('kao',this)">KAO Sabah Outlook</button>
   <button class="tab" onclick="showTab('tier',this)">SWEC Tiering</button>
+  <button class="tab" onclick="showTab('mi',this)">Market Intel</button>
 </div>
 </div>
 
@@ -1826,6 +1835,82 @@
   </div>
 </div>
 
+<!-- MARKET INTEL TAB -->
+<div id="tab-mi" class="tab-panel">
+  <div class="main">
+    <div class="section">
+
+      <div style="display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:16px">
+        <div class="section-title" style="margin:0">Market Intelligence</div>
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+          <span id="miStatus" style="font-size:11px;color:var(--text3)">News-flow monitor · daily feed</span>
+          <button class="filter-btn" id="miRefresh" type="button" onclick="miLoad(true)" aria-label="Reload the feed"><i class="fa-solid fa-rotate"></i>&nbsp; Refresh</button>
+        </div>
+      </div>
+
+      <div id="miState" class="mi-state" role="status" aria-live="polite">Loading the news feed…</div>
+
+      <div id="miBody" style="display:none">
+        <div id="miKpi" class="mi-kpis"></div>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-bottom:16px">
+          <div class="chart-card">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;flex-wrap:wrap">
+              <div><div class="chart-title">Daily article volume</div><div class="chart-sub" id="miVolSub">Articles per day</div></div>
+              <div style="display:flex;gap:6px" id="miRange">
+                <button type="button" class="filter-btn active" data-r="30" aria-pressed="true">30D</button>
+                <button type="button" class="filter-btn" data-r="90" aria-pressed="false">90D</button>
+                <button type="button" class="filter-btn" data-r="0" aria-pressed="false">All</button>
+              </div>
+            </div>
+            <div style="position:relative;height:230px"><canvas id="miVolume" role="img" aria-label="Area chart of articles published per day"></canvas></div>
+          </div>
+          <div class="chart-card">
+            <div class="chart-title">Category mix</div>
+            <div class="chart-sub">Share of all articles</div>
+            <div style="position:relative;height:230px"><canvas id="miCat" role="img" aria-label="Doughnut chart of articles by category"></canvas></div>
+          </div>
+          <div class="chart-card">
+            <div class="chart-title">Topic coverage</div>
+            <div class="chart-sub">Articles mentioning each theme</div>
+            <div style="position:relative;height:230px"><canvas id="miTopics" role="img" aria-label="Radar chart of topic coverage"></canvas></div>
+          </div>
+          <div class="chart-card">
+            <div class="chart-title">Top sources</div>
+            <div class="chart-sub">Publishers with the most articles</div>
+            <div style="position:relative;height:230px"><canvas id="miSources" role="img" aria-label="Bar chart of top publishers"></canvas></div>
+          </div>
+        </div>
+
+        <div class="chart-card" style="margin-bottom:16px">
+          <div class="chart-title">Category momentum</div>
+          <div class="chart-sub" id="miMomSub">Latest 7 days vs the 7 days before</div>
+          <table class="data-table" style="margin-top:8px;min-width:420px">
+            <thead><tr><th>Category</th><th style="text-align:right">Last 7d</th><th style="text-align:right">Prior 7d</th><th style="text-align:right">Change</th><th>Trend</th></tr></thead>
+            <tbody id="miMomBody"></tbody>
+          </table>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-title">Article feed</div>
+          <div class="chart-sub" id="miFeedSub">Latest first</div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0">
+            <input id="miSearch" type="search" placeholder="Search headlines…" aria-label="Search headlines" style="flex:1;min-width:180px;padding:8px 10px;border-radius:6px;border:1px solid var(--border2);font-size:12px">
+            <span id="miCount" style="font-size:11px;color:var(--text3);white-space:nowrap"></span>
+          </div>
+          <div id="miChips" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px"></div>
+          <table class="data-table" style="font-size:12px;min-width:560px">
+            <thead><tr><th style="white-space:nowrap">Date</th><th>Headline</th><th>Category</th><th>Source</th></tr></thead>
+            <tbody id="miFeedBody"></tbody>
+          </table>
+          <div style="text-align:center;margin-top:12px"><button type="button" class="filter-btn" id="miMore" style="display:none">Show more</button></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script src="acp_data.js"></script>
 <script src="acl_data.js"></script>
@@ -2002,6 +2087,7 @@ function showTab(name, el) {
   if (name === 'acl')     initAclTab();
   if (name === 'kao')     initKaoTab();
   if (name === 'tier')    initTierTab();
+  if (name === 'mi')      initMiTab();
 }
 
 const COLORS = {
@@ -4847,9 +4933,193 @@ function kaoRenderLens() {
 }
 </script>
 <script>
+// ───────── Market Intel: daily news-flow monitor (data fetched live, nothing stored) ─────────
+const MI_DATA_URL = 'https://raw.githubusercontent.com/booluckgmie/sharecode/refs/heads/master/marketIntel/petronasGAlerts2025.csv';
+const MI_CATS = [
+  { name: 'Energy & Gas',  re: /\b(gas|oil|upstream|pipelines?|lng|petrol)\b/i,                 color: '#f59e0b' },
+  { name: 'Chemicals',     re: /chemical|butac|polymer|pchem/i,                                  color: '#8b5cf6' },
+  { name: 'Renewables',    re: /renewable|solar|hydrogen|\bgreen\b|\bev\b|electric/i,            color: '#10b981' },
+  { name: 'Sponsorship',   re: /\bf1\b|formula|motorsport|motogp|grand prix|sponsor|racing/i,    color: '#ef4444' },
+  { name: 'Financial',     re: /\bmarket\b|stock|epf|investment|financial|dividend/i,            color: '#0ea5e9' },
+  { name: 'International', re: /brazil|international|australia|georgia|global/i,                 color: '#14b8a6' },
+  { name: 'Other',         re: null,                                                             color: '#6b7280' }
+];
+const MI_COLOR = Object.fromEntries(MI_CATS.map(c => [c.name, c.color]));
+const MI_TOPICS = {
+  'Gas/LNG':   [/\bgas\b|\blng\b|pipeline|upstream/i],
+  'Renewable': [/solar|hydrogen|\bgreen\b|renewable|\bev\b|electric/i],
+  'Chemicals': [/chemical|polymer|butac|pchem/i],
+  'Malaysia':  [/malaysia/i],
+  'Finance':   [/\bmarket\b|stock|investment|epf|dividend/i],
+  'Global':    [/brazil|australia|georgia|international/i]
+};
+const MI = { rows: null, loading: false, cat: 'all', q: '', shown: 50, range: 30, charts: {}, loadedAt: null };
+const MI_DAY = 86400000;
+
+const miEsc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const miCategory = t => (MI_CATS.find(c => c.re && c.re.test(t)) || MI_CATS[MI_CATS.length - 1]).name;
+const miTopics = t => Object.keys(MI_TOPICS).filter(k => MI_TOPICS[k].some(re => re.test(t)));
+const miDayKey = ms => new Date(ms + 8 * 3600000).toISOString().slice(0, 10);   // Malaysia time
+const miFmt = (ms, year) => new Date(ms).toLocaleDateString('en-MY', { day: 'numeric', month: 'short', timeZone: 'Asia/Kuala_Lumpur', ...(year ? { year: 'numeric' } : {}) });
+// feed titles carry <b> highlights and HTML entities: strip tags, decode entities (textarea never runs markup)
+const miClean = s => { const t = document.createElement('textarea'); t.innerHTML = String(s).replace(/<[^>]*>/g, ''); return t.value.replace(/\s+/g, ' ').trim(); };
+const miSafeUrl = u => (/^https?:\/\//i.test(u) ? u : '');
+const miHost = u => { try { return new URL(u).hostname.replace(/^www\./, ''); } catch (e) { return ''; } };
+
+function miParseCsv(text) {            // RFC 4180: quoted fields, "" escapes, CRLF
+  const rows = []; let row = [], f = '', q = false;
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (q) { if (c === '"') { if (text[i + 1] === '"') { f += '"'; i++; } else q = false; } else f += c; }
+    else if (c === '"') q = true;
+    else if (c === ',') { row.push(f); f = ''; }
+    else if (c === '\n' || c === '\r') { if (c === '\r' && text[i + 1] === '\n') i++; row.push(f); f = ''; if (row.length > 1 || row[0] !== '') rows.push(row); row = []; }
+    else f += c;
+  }
+  if (f !== '' || row.length) { row.push(f); rows.push(row); }
+  return rows;
+}
+
+function miSetState(msg, isErr) {
+  const el = document.getElementById('miState');
+  el.style.display = msg ? '' : 'none'; el.textContent = msg || ''; el.classList.toggle('err', !!isErr);
+}
+
+async function miLoad(force) {
+  if (MI.loading) return;
+  MI.loading = true;
+  const btn = document.getElementById('miRefresh'); btn.disabled = true;
+  if (!MI.rows) { document.getElementById('miBody').style.display = 'none'; miSetState('Loading the news feed…'); }
+  try {
+    const ctrl = new AbortController(), timer = setTimeout(() => ctrl.abort(), 30000);
+    const resp = await fetch(MI_DATA_URL, { signal: ctrl.signal, cache: force ? 'reload' : 'default' });
+    clearTimeout(timer);
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    const table = miParseCsv(await resp.text());
+    const head = table.shift().map(h => h.trim().toLowerCase());
+    const ix = k => head.indexOf(k);
+    if (ix('title') < 0 || ix('published') < 0) throw new Error('unexpected columns');
+    const seen = new Set(), rows = [];
+    for (const r of table) {
+      const title = miClean(r[ix('title')] || '');
+      const ms = Date.parse((r[ix('published')] || '').trim().replace(' ', 'T'));
+      const url = miSafeUrl((r[ix('url')] || '').trim());
+      const key = (r[ix('id')] || '') || url || title + ms;
+      if (!title || isNaN(ms) || seen.has(key)) continue;
+      seen.add(key);
+      const host = miHost(url);
+      rows.push({ ms, title: sanitizeCopy(title), url, cat: miCategory(title), topics: miTopics(title), src: sanitizeCopy(host) || 'unknown' });
+    }
+    rows.sort((a, b) => b.ms - a.ms);
+    if (!rows.length) throw new Error('the feed has no usable rows');
+    MI.rows = rows; MI.loadedAt = new Date();
+    miSetState('');
+    document.getElementById('miBody').style.display = '';
+    miRender();
+  } catch (e) {
+    if (!MI.rows) miSetState('Could not load the news feed (' + (e.name === 'AbortError' ? 'timed out' : e.message) + '). Check your connection and press Refresh.', true);
+    else miSetState('Refresh failed (' + e.message + '). Showing the last loaded data.', true);
+  } finally { MI.loading = false; btn.disabled = false; }
+}
+
+function miChart(id, cfg) {
+  const el = document.getElementById(id); if (!el) return;
+  const old = Chart.getChart(el); if (old) old.destroy();
+  MI.charts[id] = new Chart(el, cfg);
+}
+
+function miRender() {
+  const rows = MI.rows, anchor = rows[0].ms, last = rows[rows.length - 1].ms;
+  document.getElementById('miStatus').textContent = rows.length.toLocaleString() + ' articles · ' + miFmt(last, true) + ' – ' + miFmt(anchor, true) + ' · updated ' + MI.loadedAt.toLocaleTimeString('en-MY', { hour: '2-digit', minute: '2-digit' });
+
+  // category + topic + source tallies
+  const cat = {}, topic = {}, src = {}, day = {};
+  const w1 = anchor - 7 * MI_DAY, w2 = anchor - 14 * MI_DAY, c7 = {}, p7 = {};
+  for (const r of rows) {
+    cat[r.cat] = (cat[r.cat] || 0) + 1;
+    r.topics.forEach(t => { topic[t] = (topic[t] || 0) + 1; });
+    src[r.src] = (src[r.src] || 0) + 1;
+    const k = miDayKey(r.ms); day[k] = (day[k] || 0) + 1;
+    if (r.ms > w1) c7[r.cat] = (c7[r.cat] || 0) + 1; else if (r.ms > w2) p7[r.cat] = (p7[r.cat] || 0) + 1;
+  }
+  const catList = Object.entries(cat).sort((a, b) => b[1] - a[1]);
+  const n7 = Object.values(c7).reduce((a, b) => a + b, 0), np = Object.values(p7).reduce((a, b) => a + b, 0);
+  const delta = np ? Math.round((n7 - np) / np * 100) : null;
+  const kpi = (label, value, sub) => `<div class="kpi"><div class="kpi-label">${label}</div><div class="kpi-value">${value}</div><div class="kpi-sub">${sub}</div></div>`;
+  document.getElementById('miKpi').innerHTML =
+    kpi('Total articles', rows.length.toLocaleString(), 'since ' + miFmt(last, true)) +
+    kpi('Last 7 days', n7.toLocaleString(), delta === null ? 'no prior week' : (delta >= 0 ? '▲ ' : '▼ ') + Math.abs(delta) + '% vs prior 7 days') +
+    kpi('Publishers', Object.keys(src).length.toLocaleString(), 'distinct sources') +
+    kpi('Top category', miEsc(catList[0][0]), catList[0][1].toLocaleString() + ' articles') +
+    kpi('Latest article', miFmt(anchor, false), 'in the feed');
+
+  // volume (zero-filled daily series)
+  const days = MI.range ? MI.range : Math.round((anchor - last) / MI_DAY) + 1;
+  const labels = [], vals = [];
+  for (let i = days - 1; i >= 0; i--) { const ms = anchor - i * MI_DAY, k = miDayKey(ms); labels.push(miFmt(ms, days > 120)); vals.push(day[k] || 0); }
+  document.getElementById('miVolSub').textContent = MI.range ? 'Articles per day, last ' + MI.range + ' days' : 'Articles per day, full history';
+  miChart('miVolume', { type: 'line', data: { labels, datasets: [{ label: 'Articles', data: vals, borderColor: '#14b8a6', backgroundColor: 'rgba(20,184,166,0.18)', fill: true, tension: 0.3, pointRadius: 0, borderWidth: 2 }] },
+    options: { responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false }, plugins: { legend: { display: false } },
+      scales: { x: { ticks: { maxTicksLimit: 8, maxRotation: 0 }, grid: { display: false } }, y: { beginAtZero: true, ticks: { precision: 0 } } } } });
+
+  miChart('miCat', { type: 'doughnut', data: { labels: catList.map(c => c[0]), datasets: [{ data: catList.map(c => c[1]), backgroundColor: catList.map(c => MI_COLOR[c[0]]), borderWidth: 0 }] },
+    options: { responsive: true, maintainAspectRatio: false, cutout: '62%', plugins: { legend: { position: 'right', labels: { boxWidth: 10, font: { size: 11 } } } } } });
+
+  const topicKeys = Object.keys(MI_TOPICS);
+  miChart('miTopics', { type: 'radar', data: { labels: topicKeys, datasets: [{ label: 'Mentions', data: topicKeys.map(k => topic[k] || 0), borderColor: '#14b8a6', backgroundColor: 'rgba(20,184,166,0.2)', borderWidth: 2, pointRadius: 2 }] },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { r: { beginAtZero: true, ticks: { precision: 0, backdropColor: 'transparent' }, pointLabels: { font: { size: 11 } } } } } });
+
+  const topSrc = Object.entries(src).sort((a, b) => b[1] - a[1]).slice(0, 10);
+  miChart('miSources', { type: 'bar', data: { labels: topSrc.map(s => s[0].length > 24 ? s[0].slice(0, 23) + '…' : s[0]), datasets: [{ label: 'Articles', data: topSrc.map(s => s[1]), backgroundColor: '#0ea5e9', borderRadius: 3 }] },
+    options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { beginAtZero: true, ticks: { precision: 0 } }, y: { grid: { display: false }, ticks: { font: { size: 10 } } } } } });
+
+  // momentum: latest 7 days vs the 7 before (anchored to the newest article)
+  document.getElementById('miMomSub').textContent = '7 days to ' + miFmt(anchor, true) + ' vs the 7 days before';
+  document.getElementById('miMomBody').innerHTML = MI_CATS.map(c => {
+    const a = c7[c.name] || 0, b = p7[c.name] || 0, d = b ? Math.round((a - b) / b * 100) : (a ? null : 0);
+    const up = a - b >= 2 && a > b * 1.2, down = b - a >= 2 && a < b * 0.8;
+    const trend = up ? '<span class="mi-up">▲ Rising</span>' : down ? '<span class="mi-down">▼ Falling</span>' : '<span class="mi-flat">● Stable</span>';
+    return `<tr><td><span class="mi-pill" style="--c:${c.color}">${miEsc(c.name)}</span></td><td style="text-align:right">${a}</td><td style="text-align:right">${b}</td><td style="text-align:right">${d === null ? 'new' : (d > 0 ? '+' : '') + d + '%'}</td><td>${trend}</td></tr>`;
+  }).join('');
+
+  // category chips
+  document.getElementById('miChips').innerHTML = [['all', 'All', rows.length]].concat(catList.map(c => [c[0], c[0], c[1]])).map(([k, label, n]) =>
+    `<button type="button" class="filter-btn${MI.cat === k ? ' active' : ''}" data-cat="${miEsc(k)}" aria-pressed="${MI.cat === k}">${miEsc(label)} (${n.toLocaleString()})</button>`).join('');
+  miFeed();
+}
+
+function miFeed() {
+  const q = MI.q.trim().toLowerCase();
+  const list = MI.rows.filter(r => (MI.cat === 'all' || r.cat === MI.cat) && (!q || r.title.toLowerCase().includes(q) || r.src.toLowerCase().includes(q)));
+  const page = list.slice(0, MI.shown);
+  document.getElementById('miCount').textContent = list.length.toLocaleString() + ' of ' + MI.rows.length.toLocaleString() + ' shown';
+  document.getElementById('miFeedBody').innerHTML = page.length ? page.map(r => {
+    const t = miEsc(r.title);
+    return `<tr><td style="white-space:nowrap;color:var(--text2)">${miFmt(r.ms, true)}</td><td class="mi-feed-title">${r.url ? `<a href="${miEsc(r.url)}" target="_blank" rel="noopener noreferrer">${t}</a>` : t}</td><td><span class="mi-pill" style="--c:${MI_COLOR[r.cat]}">${miEsc(r.cat)}</span></td><td style="color:var(--text2)">${miEsc(r.src)}</td></tr>`;
+  }).join('') : '<tr><td colspan="4" style="text-align:center;color:var(--text3);padding:20px">No articles match.</td></tr>';
+  const more = document.getElementById('miMore'), left = list.length - page.length;
+  more.style.display = left > 0 ? '' : 'none'; more.textContent = 'Show more (' + left.toLocaleString() + ' remaining)';
+}
+
+document.getElementById('miSearch').addEventListener('input', (() => { let t; return e => { clearTimeout(t); t = setTimeout(() => { MI.q = e.target.value; MI.shown = 50; if (MI.rows) miFeed(); }, 150); }; })());
+document.getElementById('miMore').addEventListener('click', () => { MI.shown += 100; miFeed(); });
+document.getElementById('miChips').addEventListener('click', e => { const b = e.target.closest('button[data-cat]'); if (!b) return; MI.cat = b.dataset.cat; MI.shown = 50; miRender(); });
+document.getElementById('miRange').addEventListener('click', e => {
+  const b = e.target.closest('button[data-r]'); if (!b || !MI.rows) return;
+  MI.range = +b.dataset.r;
+  document.querySelectorAll('#miRange button').forEach(x => { const on = x === b; x.classList.toggle('active', on); x.setAttribute('aria-pressed', on); });
+  miRender();
+});
+
+function initMiTab() {
+  if (!MI.rows) miLoad(false);
+  else Object.values(MI.charts).forEach(c => { try { c.resize(); } catch (e) {} });
+}
+</script>
+<script>
 // ───────── ProcureLens shell: nav, drawer, responsive tables ─────────
 (function () {
-  const TAB_ICONS = { scope:'fa-layer-group', timeline:'fa-timeline', scopetimeline:'fa-table-cells', acl:'fa-file-contract', vendor:'fa-handshake', catalog:'fa-book-open', kao:'fa-compass', tier:'fa-sitemap', overview:'fa-gauge-high', pipeline:'fa-filter', bu:'fa-building' };
+  const TAB_ICONS = { scope:'fa-layer-group', timeline:'fa-timeline', scopetimeline:'fa-table-cells', acl:'fa-file-contract', vendor:'fa-handshake', catalog:'fa-book-open', kao:'fa-compass', tier:'fa-sitemap', mi:'fa-newspaper', overview:'fa-gauge-high', pipeline:'fa-filter', bu:'fa-building' };
   const strip = document.getElementById('tabStrip');
   const list = document.getElementById('drawerList');
   const tabs = Array.from(strip.querySelectorAll('.tab'));
