@@ -1936,7 +1936,8 @@ function deepSanitize(o) {
 [ACP_DATA, ACL_DATA, KAO_DATA].forEach(deepSanitize);
 
 // ───────── Security gate ─────────
-const APP_ACCESS_KEY = "acp2026";
+// The passcode is not stored in this file: it is the APP_ACCESS_KEY environment
+// variable on the host, checked by the /api/unlock function.
 const SESSION_MS = 24 * 60 * 60 * 1000;
 (function () {
   const root = document.documentElement;
@@ -1968,18 +1969,40 @@ const SESSION_MS = 24 * 60 * 60 * 1000;
     store.del('acp_session_until'); store.del('acp_session_ok');
     applyLock(true);
   };
-  card.addEventListener('submit', function (e) {
+  let checking = false;
+  function fail(msg) {
+    err.textContent = msg;
+    field.classList.add('err');
+    card.classList.remove('shake'); void card.offsetWidth; card.classList.add('shake');
+    input.select();
+  }
+  card.addEventListener('submit', async function (e) {
     e.preventDefault();
-    if (input.value === APP_ACCESS_KEY) {
-      if (remember.checked) store.set('acp_session_until', String(Date.now() + SESSION_MS));
-      else { try { sessionStorage.setItem('acp_session_ok', '1'); } catch (x) {} }
-      applyLock(false);
-      window.dispatchEvent(new Event('resize'));
-    } else {
-      err.textContent = 'Incorrect passcode. Please try again.';
-      field.classList.add('err');
-      card.classList.remove('shake'); void card.offsetWidth; card.classList.add('shake');
-      input.select();
+    if (checking || !input.value) return;
+    checking = true;
+    const btn = card.querySelector('button[type="submit"]');
+    if (btn) btn.disabled = true;
+    try {
+      const r = await fetch('/api/unlock', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code: input.value })
+      });
+      if (r.ok) {
+        if (remember.checked) store.set('acp_session_until', String(Date.now() + SESSION_MS));
+        else { try { sessionStorage.setItem('acp_session_ok', '1'); } catch (x) {} }
+        applyLock(false);
+        window.dispatchEvent(new Event('resize'));
+      } else if (r.status === 401) {
+        fail('Incorrect passcode. Please try again.');
+      } else {
+        fail('Access check is unavailable right now. Please try again later.');
+      }
+    } catch (x) {
+      fail('Could not reach the server. Check your connection and try again.');
+    } finally {
+      checking = false;
+      if (btn) btn.disabled = false;
     }
   });
   input.addEventListener('input', () => { err.textContent = ''; field.classList.remove('err'); });
