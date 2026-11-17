@@ -661,6 +661,108 @@
   .mi-feed-title a { color: var(--text); text-decoration: none; } .mi-feed-title a:hover { color: var(--accent); text-decoration: underline; }
   #miSearch:focus { outline: 2px solid var(--accent-solid); outline-offset: 1px; }
   @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; animation: none !important; } }
+
+  /* ───────── Vendor Advisor ───────── */
+  .va-lead { font-size: 13px; color: var(--text2); max-width: 80ch; margin-bottom: 14px; }
+  .va-drop { border: 2px dashed var(--border2); border-radius: 12px; background: var(--surface); padding: 26px 16px; text-align: center; cursor: pointer; transition: border-color .15s, background .15s; }
+  .va-drop:hover, .va-drop.drag, .va-drop:focus-visible { border-color: var(--accent); background: var(--surface2); outline: none; }
+  .va-drop i { font-size: 28px; color: var(--accent); display: block; margin-bottom: 6px; }
+  .va-drop b { display: block; font-size: 14px; color: var(--text); }
+  .va-drop span { font-size: 12px; color: var(--text3); }
+  .va-files { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
+  .va-file { display: flex; align-items: center; gap: 10px; padding: 8px 12px; border: 1px solid var(--border2); border-radius: 10px; background: var(--surface); font-size: 12px; flex-wrap: wrap; }
+  .va-file .nm { flex: 1 1 160px; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 600; }
+  .va-file .sz { color: var(--text3); font-size: 11px; }
+  .va-file select { padding: 4px 8px; border-radius: 6px; border: 1px solid var(--border2); background: var(--surface); color: var(--text); font-size: 12px; }
+  .va-x { background: none; border: none; color: var(--text3); cursor: pointer; padding: 4px 8px; font-size: 14px; }
+  .va-x:hover { color: var(--red); }
+  .va-paste { margin-top: 12px; font-size: 12px; color: var(--text2); }
+  .va-paste summary { cursor: pointer; padding: 4px 0; }
+  .va-paste textarea { width: 100%; margin: 8px 0; padding: 10px; border: 1px solid var(--border2); border-radius: 8px; background: var(--surface); color: var(--text); font: 12px/1.4 ui-monospace, monospace; }
+  .va-row-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; align-items: center; }
+  .va-row-actions button:disabled { opacity: .5; cursor: not-allowed; }
+  .va-msg { font-size: 12px; color: var(--text2); } .va-msg.err { color: var(--red); }
+  .va-priv { font-size: 11px; color: var(--text3); margin-top: 12px; }
+  .va-report { max-width: 1100px; }
+  .va-head { display: flex; justify-content: space-between; gap: 16px; align-items: flex-start; flex-wrap: wrap; margin-bottom: 16px; }
+  .va-eyebrow { font-size: 11px; text-transform: uppercase; letter-spacing: .8px; color: var(--accent); font-weight: 700; }
+  .va-head h2 { font-size: 24px; line-height: 1.2; margin: 2px 0 8px; letter-spacing: -.3px; }
+  .va-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
+  .va-chip { display: inline-block; padding: 2px 9px; border-radius: 999px; font-size: 11px; background: var(--surface2); border: 1px solid var(--border2); color: var(--text2); }
+  .va-chip.sm { font-size: 10px; padding: 1px 7px; } .va-chip.rel { background: color-mix(in srgb, #059669 14%, transparent); border-color: color-mix(in srgb, #059669 40%, transparent); color: var(--text); }
+  .va-tools { display: flex; gap: 8px; flex-wrap: wrap; }
+  .va-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 16px; }
+  .va-kpis.small { margin: 8px 0 14px; }
+  .va-kpis .kpi:hover { transform: none; box-shadow: none; }
+  .va-card { background: var(--surface); border: 1px solid var(--border2); border-radius: 12px; padding: 18px; margin-bottom: 16px; }
+  .va-card h3 { font-size: 15px; margin-bottom: 4px; }
+  .va-card h4 { font-size: 12px; text-transform: uppercase; letter-spacing: .6px; color: var(--text3); margin: 16px 0 8px; }
+  .va-sub { font-size: 12px; color: var(--text3); margin-bottom: 10px; }
+  .va-muted { font-size: 12px; color: var(--text3); }
+  .va-warn { font-size: 12px; color: var(--gold); margin: 8px 0; }
+  .va-why { font-size: 12px; color: var(--text3); margin-top: 2px; }
+  .va-urgent { border-color: color-mix(in srgb, var(--red) 55%, var(--border2)); background: color-mix(in srgb, var(--red) 6%, var(--surface)); }
+  .va-urgent h3 { color: var(--red); }
+  .va-bul { margin: 8px 0 0 18px; display: flex; flex-direction: column; gap: 8px; font-size: 13px; color: var(--text); }
+  .va-bul.small { font-size: 12px; gap: 4px; }
+  .va-pill { display: inline-block; padding: 2px 9px; border-radius: 999px; font-size: 10px; font-weight: 700; white-space: nowrap; color: var(--c); background: color-mix(in srgb, var(--c) 13%, transparent); border: 1px solid color-mix(in srgb, var(--c) 38%, transparent); }
+  .va-table td, .va-table th { vertical-align: top; }
+  .va-table td.num, .va-table th.num { text-align: right; white-space: nowrap; }
+  .va-table .va-grp td { background: var(--surface2); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: var(--text3); }
+  .va-st { width: 120px; white-space: nowrap; }
+  .va-score-wrap { display: flex; gap: 16px; align-items: center; margin: 8px 0 12px; flex-wrap: wrap; }
+  .va-gauge { width: 84px; height: 84px; border-radius: 50%; background: conic-gradient(var(--c) calc(var(--p) * 1%), var(--border2) 0); display: grid; place-items: center; flex: none; }
+  .va-gauge span { width: 62px; height: 62px; border-radius: 50%; background: var(--surface); display: grid; place-items: center; font-size: 22px; font-weight: 700; }
+  .va-ctrl { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin: 4px 0 8px; }
+  .va-lbl { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: var(--text3); margin-left: 6px; }
+  .va-count { font-size: 12px; color: var(--text3); margin-bottom: 6px; }
+  .va-more { text-align: center; margin: 10px 0 4px; }
+  .va-fit { display: inline-flex; flex-direction: column; align-items: center; justify-content: center; width: 46px; height: 46px; border-radius: 50%; border: 2px solid var(--c); color: var(--c); font-weight: 700; font-size: 14px; line-height: 1; }
+  .va-fit small { font-size: 8px; font-weight: 600; margin-top: 2px; }
+  .va-id { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  .va-ttl { font-weight: 500; }
+  .va-opp { table-layout: fixed; width: 100%; min-width: 820px; }
+  .va-opp th:nth-child(1), .va-opp td:nth-child(1) { width: 60px; }
+  .va-opp th:nth-child(2), .va-opp td:nth-child(2) { width: 92px; }
+  .va-opp th:nth-child(4), .va-opp td:nth-child(4) { width: 17%; }
+  .va-opp th:nth-child(5), .va-opp td:nth-child(5) { width: 108px; }
+  .va-opp th:nth-child(6), .va-opp td:nth-child(6) { width: 84px; }
+  .va-opp th:nth-child(7), .va-opp td:nth-child(7) { width: 84px; }
+  .va-ttl { max-width: none; overflow-wrap: anywhere; }
+  .va-tags { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 4px; }
+  .va-late { color: var(--red); font-weight: 600; }
+  .va-grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-top: 8px; }
+  .va-grid3 h4 { margin-top: 12px; }
+  .va-path { border: 1px solid var(--border2); border-radius: 10px; padding: 12px; background: var(--surface2); }
+  .va-path-h { margin-bottom: 8px; font-size: 13px; }
+  .va-path-bar { height: 6px; border-radius: 4px; background: var(--border2); margin-bottom: 8px; overflow: hidden; }
+  .va-path-bar div { height: 100%; background: var(--accent); }
+  .va-years { display: flex; align-items: flex-end; gap: 10px; margin-top: 14px; height: 100px; }
+  .va-yr { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; font-size: 11px; color: var(--text3); gap: 2px; }
+  .va-yr b { color: var(--text); font-size: 12px; } .va-yr-bar { width: 22px; background: var(--accent); border-radius: 3px 3px 0 0; }
+  .va-plan { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+  .va-col h4 { margin-top: 0; } .va-act { padding: 10px 0; border-top: 1px solid var(--border); font-size: 13px; } .va-act .va-chip { margin-bottom: 4px; }
+  details > summary { cursor: pointer; font-size: 13px; padding: 4px 0; }
+  @page { size: A4; margin: 12mm; }
+  @media print {
+    html[data-theme].va-print, html.va-print { --bg:#fff; --surface:#fff; --surface2:#f3f5f7; --border:#dde3ea; --border2:#c9d1db; --text:#111827; --text2:#374151; --text3:#4b5563; --accent:#0f766e; --gold:#b45309; --teal:#0f766e; --red:#b91c1c; color-scheme: light; }
+    html.va-print, html.va-print body { background: #fff !important; padding: 0 !important; }
+    html.va-print *, html.va-print *::before, html.va-print *::after { -webkit-print-color-adjust: exact; print-color-adjust: exact; animation: none !important; transition: none !important; }
+    html.va-print body > *:not(#tab-advisor) { display: none !important; }
+    html.va-print #tab-advisor { display: block !important; }
+    html.va-print .no-print, html.va-print .va-input { display: none !important; }
+    html.va-print .main { padding: 0 !important; }
+    html.va-print .va-report { max-width: none; }
+    html.va-print .va-card { break-inside: auto; box-shadow: none; border-radius: 6px; padding: 12px; margin-bottom: 10px; }
+    html.va-print .va-card h3, html.va-print .va-card h4 { break-after: avoid; }
+    html.va-print .va-kpis, html.va-print .kpi, html.va-print tr, html.va-print .va-path, html.va-print .va-act, html.va-print .va-bul li { break-inside: avoid; }
+    html.va-print thead { display: table-header-group; }
+    html.va-print .table-scroll { overflow: visible !important; }
+    html.va-print table { font-size: 9px; } html.va-print .va-opp { min-width: 0; } html.va-print .va-opp th:nth-child(1), html.va-print .va-opp td:nth-child(1) { width: 40px; } html.va-print .va-opp th:nth-child(2), html.va-print .va-opp td:nth-child(2) { width: 66px; } html.va-print .va-opp th:nth-child(5), html.va-print .va-opp td:nth-child(5) { width: 78px; } html.va-print .va-opp th:nth-child(6), html.va-print .va-opp td:nth-child(6), html.va-print .va-opp th:nth-child(7), html.va-print .va-opp td:nth-child(7) { width: 62px; } html.va-print .va-fit { width: 34px; height: 34px; font-size: 11px; } html.va-print .va-bul { font-size: 11px; } html.va-print .va-head h2 { font-size: 20px; }
+    html.va-print .kpi { padding: 8px; } html.va-print .kpi-value { font-size: 18px; }
+    html.va-print .kpi:hover, html.va-print .va-card:hover { transform: none !important; }
+    html.va-print details > *:not(summary) { display: block; }
+  }
 </style>
 </head>
 <body>
@@ -732,12 +834,12 @@
     <button type="button" class="icon-btn" id="navMenuBtn" aria-label="Open navigation menu"><i class="fa-solid fa-bars"></i></button>
     <div class="nav-titles">
       <h1>ProcureLens — Contract &amp; Procurement Analytics Dashboard</h1>
-      <p class="sub">Annual Contract Plan 2026 · Procurement Activity Analytics &nbsp;·&nbsp; Activities 2026-0001 to 2026-2562</p>
+      <p class="sub">Annual Contract Plan 2026 · Procurement Activity Analytics &nbsp;·&nbsp; Activities <span id="navRange">2026-0001 to 2026-2562</span></p>
     </div>
     <div class="nav-actions">
       <span class="logo-chip"><i class="fa-solid fa-chart-line"></i>ProcureLens</span>
-      <span class="badge">2,228 Activities</span>
-      <span class="badge">As of June 2026</span>
+      <span class="badge" id="navCount">Activities</span>
+      <span class="badge" id="navAsOf">As of Nov 2026</span>
       <button type="button" class="icon-btn" id="themeToggle" aria-label="Toggle light / dark theme" title="Toggle theme"><i class="fa-solid fa-moon"></i><i class="fa-solid fa-sun"></i></button>
       <button type="button" class="icon-btn lock-btn" id="lockBtn" aria-label="Lock session" title="Lock session"><i class="fa-solid fa-lock"></i><span>Lock</span></button>
     </div>
@@ -748,6 +850,7 @@
   <button class="tab" onclick="showTab('scopetimeline',this)">Scope Timeline</button>
   <button class="tab" onclick="showTab('acl',this)">ACL</button>
   <button class="tab" onclick="showTab('vendor',this)">Vendor Intelligence</button>
+  <button class="tab" onclick="showTab('advisor',this)">Vendor Advisor</button>
   <button class="tab" onclick="showTab('catalog',this)">Activity Catalog</button>
   <button class="tab" onclick="showTab('kao',this)">KAO Sabah Outlook</button>
   <button class="tab" onclick="showTab('tier',this)">SWEC Tiering</button>
@@ -759,48 +862,8 @@
 <div id="tab-overview" class="tab-panel">
   <div class="main">
 
-    <div class="kpi-grid">
-      <div class="kpi kpi-accent">
-        <div class="kpi-label">Total Activities</div>
-        <div class="kpi-value">2,228</div>
-        <div class="kpi-sub">ACP 2026 Portfolio</div>
-      </div>
-      <div class="kpi kpi-gold">
-        <div class="kpi-label">Pre-Award</div>
-        <div class="kpi-value">1,687</div>
-        <div class="kpi-sub">75.7% of portfolio</div>
-      </div>
-      <div class="kpi kpi-teal">
-        <div class="kpi-label">Post-Award</div>
-        <div class="kpi-value">498</div>
-        <div class="kpi-sub">22.3% of portfolio</div>
-      </div>
-      <div class="kpi kpi-red">
-        <div class="kpi-label">Yet to Initiate</div>
-        <div class="kpi-value">891</div>
-        <div class="kpi-sub">40% not yet started</div>
-      </div>
-      <div class="kpi">
-        <div class="kpi-label">CAP 2026</div>
-        <div class="kpi-value">1,456</div>
-        <div class="kpi-sub">Planned activities</div>
-      </div>
-      <div class="kpi">
-        <div class="kpi-label">Spillover 2025</div>
-        <div class="kpi-value">521</div>
-        <div class="kpi-sub">Carried over</div>
-      </div>
-      <div class="kpi">
-        <div class="kpi-label">Unplanned 2026</div>
-        <div class="kpi-value">251</div>
-        <div class="kpi-sub">Emergent scope</div>
-      </div>
-      <div class="kpi">
-        <div class="kpi-label">Departments</div>
-        <div class="kpi-value">55+</div>
-        <div class="kpi-sub">Across 4 BUs</div>
-      </div>
-    </div>
+    <div class="kpi-grid" id="ovKpis"></div>
+
 
     <div class="charts-grid">
       <!-- Tender Type Donut -->
@@ -808,16 +871,9 @@
         <div class="chart-title">Tender type distribution</div>
         <div class="chart-sub">Breakdown by procurement action type</div>
         <div style="position:relative;height:200px;">
-          <canvas id="donutType" role="img" aria-label="Donut chart: Replacement Tender 912, New Tender 487, Contract Extension 521, Changes to Contract 189, Work Order 68, Others 51">Tender types distribution.</canvas>
+          <canvas id="donutType" role="img" aria-label="Donut chart of tender types">Tender types distribution.</canvas>
         </div>
-        <div class="legend" style="margin-top:8px;">
-          <span class="legend-item"><span class="legend-dot" style="background:#1a6fba"></span>Replacement (912)</span>
-          <span class="legend-item"><span class="legend-dot" style="background:#0f6e56"></span>New Tender (487)</span>
-          <span class="legend-item"><span class="legend-dot" style="background:#c47d1a"></span>CE (521)</span>
-          <span class="legend-item"><span class="legend-dot" style="background:#534ab7"></span>CTC (189)</span>
-          <span class="legend-item"><span class="legend-dot" style="background:#888780"></span>Work Order (68)</span>
-          <span class="legend-item"><span class="legend-dot" style="background:#a32d2d"></span>Others (51)</span>
-        </div>
+        <div class="legend" id="ovLegend" style="margin-top:8px;"></div>
       </div>
 
       <!-- Plan Category Bar -->
@@ -833,51 +889,8 @@
       <div class="chart-card">
         <div class="chart-title">Award stage split</div>
         <div class="chart-sub">Pre-Award vs Post-Award vs PAC</div>
-        <div style="margin-top:8px;">
-          <div class="bar-row">
-            <div class="bar-label">Core Entity Pre-Award</div>
-            <div class="bar-track"><div class="bar-fill" style="width:75.7%;background:#1a6fba"></div></div>
-            <div class="bar-val">1,687</div>
-          </div>
-          <div class="bar-row">
-            <div class="bar-label">Core Entity Post-Award</div>
-            <div class="bar-track"><div class="bar-fill" style="width:22.4%;background:#0f6e56"></div></div>
-            <div class="bar-val">498</div>
-          </div>
-          <div class="bar-row">
-            <div class="bar-label">PAC Pre-Award</div>
-            <div class="bar-track"><div class="bar-fill" style="width:1.3%;background:#c47d1a"></div></div>
-            <div class="bar-val">28</div>
-          </div>
-          <div class="bar-row">
-            <div class="bar-label">PAC Post-Award</div>
-            <div class="bar-track"><div class="bar-fill" style="width:0.7%;background:#888780"></div></div>
-            <div class="bar-val">15</div>
-          </div>
-        </div>
-        <div style="margin-top:20px">
-          <div class="chart-sub" style="margin-bottom:10px">Business unit distribution</div>
-          <div class="bar-row">
-            <div class="bar-label">D&GP (Downstream)</div>
-            <div class="bar-track"><div class="bar-fill" style="width:100%;background:#534ab7"></div></div>
-            <div class="bar-val">1,089</div>
-          </div>
-          <div class="bar-row">
-            <div class="bar-label">UP (Upstream)</div>
-            <div class="bar-track"><div class="bar-fill" style="width:66.2%;background:#1a6fba"></div></div>
-            <div class="bar-val">721</div>
-          </div>
-          <div class="bar-row">
-            <div class="bar-label">CP&S (Corp)</div>
-            <div class="bar-track"><div class="bar-fill" style="width:26.4%;background:#0f6e56"></div></div>
-            <div class="bar-val">287</div>
-          </div>
-          <div class="bar-row">
-            <div class="bar-label">ECIS (Contracts)</div>
-            <div class="bar-track"><div class="bar-fill" style="width:8.2%;background:#c47d1a"></div></div>
-            <div class="bar-val">89</div>
-          </div>
-        </div>
+        <div style="margin-top:8px;" id="ovAward"></div>
+        <div style="margin-top:20px"><div class="chart-sub" style="margin-bottom:10px">Business unit distribution</div><div id="ovBU"></div></div>
       </div>
 
       <!-- Stage status chart -->
@@ -898,35 +911,14 @@
   <div class="main">
     <div class="section">
       <div class="section-title">Pipeline health metrics</div>
-      <div class="kpi-grid">
-        <div class="kpi">
-          <div class="kpi-label">Active / Ongoing</div>
-          <div class="kpi-value" style="color:var(--teal)">1,191</div>
-          <div class="kpi-sub">Actively progressing</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">Not Yet Started</div>
-          <div class="kpi-value" style="color:var(--red)">891</div>
-          <div class="kpi-sub">Yet to Initiate</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">On Hold</div>
-          <div class="kpi-value" style="color:var(--gold)">5</div>
-          <div class="kpi-sub">Paused activities</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">Near Completion</div>
-          <div class="kpi-value" style="color:var(--accent)">65</div>
-          <div class="kpi-sub">Award Recommendation</div>
-        </div>
-      </div>
+      <div class="kpi-grid" id="plKpis"></div>
     </div>
 
     <div class="section">
       <div class="section-title">Stage-by-stage pipeline funnel</div>
       <div class="chart-card full">
         <div class="chart-title">Activity count by procurement stage</div>
-        <div class="chart-sub">Full pipeline view — all 2,228 activities</div>
+        <div class="chart-sub">Full pipeline view — all <span class="stat-total">2,228</span> activities</div>
         <div style="position:relative;height:340px;margin-top:12px;">
           <canvas id="funnelChart" role="img" aria-label="Horizontal bar chart showing procurement pipeline stages">Pipeline stages and counts.</canvas>
         </div>
@@ -938,14 +930,14 @@
       <div class="charts-grid">
         <div class="chart-card">
           <div class="chart-title">D&GP — Downstream & Gas & Power</div>
-          <div class="chart-sub">1,089 activities</div>
+          <div class="chart-sub" id="dgpSub"></div>
           <div style="position:relative;height:180px;margin-top:8px;">
             <canvas id="dgpStage" role="img" aria-label="D&GP stage breakdown">D&GP stages.</canvas>
           </div>
         </div>
         <div class="chart-card">
           <div class="chart-title">UP — Upstream</div>
-          <div class="chart-sub">721 activities</div>
+          <div class="chart-sub" id="upSub"></div>
           <div style="position:relative;height:180px;margin-top:8px;">
             <canvas id="upStage" role="img" aria-label="UP stage breakdown">UP stages.</canvas>
           </div>
@@ -964,7 +956,7 @@
       <div class="charts-grid">
         <div class="chart-card full">
           <div class="chart-title">Top activity scope categories</div>
-          <div class="chart-sub">Frequency of each service category across all 2,228 activities</div>
+          <div class="chart-sub">Frequency of each service category across all <span class="stat-total">2,228</span> activities</div>
           <div style="position:relative;height:420px;margin-top:12px;">
             <canvas id="scopeChart" role="img" aria-label="Bar chart of activity scope categories">Scope categories.</canvas>
           </div>
@@ -1014,33 +1006,7 @@
   <div class="main">
     <div class="section">
       <div class="section-title">Business unit activity summary</div>
-      <div class="dept-grid">
-        <div class="dept-card" style="border-top:3px solid var(--purple);">
-          <div class="dept-name">D&GP</div>
-          <div class="dept-count" style="color:var(--purple)">1,089</div>
-          <div class="dept-pct">48.9% of portfolio</div>
-        </div>
-        <div class="dept-card" style="border-top:3px solid var(--accent);">
-          <div class="dept-name">UP</div>
-          <div class="dept-count" style="color:var(--accent)">721</div>
-          <div class="dept-pct">32.4% of portfolio</div>
-        </div>
-        <div class="dept-card" style="border-top:3px solid var(--teal);">
-          <div class="dept-name">CP&S</div>
-          <div class="dept-count" style="color:var(--teal)">287</div>
-          <div class="dept-pct">12.9% of portfolio</div>
-        </div>
-        <div class="dept-card" style="border-top:3px solid var(--gold);">
-          <div class="dept-name">ECIS</div>
-          <div class="dept-count" style="color:var(--gold)">89</div>
-          <div class="dept-pct">4.0% of portfolio</div>
-        </div>
-        <div class="dept-card" style="border-top:3px solid var(--text3);">
-          <div class="dept-name">Others</div>
-          <div class="dept-count">42</div>
-          <div class="dept-pct">1.9% of portfolio</div>
-        </div>
-      </div>
+      <div class="dept-grid" id="buCards"></div>
     </div>
 
     <div class="section">
@@ -1059,19 +1025,8 @@
       <div class="charts-grid">
         <div class="chart-card">
           <div class="chart-title">Key OPU procurement volumes</div>
-          <div class="chart-sub">Estimated activity count per operating unit</div>
-          <div style="margin-top:12px;">
-            <div class="bar-row"><div class="bar-label">Procurement Affiliate A</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:#1a6fba"></div></div><div class="bar-val">~210</div></div>
-            <div class="bar-row"><div class="bar-label">Procurement Affiliate B</div><div class="bar-track"><div class="bar-fill" style="width:85%;background:#534ab7"></div></div><div class="bar-val">~178</div></div>
-            <div class="bar-row"><div class="bar-label">Procurement PCG 2</div><div class="bar-track"><div class="bar-fill" style="width:80%;background:#0f6e56"></div></div><div class="bar-val">~167</div></div>
-            <div class="bar-row"><div class="bar-label">Procurement SKA</div><div class="bar-track"><div class="bar-fill" style="width:72%;background:#c47d1a"></div></div><div class="bar-val">~151</div></div>
-            <div class="bar-row"><div class="bar-label">Procurement PRPC</div><div class="bar-track"><div class="bar-fill" style="width:68%;background:#a32d2d"></div></div><div class="bar-val">~143</div></div>
-            <div class="bar-row"><div class="bar-label">Procurement Gas & Power</div><div class="bar-track"><div class="bar-fill" style="width:65%;background:#1a6fba"></div></div><div class="bar-val">~137</div></div>
-            <div class="bar-row"><div class="bar-label">BTL Material</div><div class="bar-track"><div class="bar-fill" style="width:55%;background:#888780"></div></div><div class="bar-val">~115</div></div>
-            <div class="bar-row"><div class="bar-label">Procurement PCG 3</div><div class="bar-track"><div class="bar-fill" style="width:52%;background:#534ab7"></div></div><div class="bar-val">~110</div></div>
-            <div class="bar-row"><div class="bar-label">Procurement FLNG</div><div class="bar-track"><div class="bar-fill" style="width:48%;background:#0f6e56"></div></div><div class="bar-val">~101</div></div>
-            <div class="bar-row"><div class="bar-label">Procurement PDB</div><div class="bar-track"><div class="bar-fill" style="width:45%;background:#c47d1a"></div></div><div class="bar-val">~94</div></div>
-          </div>
+          <div class="chart-sub">Activity count per procurement department (top 10)</div>
+          <div style="margin-top:12px;" id="opuBars"></div>
         </div>
         <div class="chart-card">
           <div class="chart-title">BU tender type mix</div>
@@ -1090,28 +1045,7 @@
   <div class="main">
     <div class="section">
       <div class="section-title">Target completion timeline</div>
-      <div class="kpi-grid">
-        <div class="kpi">
-          <div class="kpi-label">Q2 2026 (Apr–Jun)</div>
-          <div class="kpi-value" style="color:var(--red)">387</div>
-          <div class="kpi-sub">Activities due — high urgency</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">Q3 2026 (Jul–Sep)</div>
-          <div class="kpi-value" style="color:var(--gold)">512</div>
-          <div class="kpi-sub">Activities due</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">Q4 2026 (Oct–Dec)</div>
-          <div class="kpi-value" style="color:var(--accent)">698</div>
-          <div class="kpi-sub">Activities due</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">2027 & Beyond</div>
-          <div class="kpi-value" style="color:var(--teal)">631</div>
-          <div class="kpi-sub">Activities with future targets</div>
-        </div>
-      </div>
+      <div class="kpi-grid" id="tlKpis"></div>
     </div>
 
     <div class="section">
@@ -1126,10 +1060,10 @@
     </div>
 
     <div class="section">
-      <div class="section-title">Critical activities — Q2 2026 (overdue/imminent)</div>
+      <div class="section-title">Critical activities — overdue or due within 30 days</div>
       <div class="chart-card full">
-        <div class="chart-title">Activities with targets in April–June 2026</div>
-        <div class="chart-sub">High priority — immediate attention required</div>
+        <div class="chart-title">Late-stage pre-award activities at or past their target date</div>
+        <div class="chart-sub" id="urgentSub">Tender plan approval to award approval, with a target in the last 120 days or the next 30 days</div>
         <table class="data-table" style="margin-top:12px;">
           <thead>
             <tr>
@@ -1836,6 +1770,26 @@
 </div>
 
 <!-- MARKET INTEL TAB -->
+<!-- VENDOR ADVISOR TAB -->
+<div id="tab-advisor" class="tab-panel">
+  <div class="main">
+    <div class="section va-input">
+      <div class="section-title">Vendor Advisor</div>
+      <p class="va-lead">Upload a company's licence record and corporate profile. The advisor reads the parameters that matter for tendering, matches them to the Annual Contract Plan and the SWEC tiering register, and writes a recommendation report you can download as a PDF: what to fix, which tenders to chase, which capabilities and registrations to build, and where to upskill.</p>
+      <div class="va-drop" id="vaDrop" role="button" tabindex="0" aria-label="Choose files to analyse">
+        <i class="fa-solid fa-cloud-arrow-up" aria-hidden="true"></i><b>Drop files here, or click to choose</b>
+        <span>PDF, Markdown (.md) or text (.txt). Add the licence-record export and, for a richer report, the corporate profile (Markdown works best).</span>
+      </div>
+      <input type="file" id="vaFile" accept=".pdf,.md,.markdown,.txt,.text,text/*,application/pdf" multiple hidden>
+      <div class="va-files" id="vaFiles"></div>
+      <details class="va-paste"><summary>Paste text instead</summary><textarea id="vaPaste" rows="6" placeholder="Paste the company details or profile text here" aria-label="Pasted company text"></textarea><button type="button" class="filter-btn" id="vaAddPaste">Add pasted text</button></details>
+      <div class="va-row-actions"><button type="button" class="filter-btn active" id="vaRun" disabled><i class="fa-solid fa-wand-magic-sparkles"></i>&nbsp; Generate report</button><button type="button" class="filter-btn" id="vaSample">Try a sample company</button><span id="vaMsg" class="va-msg" role="status" aria-live="polite"></span></div>
+      <p class="va-priv"><i class="fa-solid fa-lock" aria-hidden="true"></i> Files are read in this browser only. Nothing is uploaded or saved. Personal details such as names, phone numbers and email addresses are ignored.</p>
+    </div>
+    <div id="vaReport" class="va-report" style="display:none"></div>
+  </div>
+</div>
+
 <div id="tab-mi" class="tab-panel">
   <div class="main">
     <div class="section">
@@ -2111,6 +2065,7 @@ function showTab(name, el) {
   if (name === 'kao')     initKaoTab();
   if (name === 'tier')    initTierTab();
   if (name === 'mi')      initMiTab();
+  if (name === 'advisor') initAdvisorTab();
 }
 
 const COLORS = {
@@ -2150,48 +2105,141 @@ const stageColors = {
   'On hold': '#a32d2d',
 };
 
-const stageData = {
-  'Yet to Initiate': 891, 'Initiated with Team': 187, 'Strategy Development': 89,
-  'Pre-Tendering': 178, 'Bidding': 126, 'Technical Evaluation': 95,
-  'Commercial Evaluation': 72, 'Techno-commercial Evaluation': 67,
-  'Award Recommendation': 65, 'In progress': 149, 'Tender Plan Approval': 42,
-  'AA Approval': 38, 'Others': 229
-};
+// ───────── Portfolio statistics, computed from acp_data.js so every number follows each data refresh ─────────
+const ACP_AS_OF = 'Nov 2026';
+// Rows that the headline numbers are counted over. All rows in acp_data.js by default, which matches the Catalog and
+// Scope Timeline tabs. To count only the latest export, use: data.filter(a => !a.stale)
+const STAT_ROWS = data;
+const NF = n => Number(n).toLocaleString('en-US');
+const PCT = (n, d, dp = 1) => d ? (n / d * 100).toFixed(dp) + '%' : '–';
+function tally(rows, f) { const m = {}; rows.forEach(r => { const k = f(r); if (k) m[k] = (m[k] || 0) + 1; }); return m; }
+function parseDMY(s) { const m = /(\d{1,2})\/(\d{1,2})\/(\d{4})/.exec(s || ''); return m ? new Date(Date.UTC(+m[3], +m[2] - 1, +m[1])) : null; }
 
-const typeData = {
-  'Replacement Tender': 912, 'New Tender': 487, 'Contract Extension': 521,
-  'Changes to Contract': 189, 'Work Order': 68, 'Novation': 28, 'Others': 23
-};
+const ST = (function () {
+  const rows = STAT_ROWS, n = rows.length;
+  const awardKey = r => /PAC/i.test(r.awardStage) ? (/Pre-Award/i.test(r.awardStage) ? 'pacPre' : 'pacPost') : (/Pre-Award/i.test(r.awardStage) ? 'pre' : /Post-Award/i.test(r.awardStage) ? 'post' : 'other');
+  const aw = tally(rows, awardKey), stage = tally(rows, r => r.stage), type = tally(rows, r => r.tenderType);
+  const bu = tally(rows, r => r.bu), dept = tally(rows, r => r.dept), plan = tally(rows, r => r.plan), scope = tally(rows, r => r.scope);
+  const sum = o => Object.values(o).reduce((a, b) => a + b, 0);
 
-const planData = { 'CAP 2026': 1456, 'Spillover 2025': 521, 'Unplanned 2026': 251 };
+  const stageOrder = ['Yet to Initiate','Initiated with Team','Strategy Development','Pre-Tendering','Bidding','Technical Evaluation','Commercial Evaluation','Techno-commercial Evaluation','Award Recommendation','In progress','Tender Plan Approval','AA Approval'];
+  const stageData = {}; stageOrder.forEach(k => stageData[k] = stage[k] || 0);
+  stageData['Others'] = n - sum(stageData);
+  const funnel = stageOrder.map(k => [k, stage[k] || 0]).sort((a, b) => b[1] - a[1]); funnel.push(['On hold', stage['On hold'] || 0]);
 
-const scopeData = {
-  'General Maintenance': 310, 'Rotating Equipment': 185, 'EPCC / Capital Projects': 172,
-  'Instrumentation & Control': 168, 'Materials & Supplies': 142, 'Chemicals Supply': 138,
-  'IT & Digital': 127, 'Inspection & Integrity': 118, 'Electrical Systems': 115,
-  'Transportation & Logistics': 108, 'Environment & Waste': 104, 'Drilling & Wells': 98,
-  'Subsea & Pipelines': 92, 'Facilities & Support': 88, 'Manpower & HR': 82,
-  'Mechanical Spares': 79, 'Laboratory & Testing': 72, 'Turnaround & Shutdown': 65,
-  'Civil & Infrastructure': 62, 'Technical Consultancy': 58, 'Fire & Safety': 52,
-  'Lifting Equipment': 45, 'HVAC & Utilities': 38, 'Scaffolding & Coating': 35,
-  'Security Services': 28, 'Medical & Health': 24, 'Lubricants & Oils': 21,
-  'Decommissioning & Disposal': 19, 'Industrial Gases': 14, 'Other Services': 169
-};
+  const typeKeys = ['Replacement Tender','New Tender','Contract Extension','Changes to Contract','Work Order'];
+  const typeData = {}; typeKeys.forEach(k => typeData[k] = type[k] || 0);
+  typeData['Others'] = n - sum(typeData);
 
-const deptData = [
-  ['Procurement Affiliate A',210],['Procurement Affiliate B',178],['Procurement PCG 2',167],
-  ['Procurement SKA',151],['Procurement PRPC',143],['Procurement Gas & Power',137],
-  ['Procurement BTL Material',115],['Procurement PCG 3',110],['Procurement FLNG',101],
-  ['Procurement PDB',94],['PED Contract Management',88],['Procurement PCG 1',85],
-  ['Procurement PDSB',82],['Procurement SBA',76],['Procurement CHO',72],
-  ['Procurement PMA',68],['Procurement PPTSB',55],['Procurement Indirect & CS',48],
-  ['Category Management - ECP',42],['Procurement Wells',38]
-];
+  const planData = { 'CAP 2026': plan['CAP 2026'] || 0, 'Spillover 2025': plan['Spillover 2025'] || 0, 'Unplanned 2026': plan['Unplanned 2026'] || 0 };
+  const deptData = Object.entries(dept).sort((a, b) => b[1] - a[1]).slice(0, 20);
 
-const monthData = [
-  ['Jan',42],['Feb',56],['Mar',78],['Apr',192],['May',118],['Jun',195],
-  ['Jul',148],['Aug',134],['Sep',164],['Oct',142],['Nov',168],['Dec',176]
-];
+  // target dates
+  const now = new Date(), nowU = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
+  const q = { early: 0, Q2: 0, Q3: 0, Q4: 0, later: 0, none: 0 }, qOpen = { early: 0, Q2: 0, Q3: 0, Q4: 0, later: 0, none: 0 };
+  const month = Array(12).fill(0);
+  const LATE = new Set(['Tender Plan Approval','Bidding','Technical Evaluation','Commercial Evaluation','Techno-commercial Evaluation','Award Recommendation','AA Approval']);
+  const critical = [];
+  rows.forEach(r => {
+    const d = parseDMY(r.target); let k = 'none';
+    if (d) {
+      const y = d.getUTCFullYear(), m = d.getUTCMonth();
+      k = y < 2026 ? 'early' : y > 2026 ? 'later' : m < 3 ? 'early' : 'Q' + (Math.floor(m / 3) + 1);
+      if (y === 2026) month[m]++;
+      const days = (d.getTime() - nowU) / 86400000;
+      if (/Pre-Award/i.test(r.awardStage) && LATE.has(r.stage) && days <= 30 && days >= -120) critical.push({ r, d, days });
+    }
+    q[k]++; if (/Pre-Award/i.test(r.awardStage)) qOpen[k]++;
+  });
+  critical.sort((a, b) => a.d - b.d);
+  const monthData = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'].map((m, i) => [m, month[i]]);
+
+  const stageBU = b => { const s = tally(rows.filter(r => r.bu === b), r => r.stage); return s; };
+  const mixOf = b => { const t = tally(rows.filter(r => r.bu === b), r => r.tenderType); return [t['Replacement Tender'] || 0, t['New Tender'] || 0, t['Contract Extension'] || 0, t['Changes to Contract'] || 0]; };
+  const ids = rows.map(r => r.id).filter(i => /^2026-\d{4}$/.test(i)).sort();
+  const buKeys = ['D&GP','UP','CP&S','ECIS'];
+  return { n, aw, stage, type, bu, dept, plan, scope, sum, stageData, funnel, typeData, planData, deptData, q, qOpen, month, monthData, critical, nowU,
+    stageBU, mixOf, buKeys, idFirst: ids[0], idLast: ids[ids.length - 1], depts: Object.keys(dept).length };
+})();
+
+const stageData = ST.stageData, typeData = ST.typeData, planData = ST.planData, scopeData = ST.scope, deptData = ST.deptData, monthData = ST.monthData;
+
+// Fill every figure that used to be typed in by hand.
+function renderPortfolioStats() {
+  const $ = id => document.getElementById(id);
+  const set = (id, html) => { const e = $(id); if (e) e.innerHTML = html; };
+  const n = ST.n;
+  set('navCount', NF(n) + ' Activities'); set('navAsOf', 'As of ' + ACP_AS_OF);
+  set('navRange', (ST.idFirst || '2026-0001') + ' to ' + (ST.idLast || ''));
+  document.querySelectorAll('.stat-total').forEach(e => e.textContent = NF(n));
+  const carried = STAT_ROWS.filter(a => a.stale).length;
+  const nb = $('navCount'); if (nb && carried) nb.title = NF(n - carried) + ' in the latest export, plus ' + NF(carried) + ' carried over from the earlier list';
+
+  const kpi = (cls, label, value, sub, style) => `<div class="kpi ${cls || ''}"><div class="kpi-label">${label}</div><div class="kpi-value"${style ? ` style="${style}"` : ''}>${value}</div><div class="kpi-sub">${sub}</div></div>`;
+  const pre = ST.aw.pre || 0, post = ST.aw.post || 0, yti = ST.stage['Yet to Initiate'] || 0;
+  set('ovKpis',
+    kpi('kpi-accent', 'Total Activities', NF(n), 'ACP 2026 Portfolio') + kpi('kpi-gold', 'Pre-Award', NF(pre), PCT(pre, n) + ' of portfolio') +
+    kpi('kpi-teal', 'Post-Award', NF(post), PCT(post, n) + ' of portfolio') + kpi('kpi-red', 'Yet to Initiate', NF(yti), PCT(yti, n, 0) + ' not yet started') +
+    kpi('', 'CAP 2026', NF(planData['CAP 2026']), 'Planned activities') + kpi('', 'Spillover 2025', NF(planData['Spillover 2025']), 'Carried over') +
+    kpi('', 'Unplanned 2026', NF(planData['Unplanned 2026']), 'Emergent scope') + kpi('', 'Departments', NF(ST.depts), 'Across ' + Object.keys(ST.bu).length + ' BUs'));
+
+  const dots = [COLORS.blue, COLORS.teal, COLORS.gold, COLORS.purple, COLORS.gray, COLORS.red];
+  const short = { 'Replacement Tender': 'Replacement', 'Contract Extension': 'CE', 'Changes to Contract': 'CTC' };
+  set('ovLegend', Object.entries(typeData).map(([k, v], i) => `<span class="legend-item"><span class="legend-dot" style="background:${dots[i]}"></span>${short[k] || k} (${NF(v)})</span>`).join(''));
+  const dn = $('donutType'); if (dn) dn.setAttribute('aria-label', 'Donut chart of tender types: ' + Object.entries(typeData).map(([k, v]) => k + ' ' + NF(v)).join(', '));
+
+  const bar = (label, v, max, color, valTxt) => `<div class="bar-row"><div class="bar-label">${label}</div><div class="bar-track"><div class="bar-fill" style="width:${max ? Math.max(v / max * 100, v ? 0.6 : 0).toFixed(1) : 0}%;background:${color}"></div></div><div class="bar-val">${valTxt == null ? NF(v) : valTxt}</div></div>`;
+  const aws = [['Core Entity Pre-Award', ST.aw.pre || 0, '#1a6fba'], ['Core Entity Post-Award', ST.aw.post || 0, '#0f6e56'], ['PAC Pre-Award', ST.aw.pacPre || 0, '#c47d1a'], ['PAC Post-Award', ST.aw.pacPost || 0, '#888780']];
+  set('ovAward', aws.map(([l, v, c]) => bar(l, v, n, c)).join(''));
+  const bus = [['D&GP (Downstream)', 'D&GP', '#534ab7'], ['UP (Upstream)', 'UP', '#1a6fba'], ['CP&S (Corp)', 'CP&S', '#0f6e56'], ['ECIS (Contracts)', 'ECIS', '#c47d1a']];
+  const buMax = Math.max(...bus.map(b => ST.bu[b[1]] || 0), 1);
+  set('ovBU', bus.map(([l, k, c]) => bar(l, ST.bu[k] || 0, buMax, c)).join(''));
+
+  const ongoing = STAT_ROWS.filter(r => r.stageStatus === 'Ongoing').length, hold = ST.stage['On hold'] || 0, near = ST.stage['Award Recommendation'] || 0;
+  set('plKpis', kpi('', 'Active / Ongoing', NF(ongoing), 'Actively progressing', 'color:var(--teal)') + kpi('', 'Not Yet Started', NF(yti), 'Yet to Initiate', 'color:var(--red)') +
+    kpi('', 'On Hold', NF(hold), 'Paused activities', 'color:var(--gold)') + kpi('', 'Near Completion', NF(near), 'Award Recommendation', 'color:var(--accent)'));
+  set('dgpSub', NF(ST.bu['D&GP'] || 0) + ' activities'); set('upSub', NF(ST.bu['UP'] || 0) + ' activities');
+
+  const buCol = { 'D&GP': 'var(--purple)', 'UP': 'var(--accent)', 'CP&S': 'var(--teal)', 'ECIS': 'var(--gold)' };
+  const others = n - ST.buKeys.reduce((a, k) => a + (ST.bu[k] || 0), 0);
+  set('buCards', ST.buKeys.map(k => `<div class="dept-card" style="border-top:3px solid ${buCol[k]};"><div class="dept-name">${k}</div><div class="dept-count" style="color:${buCol[k]}">${NF(ST.bu[k] || 0)}</div><div class="dept-pct">${PCT(ST.bu[k] || 0, n)} of portfolio</div></div>`).join('') +
+    (others > 0 ? `<div class="dept-card" style="border-top:3px solid var(--text3);"><div class="dept-name">Others</div><div class="dept-count">${NF(others)}</div><div class="dept-pct">${PCT(others, n)} of portfolio</div></div>` : ''));
+  const palette = ['#1a6fba', '#534ab7', '#0f6e56', '#c47d1a', '#a32d2d', '#1a6fba', '#888780', '#534ab7', '#0f6e56', '#c47d1a'];
+  const top10 = ST.deptData.slice(0, 10);
+  set('opuBars', top10.map(([l, v], i) => bar(l, v, top10[0][1], palette[i], NF(v))).join(''));
+
+  // timeline cards
+  const cy = new Date().getFullYear(), cq = Math.floor(new Date().getMonth() / 3) + 1;
+  const cards = [['early', 'Q1 2026 & earlier'], ['Q2', 'Q2 2026 (Apr–Jun)'], ['Q3', 'Q3 2026 (Jul–Sep)'], ['Q4', 'Q4 2026 (Oct–Dec)'], ['later', '2027 & beyond'], ['none', 'No target date']];
+  const qIdx = { early: 0, Q2: 2, Q3: 3, Q4: 4, later: 5, none: 6 };
+  const nowIdx = cy < 2026 ? -1 : cy > 2026 ? 5 : cq;
+  set('tlKpis', cards.map(([k, l]) => {
+    const i = qIdx[k], past = i >= 1 && i <= 4 && i < nowIdx || (k === 'early' && nowIdx >= 2), cur = i === nowIdx && i >= 2 && i <= 4;
+    const col = k === 'none' ? 'var(--text3)' : past ? 'var(--red)' : cur ? 'var(--gold)' : 'var(--teal)';
+    const sub = k === 'none' ? 'Activities without a date' : past ? NF(ST.qOpen[k]) + ' still pre-award' : cur ? 'Current quarter' : k === 'later' ? 'Activities with future targets' : 'Activities due';
+    return kpi('', l, NF(ST.q[k]), sub, 'color:' + col);
+  }).join(''));
+}
+
+function renderUrgentTable() {
+  const tbody = document.getElementById('urgentTable');
+  const stagePill = s => {
+    const c = s.includes('Award') ? '#0f6e56' : s === 'In progress' ? '#534ab7' : s.includes('Commercial') ? '#d4537e' : '#1a6fba';
+    return `<span style="background:${c}22;color:${c};padding:2px 7px;border-radius:10px;font-size:10px;font-weight:600">${s}</span>`;
+  };
+  const list = ST.critical.slice(0, 20);
+  const sub = document.getElementById('urgentSub');
+  if (sub) sub.textContent = `Late-stage pre-award activities (tender plan approval to award approval) with a target in the last 120 days or the next 30 days. ${list.length < ST.critical.length ? 'Showing the 20 most overdue of ' + ST.critical.length + '.' : ST.critical.length + ' activities.'}`;
+  tbody.innerHTML = list.length ? list.map(({ r, days }) =>
+    `<tr>
+      <td style="font-weight:600;color:var(--accent);white-space:nowrap">${r.id}</td>
+      <td style="max-width:280px">${r.title}</td>
+      <td>${stagePill(r.stage)}</td>
+      <td style="font-weight:500">${r.bu}</td>
+      <td style="color:var(--text2)">${r.tenderType}</td>
+      <td style="color:${days < 0 ? 'var(--red)' : 'var(--gold)'};font-weight:600;white-space:nowrap">${r.target}</td>
+    </tr>`).join('') : '<tr><td colspan="6" style="color:var(--text3)">No late-stage activities are at or past their target date.</td></tr>';
+}
 
 window.addEventListener('load', () => {
   makeChart('donutType', 'doughnut',
@@ -2221,28 +2269,23 @@ window.addEventListener('load', () => {
     { scales: { y: { beginAtZero: true, ticks: { font: { size: 10 } } }, x: { ticks: { font: { size: 9 }, maxRotation: 35 } } } }
   );
 
-  const funnelStages = [
-    ['Yet to Initiate',891], ['Initiated with Team',187], ['Pre-Tendering',178],
-    ['In progress',149], ['Bidding',126], ['Technical Evaluation',95],
-    ['Strategy Development',89], ['Commercial Evaluation',72],
-    ['Techno-commercial Evaluation',67], ['Award Recommendation',65],
-    ['Tender Plan Approval',42], ['AA Approval',38], ['On Hold',5]
-  ];
+  const funnelStages = ST.funnel.map(([k, v]) => [k === 'On hold' ? 'On Hold' : k, v]);
   makeChart('funnelChart', 'bar',
     funnelStages.map(d=>d[0]), [{
       data: funnelStages.map(d=>d[1]),
-      backgroundColor: funnelStages.map((_,i) => {
-        const c = ['#e0ddd8','#5b9fd4','#a0c878','#534ab7','#1a6fba','#0f6e56','#7f77dd','#d4537e','#0f6e56','#639922','#c47d1a','#ba7517','#a32d2d'];
-        return c[i] || '#888';
-      }),
+      backgroundColor: funnelStages.map(d => stageColors[d[0] === 'On Hold' ? 'On hold' : d[0]] || '#888'),
       borderRadius: 4, borderSkipped: false
     }],
     { indexAxis: 'y', scales: { x: { beginAtZero: true, ticks: { font: { size: 10 } } }, y: { ticks: { font: { size: 11 } } } } }
   );
 
+  const pieOf = (bu, third) => {
+    const s = ST.stageBU(bu), a = s['Yet to Initiate'] || 0, b = s['In progress'] || 0, c = s[third] || 0;
+    return [a, b, c, (ST.bu[bu] || 0) - a - b - c];
+  };
   makeChart('dgpStage', 'pie',
     ['Yet to Initiate','In Progress','Bidding','Others'], [{
-      data: [428, 220, 198, 243],
+      data: pieOf('D&GP', 'Bidding'),
       backgroundColor: [COLORS.gray, COLORS.blue, COLORS.teal, COLORS.gold],
       borderWidth: 1
     }], {}
@@ -2250,7 +2293,7 @@ window.addEventListener('load', () => {
 
   makeChart('upStage', 'pie',
     ['Yet to Initiate','In Progress','Technical Eval','Others'], [{
-      data: [312, 189, 98, 122],
+      data: pieOf('UP', 'Technical Evaluation'),
       backgroundColor: [COLORS.gray, COLORS.purple, COLORS.blue, COLORS.gold],
       borderWidth: 1
     }], {}
@@ -2281,14 +2324,14 @@ window.addEventListener('load', () => {
   );
 
   makeChart('buMixChart', 'bar',
-    ['D&GP','UP','CP&S','ECIS'], [{
-      label: 'Replacement', data: [498,312,72,30], backgroundColor: COLORS.blue, stack: 's'
+    ST.buKeys, [{
+      label: 'Replacement', data: ST.buKeys.map(b => ST.mixOf(b)[0]), backgroundColor: COLORS.blue, stack: 's'
     },{
-      label: 'New Tender', data: [287,198,60,28], backgroundColor: COLORS.teal, stack: 's'
+      label: 'New Tender', data: ST.buKeys.map(b => ST.mixOf(b)[1]), backgroundColor: COLORS.teal, stack: 's'
     },{
-      label: 'Contract Ext.', data: [198,156,98,18], backgroundColor: COLORS.gold, stack: 's'
+      label: 'Contract Ext.', data: ST.buKeys.map(b => ST.mixOf(b)[2]), backgroundColor: COLORS.gold, stack: 's'
     },{
-      label: 'CTC', data: [106,55,57,13], backgroundColor: COLORS.purple, stack: 's'
+      label: 'CTC', data: ST.buKeys.map(b => ST.mixOf(b)[3]), backgroundColor: COLORS.purple, stack: 's'
     }],
     { scales: { y: { stacked:true, beginAtZero:true, ticks:{font:{size:10}} }, x: { stacked:true, ticks:{font:{size:10}} } } }
   );
@@ -2296,12 +2339,13 @@ window.addEventListener('load', () => {
   makeChart('timelineChart', 'bar',
     monthData.map(d=>d[0]), [{
       data: monthData.map(d=>d[1]),
-      backgroundColor: monthData.map((_,i) => i<3 ? COLORS.red : i<6 ? COLORS.gold : COLORS.blue),
+      backgroundColor: monthData.map((_,i) => { const t = new Date(); const cy = t.getFullYear(); return cy > 2026 ? COLORS.gray : cy < 2026 ? COLORS.blue : i < t.getMonth() ? COLORS.gray : i === t.getMonth() ? COLORS.red : COLORS.blue; }),
       borderRadius: 4, borderSkipped: false
     }],
     { scales: { y: { beginAtZero:true, ticks:{font:{size:10}} }, x: { ticks:{font:{size:10}} } } }
   );
 
+  renderPortfolioStats();
   renderScopeLists();
   renderSampleTable();
   renderUrgentTable();
@@ -2311,6 +2355,7 @@ window.addEventListener('load', () => {
 function renderScopeLists() {
   const maint = ['Rotating Equipment','Electrical Systems','Instrumentation & Control','HVAC & Utilities','Fire & Safety','Lifting Equipment','Turnaround & Shutdown','Scaffolding & Coating','Civil & Infrastructure'];
   const other = ['EPCC / Capital Projects','IT & Digital','Drilling & Wells','Subsea & Pipelines','Materials & Supplies','Chemicals Supply','Environment & Waste','Transportation & Logistics','Manpower & HR'];
+  other.push(...Object.keys(scopeData).filter(k => !maint.includes(k) && !other.includes(k)).sort((a, b) => scopeData[b] - scopeData[a]));
   const max = Math.max(...Object.values(scopeData));
   ['scopeListMaint','scopeListOther'].forEach((id, idx) => {
     const el = document.getElementById(id);
@@ -2351,37 +2396,6 @@ function renderSampleTable() {
       <td style="color:var(--text2);font-size:10px;max-width:260px">${orig}</td>
       <td style="font-weight:500;max-width:260px">${san}</td>
       <td>${scopePill(inferScope(san))}</td>
-    </tr>`
-  ).join('');
-}
-
-const URGENT = [
-  ['2026-2554','Precious Metal Recovery from Spent Catalyst','Award Recommendation','D&GP','New Tender','30/04/2026'],
-  ['2026-2553','Preventive Maintenance, Breakdown Service and Spare Parts — Lumex Mercury Analyzers','Award Recommendation','D&GP','Replacement Tender','23/04/2026'],
-  ['2026-2528','Panel Contractor Contract (PCC) — Offshore Support Vessel (OSV) Services','Technical Evaluation','ECIS','New Tender','13/01/2026'],
-  ['2026-2517','Provision of Mechanical Works for Jet A1 Fuel Hydrant Pipeline Repair','In progress','D&GP','Contract Extension','30/06/2026'],
-  ['2026-2484','Provision of Supply Base Facilities at Kemaman Supply Base (KSB)','In progress','UP','Contract Extension','30/04/2026'],
-  ['2026-2453','Provision of SAP RISE Services','In progress','CP&S','Changes to Contract','30/04/2026'],
-  ['2026-2099','Preventive Maintenance and Calibration for Melt Index (MI) Equipment','Commercial Evaluation','D&GP','Replacement Tender','08/06/2026'],
-  ['2026-2311','Term Contract — Environment Monitoring Analysis','Technical Evaluation','D&GP','Replacement Tender','08/05/2026'],
-  ['2026-1683','Manpower and Equipment for Rotating Equipment Overhaul During Turnaround','Commercial Evaluation','D&GP','New Tender','20/04/2026'],
-  ['2026-1807','Award Recommendation — Tapproge FSR Supply','Award Recommendation','D&GP','New Tender','30/04/2026'],
-];
-
-function renderUrgentTable() {
-  const tbody = document.getElementById('urgentTable');
-  const stagePill = s => {
-    const c = s.includes('Award')? '#0f6e56': s==='In progress'?'#534ab7': s.includes('Commercial')?'#d4537e': '#1a6fba';
-    return `<span style="background:${c}22;color:${c};padding:2px 7px;border-radius:10px;font-size:10px;font-weight:600">${s}</span>`;
-  };
-  tbody.innerHTML = URGENT.map(([id,title,stage,bu,type,date]) =>
-    `<tr>
-      <td style="font-weight:600;color:var(--accent);white-space:nowrap">${id}</td>
-      <td style="max-width:280px">${title}</td>
-      <td>${stagePill(stage)}</td>
-      <td style="font-weight:500">${bu}</td>
-      <td style="color:var(--text2)">${type}</td>
-      <td style="color:var(--red);font-weight:600;white-space:nowrap">${date}</td>
     </tr>`
   ).join('');
 }
@@ -5154,9 +5168,1266 @@ function initMiTab() {
 }
 </script>
 <script>
+// ───────── Vendor Advisor (reads company documents, matches them to the plan, writes the report) ─────────
+/* ───────── Vendor Advisor: profile parser (no DOM, no network) ───────── */
+const VA_TAGS = [
+  { id:'turnaround', label:'Turnaround & shutdown', re:/turn\s?-?\s?around|shut\s?-?\s?down|\bmcm\b|\bta4|major maintenance|revamp|100k|350k|manhours?\s+band/, scopes:['Turnaround & Shutdown','General Maintenance'] },
+  { id:'tank', label:'Tank cleaning & repair', re:/\btank|desludg|sludge|slop/, scopes:['General Maintenance','Environment & Waste'] },
+  { id:'cleaning', label:'Industrial & chemical cleaning', re:/clean(?!\s+(?:cooling|energy|fuel|hydrogen|air|power|technolog))|hydro\s?-?\s?jet|degreas|disinfect|detergent|decontam|flushing|hygien/, scopes:['Facilities & Support','Environment & Waste'] },
+  { id:'static', label:'Static equipment & mechanical maintenance', re:/heat exchanger|exchanger|air cooler|pressure vessel|\bvessels?\b|furnace|fired heater|flare|boiler|static|condenser|reactor|mechanical|relief valve/, scopes:['General Maintenance','Mechanical Spares'] },
+  { id:'valves', label:'Valves', re:/valve/, scopes:['Mechanical Spares'] },
+  { id:'fabrication', label:'Fabrication & erection', re:/fabricat|welding|erection|spool|structural steel/, scopes:['EPCC / Capital Projects'] },
+  { id:'civil', label:'Civil, building & site works', re:/civil|building|foundation|fenc(?:e|ing)|site preparation|soil|earthwork|structure construction/, scopes:['Civil & Infrastructure'] },
+  { id:'coating', label:'Coating, insulation & scaffolding', re:/paint|coating|blast|lining|insulation|scaffold|cladding|refractory|cathodic/, scopes:['Scaffolding & Coating'] },
+  { id:'manpower', label:'Manpower supply', re:/manpower|labou?r|skilled|technician|workforce|staffing/, scopes:['Manpower & HR'] },
+  { id:'catalyst', label:'Catalyst & process media', re:/catalyst|adsorbent|molecular sieve|change\s?-?\s?out|internal media|moving bed|multi bed|fixed bed|single\/fixed|hydrotreat|hydrogenat|dehydrogenat|reforming|isomeri|polymeri|sulphur recovery|support materials/, scopes:['Chemicals Supply','Turnaround & Shutdown'] },
+  { id:'chemicals', label:'Industrial chemicals', re:/chemical|detergent|solvent|inhibitor|degreas|disinfect|cleaner/, scopes:['Chemicals Supply'] },
+  { id:'inspection', label:'Inspection & integrity', re:/inspection|\bndt\b|non-?destructive|integrity|survey|corrosion/, scopes:['Inspection & Integrity'] },
+  { id:'pipeline', label:'Pipeline & piping works', re:/pipeline|\bpipe\b|piping|flowline|pigging|line replacement/, scopes:[] },
+  { id:'lifting', label:'Lifting & cranes', re:/crane|lifting|rigging|hoist/, scopes:['Lifting Equipment'] },
+  { id:'pm', label:'Project & turnaround management', re:/project management|turnaround management|ta management|consultan|engineering consult/, scopes:['Technical Consultancy','EPCC / Capital Projects'] },
+];
+
+const VA_W = { turnaround:1, tank:1, catalyst:1, cleaning:.9, coating:.9, valves:.8, fabrication:.8, lifting:.8, civil:.8, inspection:.7, static:.7, chemicals:.6, manpower:.6, pipeline:.6, pm:.5 };
+// owner names inside activity titles must not count as capability words (titles are already neutralised on load)
+const VA_ENT = /\bcore entity\s+(chemicals?|gas|lubricants?|dagangan|carigali|fertili[sz]er|methanol|lng|floating|refining)\b[a-z&.\s]{0,24}/g;
+const VA_OFFSHORE = /offshore|subsea|fpso|\bfso\b|jacket|topside|wellhead|drilling|umbilical|riser|seabed|\bpsv\b|\bahts\b|helicopter/;
+function vaActText(a) { return String(a.title || '').toLowerCase().replace(VA_ENT, ' ') + ' ' + String(a.scope || '').toLowerCase(); }
+
+const VA_ROLES = [
+  { id:'hse', label:'HSE / safety', re:/\b(hse|hsse|safety|health,? safety|sheq|qhse)\b/i },
+  { id:'qaqc', label:'QA / QC / quality', re:/\b(qa|qc|qa\/qc|quality)\b/i },
+  { id:'commercial', label:'Contracts & commercial', re:/\b(contracts?|commercial|tender|estimat\w*|quantity surveyor|procurement|supply chain|purchas\w*)\b/i },
+  { id:'planner', label:'Planning & scheduling', re:/\b(plann\w*|schedul\w*)\b/i },
+  { id:'projectmgr', label:'Project management', re:/\bproject (manager|director|engineer|coordinator)\b/i },
+  { id:'taMgr', label:'Turnaround management', re:/\bturn\s?around (manager|engineer|coordinator|scheduler)\b/i },
+  { id:'technical', label:'Technical / engineering', re:/\b(technical|engineer\w*|superintendent|supervisor|inspector)\b/i },
+  { id:'hr', label:'HR', re:/\b(hr|human resource\w*)\b/i },
+  { id:'finance', label:'Finance & accounts', re:/\b(finance|account(?:s|ant)?|account manager|financial)\b/i },
+];
+
+const VA_SITES = [
+  ['Pengerang (Johor)', /pengerang|prefchem|prpc|rapid\b/i], ['Melaka', /melaka|malacca|ppmsb/i], ['Kertih / Terengganu', /kertih|kerteh|terengganu|petlin|ethylene/i],
+  ['Sabah', /sabah|samur|kimanis|sipitang/i], ['Sarawak / Bintulu', /sarawak|bintulu|miri/i], ['Kuantan / Gebeng', /kuantan|gebeng/i], ['Lumut / Perak', /lumut|perak/i],
+  ['Kemaman', /kemaman/i], ['Port Dickson / Negeri Sembilan', /port dickson|negeri sembilan/i], ['Pasir Gudang', /pasir gudang/i],
+];
+
+const VA_STATE_CODES = { JOH:'Johor', MEL:'Melaka', PNG:'Pulau Pinang', SEL:'Selangor', TRG:'Terengganu', PHG:'Pahang', KDH:'Kedah', PRK:'Perak', KEL:'Kelantan', NSE:'Negeri Sembilan', PLS:'Perlis', SBH:'Sabah', SWK:'Sarawak', LBN:'Labuan', KUL:'Kuala Lumpur', WPP:'W.P. Putrajaya' };
+
+function vaEsc(s) { return String(s).replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+
+function vaIsoDate(s) {
+  const m = /(\d{1,2})[./-](\d{1,2})[./-](\d{4})/.exec(s || '');
+  if (!m) return null;
+  const d = +m[1], mo = +m[2], y = +m[3];
+  if (mo < 1 || mo > 12 || d < 1 || d > 31) return null;
+  return y + '-' + String(mo).padStart(2, '0') + '-' + String(d).padStart(2, '0');
+}
+function vaMoney(s) { const m = /([\d,]+(?:\.\d+)?)/.exec(s || ''); return m ? parseFloat(m[1].replace(/,/g, '')) : null; }
+
+function vaCleanLines(text) {
+  const t = String(text || '').replace(/\r\n?/g, '\n').replace(/[   ]/g, ' ').replace(/[ \t]+/g, ' ');
+  const FOOT = /license management system|^\(plms\)$|company details \(confidential\)|^printed by:?|@[\w-]+\.[\w.]+|^\d{1,2}\/\d{1,2}\/\d{4}\s+\d{1,2}:\d{2}:\d{2}\s*[ap]m\s+page\s+\d+|^\*+\s*end of report\s*\*+$|handphone|phone\s*:/i;
+  return t.split('\n').map(l => l.trim()).filter(l => l && !FOOT.test(l));
+}
+
+const VA_SEC_TITLES = {
+  24: /^shareholders?\s*\/\s*owners?$/i, 25: /^directors?$/i, 26: /^sub-?shares?$/i, 27: /^top management$/i, 28: /^management team$/i,
+  29: /^employment summary$/i, 30: /^principal info(?:rmation)?$/i, 31: /^scope of works?$/i, 32: /^company'?s? experience$/i,
+  33: /^company special condition/i, 34: /^swec special condition/i, 35: /^non[- ]?compliance$/i, 36: /^blacklisted$/i,
+  37: /^suspended$/i, 38: /^inactive$/i, 39: /^yellow\s*&\s*orange$/i, 40: /^registration with external bodies$/i,
+};
+
+function vaSplitSections(lines) {
+  const secs = {}, head = [];
+  let cur = 0;
+  const seen = new Set();
+  for (const l of lines) {
+    let n = 0;
+    const m = /^(\d{1,2})\.\s*(.+)$/.exec(l);
+    if (m && VA_SEC_TITLES[+m[1]] && VA_SEC_TITLES[+m[1]].test(m[2].trim())) n = +m[1];
+    else if (!m) { // un-numbered heading fallback (long titles only, so labels such as "Directors" do not collide)
+      for (const k of [28, 31, 32, 33, 29, 40]) if (!seen.has(k) && VA_SEC_TITLES[k].test(l)) { n = k; break; }
+    }
+    if (n && !seen.has(n)) { seen.add(n); cur = n; secs[n] = []; continue; }
+    if (cur) secs[cur].push(l); else head.push(l);
+  }
+  return { head, secs };
+}
+
+function vaField(head, label) {
+  const re = new RegExp('^(?:\\d{1,2}\\.\\s*)?' + label + '\\s*:\\s*(.*)$', 'i');
+  for (const l of head) { const m = re.exec(l); if (m) return m[1].trim(); }
+  return '';
+}
+
+function vaTagsOf(text) {
+  const t = String(text || '').toLowerCase();
+  return VA_TAGS.filter(g => g.re.test(t)).map(g => g.id);
+}
+
+function vaParseProfile(raw) {
+  let lines = vaCleanLines(raw);
+  const first = vaSplitSections(lines);
+  const name = vaField(first.head, 'Company Name');
+  if (name) { const up = name.toUpperCase(); lines = lines.filter(l => l.toUpperCase() !== up || /company name/i.test(l)); }
+  const { head, secs } = name ? vaSplitSections(lines) : first;
+  const sec = n => (secs[n] || []);
+  const flat = n => sec(n).join(' ').replace(/\s+/g, ' ').trim();
+
+  const P = { name, found: {}, warnings: [] };
+  P.regNo = (/(\d{9,12})/.exec(vaField(head, 'Registration Number')) || [])[1] || '';
+  P.incYear = P.regNo.length === 12 ? +P.regNo.slice(0, 4) : null;
+  P.type = vaField(head, 'Company Type');
+  P.category = vaField(head, 'Company Category');
+  P.status = vaField(head, 'Company Record Status');
+  P.locality = vaField(head, 'Company Locality Status');
+  P.firstLicense = vaIsoDate(vaField(head, 'Date of First Licen[cs]e'));
+  P.licenseStart = vaIsoDate(vaField(head, 'Licen[cs]e Start Date'));
+  P.licenseExpiry = vaIsoDate(vaField(head, 'Expired Date'));
+  P.paidUp = vaMoney(vaField(head, 'Paid-?up Capital'));
+  P.netWorth = vaMoney(vaField(head, 'Net Worth'));
+  P.auditDate = vaIsoDate(vaField(head, 'Audit Financial Date'));
+  if (/^\s*-?\s*\(/.test(vaField(head, 'Net Worth')) || /-\s*[\d,]+/.test(vaField(head, 'Net Worth'))) P.netWorth = -Math.abs(P.netWorth || 0);
+
+  // participation
+  const pi = head.findIndex(l => /participation status/i.test(l));
+  const part = {};
+  if (pi >= 0) {
+    const block = head.slice(pi, pi + 8);
+    [['bumi', /^bumiputera\s+/i], ['nonBumi', /^non-?\s?bumi\w*\s+/i], ['foreign', /^foreigner\s+/i]].forEach(([k, re]) => {
+      for (const l of block) {
+        if (!re.test(l)) continue;
+        const nums = l.replace(re, '').match(/[\d.]+/g);
+        if (nums && nums.length >= 4) { part[k] = { equity: +nums[0], directors: +nums[1], management: +nums[2], employment: +nums[3] }; break; }
+      }
+    });
+  }
+  P.participation = part;
+
+  // branch states
+  const bi = head.findIndex(l => /company branch state/i.test(l));
+  P.branches = [];
+  if (bi >= 0) {
+    const txt = head.slice(bi + 1, bi + 4).filter(l => !/^state$/i.test(l)).join(' ');
+    P.branches = (txt.match(/\b[A-Z]{2,5}\b/g) || []).filter(c => c !== 'STATE');
+  }
+  P.branchNames = P.branches.map(c => VA_STATE_CODES[c] || c);
+
+  // ownership
+  const sh = flat(24);
+  const pcts = (sh.match(/\b\d{1,3}\.\d{2}\b/g) || []).map(Number).filter(x => x <= 100);
+  P.shareholders = pcts.length;
+  P.topShare = pcts.length ? Math.max(...pcts) : null;
+  P.directors = (flat(25).match(/\bDirector\b/gi) || []).length;
+  P.ceoListed = /\b(ceo|managing director|chief executive)\b/i.test(flat(27));
+
+  // management team
+  const mt = flat(28).replace(/^No\.?\s+Employee ID \/ Name Position Qualification Years of Experience Employee Category\s*/i, '');
+  const rows = vaRowsByNumber(mt, /(?=[A-Za-z])/);
+  P.team = rows.map(r => {
+    const yrs = /(\d{1,2})\s+(?:Permanent|Contract|Others?|Temporary)\b/i.exec(r);
+    const q = /\b(PhD|Doctorate|Master'?s?|Degree|Bachelor|Diploma|Certificate|SPM|STPM)\b/i.exec(r);
+    const roles = VA_ROLES.filter(x => x.re.test(r.replace(/^.*?(?:[A-Z]{2,}\s)+/, ''))).map(x => x.id);
+    return { years: yrs ? +yrs[1] : null, qual: q ? q[1].toLowerCase().replace(/^master.*/, 'master') : 'not stated', roles, pe: /\bIr\.?\s/i.test(r) };
+  });
+  const emp = flat(29);
+  const perm = /No\.?\s*of\s*Permanent\s*Staff\s+(\d+)\s+(\d+)\s+(\d+)/i.exec(emp);
+  const oth = /No\.?\s*of\s*Others?\s*Staff\s+(\d+)\s+(\d+)\s+(\d+)/i.exec(emp);
+  P.staff = perm ? { bumi: +perm[1], local: +perm[2], foreign: +perm[3], total: +perm[1] + +perm[2] + +perm[3] } : null;
+  P.otherStaff = oth ? +oth[1] + +oth[2] + +oth[3] : 0;
+
+  // principals
+  P.principals = sec(30).filter(l => !/principal id|principal name|person in charge|contact no|email status|^\(2\)|^no\.?\b/i.test(l) && /\w{3,}/.test(l)).length;
+
+  // scope of works
+  P.swec = vaParseSwec(flat(31));
+  // experience
+  P.exp = vaParseExperience(flat(32), P.incYear);
+  // special conditions
+  const sc = flat(33).replace(/^No\.? Section Description Special Condition start date Special Condition end date\s*/i, '');
+  const dates = [...sc.matchAll(/\b(\d{1,2})[./](\d{1,2})[./](\d{4})\b/g)].map(m => vaIsoDate(m[0]));
+  P.special = sc ? { text: sc, deadline: dates.length ? dates[dates.length - 1] : null, mentionsAfs: /\bafs\b|audited|financial statement/i.test(sc), mentionsNetWorth: /net worth/i.test(sc) } : null;
+  // compliance registers
+  const cnt = n => (flat(n).match(/\b\d{8}[PS]\b/g) || []).length;
+  P.flags = { nonCompliance: cnt(35), blacklisted: cnt(36), suspended: cnt(37), inactive: cnt(38), yellowOrange: cnt(39), swecSpecial: cnt(34) };
+  P.external = sec(40).filter(l => /\d{1,2}[./]\d{1,2}[./]\d{4}/.test(l)).length;
+
+  P.found = { header: !!name, licence: !!P.licenseExpiry, financial: P.netWorth != null, participation: Object.keys(part).length > 0, team: P.team.length > 0, staff: !!P.staff, swec: P.swec.length > 0, experience: P.exp.rows.length > 0 };
+  if (!name) P.warnings.push('Company name not found: is this a full company-details export?');
+  if (!P.swec.length) P.warnings.push('No scope-of-works (SWEC) rows were found; capability analysis will be limited.');
+  if (!P.exp.rows.length) P.warnings.push('No company experience rows were found.');
+  if (!P.team.length) P.warnings.push('No management team rows were found.');
+  return P;
+}
+
+// Splits a flattened table into rows that start with sequential numbers 1, 2, 3 ...
+function vaRowsByNumber(text, look) {
+  const starts = [];
+  let pos = 0;
+  for (let k = 1; k < 400; k++) {
+    const re = new RegExp('(?:^|\\s)' + k + '\\s+' + (look ? look.source : ''), 'g');
+    re.lastIndex = pos;
+    const m = re.exec(text);
+    if (!m) break;
+    const at = m.index + (m[0].startsWith(' ') ? 1 : 0);
+    starts.push(at + String(k).length);
+    pos = at + String(k).length;
+  }
+  return starts.map((s, i) => text.slice(s, i + 1 < starts.length ? starts[i + 1] - String(i + 2).length : text.length).trim());
+}
+
+function vaParseSwec(text) {
+  const out = [];
+  const re = /\b(\d{8}[PS])\b/g;
+  const marks = [...text.matchAll(re)];
+  marks.forEach((m, i) => {
+    let seg = text.slice(m.index + m[0].length, i + 1 < marks.length ? marks[i + 1].index : text.length);
+    seg = seg.replace(/\s+\d{1,3}\s*$/, '').trim();
+    const mm = /^(.*?)\s+(Self[- ]?operated|Dealer|Agent|Distributor|Sub-?contractor)\b(.*)$/i.exec(seg);
+    const title = (mm ? mm[1] : seg.replace(/\d{2}\.\d{2}\.\d{4}.*$/, '')).replace(/\s+/g, ' ').replace(/-\s+/g, '- ').trim();
+    const rest = mm ? mm[3] : '';
+    const d = [...rest.matchAll(/\b\d{1,2}\.\d{1,2}\.\d{4}\b/g)].map(x => vaIsoDate(x[0]));
+    const mode = mm ? (/dealer|agent|distributor/i.test(mm[2]) ? 'Dealer' : 'Self-operated') : (m[0].endsWith('P') ? 'Dealer' : 'Self-operated');
+    out.push({ code: m[0], title: title.replace(/Degreas\s+sing/i, 'Degreasing'), mode, approved: d[0] || null, expiry: d[1] || null, tags: vaTagsOf(title) });
+  });
+  const seen = new Set();
+  return out.filter(x => !seen.has(x.code) && seen.add(x.code));
+}
+
+const VA_SH_RE = /shareholder|was the ceo of|key person/i;
+function vaParseExperience(text, incYear) {
+  const body = text.replace(/^No\s*\.?\s*Project Name Project Description Client Name Start Date End Date\s*/i, '');
+  const chunks = vaRowsByNumber(body, /(?=[A-Za-z])/);
+  const rows = chunks.map(r => {
+    const dates = [...r.matchAll(/(\d{1,2})[./](\d{1,2})[./](\d{2})\s?(\d{2})(?!\d)/g)].map(m => ({ y: +(m[3] + m[4]), m: +m[2] }));
+    const mhs = [];
+    for (const m of r.matchAll(/(\d{1,3}(?:,\d{3})+|\d{4,})\s*(?:man\s?-?\s?hours?)/gi)) mhs.push(+m[1].replace(/,/g, ''));
+    for (const m of r.matchAll(/man\s?-?\s?hours?\s*(?:is|of|:|=)?\s*(\d{1,3}(?:,\d{3})+|\d{5,})/gi)) mhs.push(+m[1].replace(/,/g, ''));
+    const val = /RM\s?(\d{1,3}(?:,\d{3})+|\d{4,})/i.exec(r);
+    const startY = dates[0] ? dates[0].y : null, endY = dates[1] ? dates[1].y : (dates[0] ? dates[0].y : null);
+    const inherited = VA_SH_RE.test(r) || (incYear && startY && startY < incYear);
+    const clients = [...r.matchAll(/([A-Z][A-Za-z&.'/-]*(?:\s+[A-Z][A-Za-z&.'/-]*){0,4}\s+(?:Sdn\.?\s*Bhd\.?|SDN\.?\s*BHD\.?|Berhad|BERHAD))/g)].map(m => m[1].replace(/\s+/g, ' ').trim());
+    return { text: r, startY, endY, manhours: mhs.length ? Math.max(...mhs) : null, value: val ? +val[1].replace(/,/g, '') : null, inherited: !!inherited, tags: vaTagsOf(r), clients, sites: VA_SITES.filter(s => s[1].test(r)).map(s => s[0]) };
+  });
+  return { rows };
+}
+
+
+/* ───────── Vendor Advisor: supporting-document parser (corporate profile, as Markdown or plain text) ───────── */
+function vaMdTables(text) {
+  const lines = String(text || '').replace(/\r\n?/g, '\n').split('\n');
+  const out = [];
+  let heading = '';
+  const cells = s => s.trim().replace(/^\|/, '').replace(/\|\s*$/, '').split('|').map(c => c.trim());
+  for (let i = 0; i < lines.length; i++) {
+    const l = lines[i];
+    const h = /^#{1,6}\s+(.*)$/.exec(l);
+    if (h) { heading = h[1].trim(); continue; }
+    if (/^\s*\|/.test(l) && i + 1 < lines.length && /^\s*\|[\s:|-]+\|?\s*$/.test(lines[i + 1])) {
+      const header = cells(l).map(c => c.toLowerCase());
+      const rows = [];
+      let j = i + 2;
+      while (j < lines.length && /^\s*\|/.test(lines[j])) { rows.push(cells(lines[j])); j++; }
+      out.push({ heading, header, rows });
+      i = j - 1;
+    }
+  }
+  return out;
+}
+function vaAnyDate(s) {
+  s = String(s || '').trim();
+  if (!s) return null;
+  if (/^ongoing/i.test(s)) return 'ongoing';
+  let m = /^(\d{4})-(\d{2})-(\d{2})/.exec(s); if (m) return m[0];
+  m = /^(\d{4})-(\d{2})$/.exec(s); if (m) return m[1] + '-' + m[2] + '-01';
+  return vaIsoDate(s);
+}
+function vaSection(text, headingRe) {
+  const lines = String(text || '').replace(/\r\n?/g, '\n').split('\n');
+  let on = false, out = [];
+  for (const l of lines) {
+    const h = /^(#{1,6})\s+(.*)$/.exec(l);
+    if (h) { if (on && h[1].length <= 2) break; if (headingRe.test(h[2])) { on = true; continue; } }
+    if (/^---+\s*$/.test(l) && on) break;
+    if (on) out.push(l);
+  }
+  return out.join('\n');
+}
+const VA_DEPT_KEYS = [
+  ['hse', /\b(hse|hsse|osh|health,? safety)\b/i], ['qaqc', /\bqa\s*\/?\s*qc\b|\bquality (assurance|control)\b/i],
+  ['commercial', /\b(procurement|supply chain|tendering|contracts?)\b/i], ['legal', /\blegal\b/i], ['finance', /\b(finance|accounts?)\b/i],
+  ['planner', /\bplanning\b|\bscheduler\b/i], ['projectmgr', /\bproject (manager|coordinator|director)\b/i], ['hr', /\bhr\b|human resource/i],
+];
+function vaQualLevel(s) {
+  s = String(s || '');
+  if (/ph\.?d|doctor/i.test(s)) return 'phd';
+  if (/master|\bmba\b|m\.?sc/i.test(s)) return 'master';
+  if (/bachelor|beng|b\.?\s?sc|b\.?\s?tech|\bdegree\b/i.test(s)) return 'degree';
+  if (/diploma/i.test(s)) return 'diploma';
+  if (/certificate/i.test(s)) return 'certificate';
+  return 'not stated';
+}
+function vaParseSupport(text) {
+  const S = { certs: [], cidb: null, mof: null, depts: [], leaders: [], equip: null, projects: [], tanks: null, recognitions: 0, safetyEvidence: false, found: {} };
+  const flat = String(text || '').replace(/\s+/g, ' ');
+  const h1 = /^#\s+(.+)$/m.exec(String(text || ''));
+  if (h1) S.name = h1[1].replace(/\s*[—–-]\s*(corporate|company)\s+profile.*$/i, '').replace(/\s*\([^)]*\)\s*$/, '').trim();
+  const tables = vaMdTables(text);
+  const idx = (t, ...names) => t.header.findIndex(h => names.some(n => h.includes(n)));
+  const cell = (r, i) => (i >= 0 && i < r.length) ? r[i] : '';
+
+  tables.forEach(t => {
+    const hs = t.header.join('|');
+    // registrations
+    if (/registration/.test(t.header[0] || '') && /valid to/.test(hs)) {
+      const iScope = idx(t, 'grade', 'scope'), iFrom = idx(t, 'valid from'), iTo = idx(t, 'valid to'), iIss = idx(t, 'issuer'), iSt = idx(t, 'status');
+      t.rows.forEach(r => {
+        const reg = r[0] || '', scope = cell(r, iScope);
+        const base = { from: vaAnyDate(cell(r, iFrom)), to: vaAnyDate(cell(r, iTo)), issuer: cell(r, iIss), status: cell(r, iSt) };
+        const iso = /ISO\s*(\d{4,5})(?:\s*:\s*(\d{4}))?/i.exec(reg);
+        if (iso) S.certs.push({ kind: 'ISO ' + iso[1], label: 'ISO ' + iso[1] + (iso[2] ? ':' + iso[2] : ''), ...base });
+        else if (/cidb/i.test(reg)) {
+          const g = /\bG\s?([1-7])\b/.exec(scope);
+          S.cidb = { grade: g ? 'G' + g[1] : null, cats: [...scope.matchAll(/\b([A-Z]{1,2}\d{2})\b/g)].map(m => m[1]), ...base };
+        } else if (/ministry of finance|\bmof\b|kementerian kewangan/i.test(reg)) S.mof = { fields: 0, descs: [], ...base };
+      });
+    }
+    if (/field code/.test(hs)) {
+      S.mofFields = t.rows.map(r => ({ code: r[0], desc: r[1] || '' }));
+    }
+    // key personnel
+    if (/role/.test(t.header[0] || '') && /qualification/.test(hs)) {
+      const iQ = idx(t, 'qualification'), iE = idx(t, 'experience');
+      t.rows.forEach(r => S.leaders.push({ role: r[0], level: vaQualLevel(cell(r, iQ)), safetyCert: /niosh|gas tester|site safety supervisor|professional engineer|chartered/i.test(cell(r, iE)), years: null }));
+    }
+    // equipment
+    if (/item/.test(t.header[0] || '') && /units/.test(hs)) {
+      const iU = idx(t, 'units');
+      const units = t.rows.reduce((a, r) => a + (parseInt(cell(r, iU), 10) || 0), 0);
+      const sum = re => t.rows.filter(r => re.test(r[0])).reduce((a, r) => a + (parseInt(cell(r, iU), 10) || 0), 0);
+      S.equip = { items: t.rows.length, units, welding: sum(/welding/i), flange: sum(/flange machining/i), coldCut: sum(/cold cut/i), breathingAir: sum(/breathing air|cylinder/i), lifting: sum(/crane|forklift|lorry/i) };
+    }
+    // projects
+    if (/description/.test(hs) && /start/.test(hs) && /client/.test(hs)) {
+      const c = { scope: idx(t, 'scope'), client: idx(t, 'client'), opu: idx(t, 'opu', 'company'), route: idx(t, 'route'), po: idx(t, 'po no'), poDate: idx(t, 'po date'), desc: idx(t, 'description'), start: idx(t, 'start'), end: idx(t, 'finish', 'end') };
+      t.rows.forEach(r => {
+        const startIso = vaAnyDate(cell(r, c.start)), endRaw = cell(r, c.end), endIso = vaAnyDate(endRaw);
+        const ongoing = endIso === 'ongoing';
+        const desc = cell(r, c.desc), scope = cell(r, c.scope);
+        const sY = startIso && startIso !== 'ongoing' ? +startIso.slice(0, 4) : null;
+        const eIso = ongoing ? null : (endIso || startIso);
+        S.projects.push({
+          scope, client: cell(r, c.client), opu: cell(r, c.opu), route: cell(r, c.route), direct: /^direct/i.test(cell(r, c.route)),
+          desc, start: startIso, end: eIso, ongoing, startY: sY, endY: ongoing ? new Date().getUTCFullYear() : (eIso ? +eIso.slice(0, 4) : sY),
+          tags: vaTagsOf(scope + ' ' + desc), sites: VA_SITES.filter(s => s[1].test(desc + ' ' + cell(r, c.opu) + ' ' + cell(r, c.client))).map(s => s[0]),
+        });
+      });
+    }
+    // major tank references
+    if (/tank diameter/.test(hs)) {
+      const iD = idx(t, 'tank diameter');
+      const dias = t.rows.flatMap(r => (cell(r, iD).match(/\d+(?:\.\d+)?/g) || []).map(Number));
+      S.tanks = { refs: t.rows.length, maxDia: dias.length ? Math.max(...dias) : null };
+    }
+    if (/recognition/i.test(t.heading) && /date/.test(t.header[0] || '')) S.recognitions = t.rows.length;
+  });
+  if (S.mof && S.mofFields) { S.mof.fields = S.mofFields.length; S.mof.descs = S.mofFields.map(f => f.desc); }
+
+  // raw-text fallbacks (a corporate profile pasted without our table layout)
+  if (!S.certs.length) {
+    const seen = new Set();
+    for (const m of flat.matchAll(/ISO\s*[-]?\s*(9001|14001|45001|27001|50001|37001|22000)\b/gi)) if (!seen.has(m[1])) { seen.add(m[1]); S.certs.push({ kind: 'ISO ' + m[1], label: 'ISO ' + m[1], from: null, to: null, issuer: '', status: '' }); }
+  }
+  if (!S.cidb) { const m = /CIDB[^.]{0,200}?\bG\s?([1-7])\b/i.exec(flat); if (m) S.cidb = { grade: 'G' + m[1], cats: [], from: null, to: null }; }
+  if (!S.mof && /kementerian kewangan|ministry of finance/i.test(flat)) S.mof = { fields: 0, descs: [], from: null, to: null };
+
+  // departments / functions
+  let struct = vaSection(text, /corporate structure|organi[sz]ation(al)? (chart|structure)|departments?/i);
+  const dset = new Set();
+  const src = struct || '';
+  VA_DEPT_KEYS.forEach(([k, re]) => { if (re.test(src)) dset.add(k); });
+  if (!struct) (String(text).match(/[^\n.]{0,40}\bdepartment\b[^\n.]{0,40}/gi) || []).forEach(s => VA_DEPT_KEYS.forEach(([k, re]) => { if (re.test(s)) dset.add(k); }));
+  S.depts = [...dset];
+  const nm = /([A-Z][A-Za-z0-9&.'-]*(?:\s+[A-Z][A-Za-z0-9&.'-]*){0,5}\s+(?:Sdn\.?\s*Bhd\.?|SDN\.?\s*BHD\.?|Berhad))/.exec(String(text || '').slice(0, 1500));
+  if (!S.name && nm) S.name = nm[1].replace(/\s+/g, ' ');
+  S.textTags = vaTagsOf(flat);
+  S.warnings = [];
+  if (!S.projects.length) S.warnings.push('No project table was found in the corporate profile. If its project lists are pictures inside the PDF, add them as text (a Markdown table works best) so they can be used as evidence.');
+  S.safetyEvidence = /zero lost time injur|without any safety incident|zero lti/i.test(flat);
+  S.found = { certs: S.certs.length, cidb: !!S.cidb, mof: !!S.mof, leaders: S.leaders.length, projects: S.projects.length, equipment: !!S.equip, tanks: !!S.tanks, depts: S.depts.length };
+  return S;
+}
+
+
+/* ───────── Vendor Advisor: analysis engine (no DOM) ───────── */
+const VA_HOURS_PER_FTE = 2000;   // assumption: productive manhours per person-year
+const VA_ADJ = {
+  'Turnaround & Shutdown': ['Rotating Equipment','Inspection & Integrity','Scaffolding & Coating','Lifting Equipment','Mechanical Spares','General Maintenance','Manpower & HR'],
+  'Rotating Equipment': ['Mechanical Spares','General Maintenance','Turnaround & Shutdown','Inspection & Integrity'],
+  'Inspection & Integrity': ['Scaffolding & Coating','Turnaround & Shutdown','Subsea & Pipelines','Laboratory & Testing'],
+  'Scaffolding & Coating': ['Inspection & Integrity','Civil & Infrastructure','General Maintenance','Turnaround & Shutdown'],
+  'Lifting Equipment': ['Turnaround & Shutdown','Civil & Infrastructure','EPCC / Capital Projects'],
+  'Mechanical Spares': ['Rotating Equipment','General Maintenance','Chemicals Supply'],
+  'Civil & Infrastructure': ['EPCC / Capital Projects','Scaffolding & Coating','Facilities & Support'],
+  'EPCC / Capital Projects': ['Civil & Infrastructure','Technical Consultancy','Subsea & Pipelines'],
+  'Subsea & Pipelines': ['Inspection & Integrity','EPCC / Capital Projects'],
+  'Electrical Systems': ['Instrumentation & Control','Rotating Equipment'],
+  'Instrumentation & Control': ['Electrical Systems','Inspection & Integrity'],
+  'Facilities & Support': ['Environment & Waste','General Operations','Civil & Infrastructure'],
+  'Environment & Waste': ['Facilities & Support','Chemicals Supply','General Maintenance'],
+  'Chemicals Supply': ['Environment & Waste','Mechanical Spares','Laboratory & Testing'],
+  'General Maintenance': ['Turnaround & Shutdown','Mechanical Spares','Facilities & Support','Manpower & HR'],
+};
+const VA_CLOSED_STAGES = new Set(['Technical Evaluation','Commercial Evaluation','Techno-commercial Evaluation','Award Recommendation','AA Approval']);
+const VA_OPEN_TYPES = new Set(['New Tender','Replacement Tender']);
+
+function vaDays(fromIso, toIso) { return Math.round((Date.parse(toIso + 'T00:00:00Z') - Date.parse(fromIso + 'T00:00:00Z')) / 86400000); }
+function vaMonths(fromIso, toIso) { const a = fromIso.split('-').map(Number), b = toIso.split('-').map(Number); return (b[0] - a[0]) * 12 + (b[1] - a[1]) - (b[2] < a[2] ? 1 : 0); }
+function vaSpan(days) {
+  const a = Math.abs(days);
+  if (a < 60) return a + ' day' + (a === 1 ? '' : 's');
+  if (a < 700) return Math.round(a / 30.4) + ' months';
+  return (a / 365).toFixed(1).replace(/\.0$/, '') + ' years';
+}
+function vaFmtDate(iso) { if (!iso) return '–'; const [y, m, d] = iso.split('-'); return +d + ' ' + ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+m - 1] + ' ' + y; }
+function vaRM(n) { return n == null ? '–' : 'RM ' + Math.round(n).toLocaleString('en-US'); }
+function vaPlural(n, w) { return n + ' ' + w + (n === 1 ? '' : 's'); }
+function vaTgtIso(t) { const m = /(\d{1,2})\/(\d{1,2})\/(\d{4})/.exec(t || ''); return m ? m[3] + '-' + m[2].padStart(2, '0') + '-' + m[1].padStart(2, '0') : null; }
+function vaAddMonths(iso, n) { const [y, m, d] = iso.split('-').map(Number); const t = new Date(Date.UTC(y, m - 1 + n, d)); return t.toISOString().slice(0, 10); }
+
+function vaEmptyProfile() {
+  return { name: '', regNo: '', incYear: null, type: '', category: '', status: '', locality: '', firstLicense: null, licenseStart: null, licenseExpiry: null, paidUp: null, netWorth: null, auditDate: null,
+    participation: {}, branches: [], branchNames: [], shareholders: 0, topShare: null, directors: 0, team: [], staff: null, otherStaff: 0, principals: 0, swec: [], exp: { rows: [] }, special: null,
+    flags: {}, external: 0, found: {}, warnings: [], empty: true };
+}
+
+/* common-suffix clean-up for counterparty names that were glued to neighbouring capitalised words */
+function vaCounterparties(rows) {
+  const groups = {};
+  rows.forEach((r, ri) => {
+    const seen = new Set();
+    r.clients.forEach(c => {
+      const w = c.replace(/[.,]+$/, '').split(/\s+/);
+      if (w.length < 3) return;
+      const k2 = w.slice(-3, -2).join(' ').toLowerCase();
+      const g = groups[k2] ||= { variants: [], rows: new Set() };
+      if (!seen.has(k2)) { g.rows.add(ri); seen.add(k2); }
+      g.variants.push(w);
+    });
+  });
+  const out = [];
+  Object.values(groups).forEach(g => {
+    if (g.rows.size < 2) return;
+    let suf = g.variants[0].map(x => x.toLowerCase());
+    g.variants.forEach(v => {
+      let i = 0;
+      while (i < v.length && i < suf.length && v[v.length - 1 - i].toLowerCase() === suf[suf.length - 1 - i]) i++;
+      suf = suf.slice(suf.length - i);
+    });
+    const mixed = g.variants.find(v => v.length >= suf.length && v.slice(-suf.length).join(' ').toLowerCase() === suf.join(' ') && v.slice(-suf.length).some(x => /[a-z]/.test(x)));
+    const name = (mixed || g.variants[0]).slice(-suf.length).join(' ');
+    if (suf.length >= 3) out.push({ name, n: g.rows.size });
+  });
+  return out.sort((a, b) => b.n - a.n);
+}
+
+function vaScopeSet(P, S, ctx) {
+  const set = new Map();
+  const add = (s, why) => { if (!s) return; (set.get(s) || set.set(s, []).get(s)).push(why); };
+  P.swec.forEach(sw => {
+    sw.tags.forEach(t => { const tg = VA_TAGS.find(x => x.id === t); if (tg) tg.scopes.forEach(s => add(s, sw.title)); });
+    (ctx.scopesFromText ? ctx.scopesFromText(sw.title, sw.code) : []).forEach(s => add(s, sw.title));
+  });
+  if (S) S.projects.forEach(p => p.tags.forEach(t => { const tg = VA_TAGS.find(x => x.id === t); if (tg) tg.scopes.forEach(s => add(s, p.desc)); }));
+  return set;
+}
+
+function vaAnalyze(P, ctx) {
+  P = P || vaEmptyProfile();
+  const S = ctx.support || null;
+  const today = ctx.today, yNow = +today.slice(0, 4);
+  const san = ctx.san || (x => x);
+  const R = { today, name: P.name || (S && S.name) || 'Company', checks: [], actions: [], P, S, docs: { plms: !P.empty, support: !!S } };
+  const own = P.exp.rows.filter(r => !r.inherited), inh = P.exp.rows.filter(r => r.inherited);
+  const dealers = P.swec.filter(s => s.mode === 'Dealer');
+  const sup = S ? S.projects : [];
+  const chk = (id, group, label, status, detail, action) => R.checks.push({ id, group, label, status, detail, action });
+  const dl = iso => vaDays(today, iso);
+  const worse = (a, b) => ({ risk: 3, warn: 2, info: 1, ok: 0 }[a] >= { risk: 3, warn: 2, info: 1, ok: 0 }[b] ? a : b);
+  const expStatus = (d, hard, soft) => d < 0 ? 'risk' : d < hard ? 'risk' : d < soft ? 'warn' : 'ok';
+
+  /* ── 1. compliance & readiness ── */
+  if (P.licenseExpiry) {
+    const d = dl(P.licenseExpiry);
+    chk('lic', 'Compliance', 'Licence validity', expStatus(d, 180, 365),
+      d < 0 ? 'Licence expired on ' + vaFmtDate(P.licenseExpiry) : 'Valid until ' + vaFmtDate(P.licenseExpiry) + ' (' + vaSpan(d) + ' left)' + (P.licenseStart ? '; current term started ' + vaFmtDate(P.licenseStart) : ''),
+      d < 365 ? 'Start the licence renewal file now; renewal normally needs current audited accounts and updated SWEC evidence.' : null);
+  }
+  if (P.status) chk('rec', 'Compliance', 'Company record status', /^active$/i.test(P.status) ? 'ok' : 'risk', P.status);
+  if (P.special && P.special.deadline) {
+    const d = dl(P.special.deadline);
+    chk('spec', 'Compliance', 'Special condition on the company record', d < 0 ? 'risk' : d <= 30 ? 'risk' : d <= 90 ? 'warn' : 'ok',
+      (d < 0 ? 'Deadline passed ' + vaSpan(d) + ' ago (' + vaFmtDate(P.special.deadline) + ')' : 'Due ' + vaFmtDate(P.special.deadline) + ' (' + vaSpan(d) + ' left)') + ': ' + (P.special.mentionsAfs ? 'latest audited accounts must be uploaded' : 'see company record') + (P.special.mentionsNetWorth ? '; a negative net worth, or missing the deadline, turns the status to Non-Compliance' : '') + '.',
+      P.special.mentionsAfs ? 'Upload the latest audited financial statements (and make sure they match the SSM filing) before ' + vaFmtDate(P.special.deadline) + '.' : 'Close out the special condition before ' + vaFmtDate(P.special.deadline) + '.');
+  }
+  if (P.auditDate) {
+    const m = vaMonths(P.auditDate, today);
+    chk('afs', 'Financial', 'Audited accounts on file', m <= 11 ? 'ok' : m <= 17 ? 'warn' : 'risk', 'Latest audited year-end on file: ' + vaFmtDate(P.auditDate) + ' (' + m + ' months ago)', m > 11 ? 'File the next audited accounts; tender evaluations normally look at the latest audited year.' : null);
+  }
+  if (P.netWorth != null) {
+    const ratio = P.paidUp ? P.netWorth / P.paidUp : null;
+    chk('nw', 'Financial', 'Net worth', P.netWorth < 0 ? 'risk' : (ratio != null && ratio < 1) ? 'warn' : 'ok',
+      vaRM(P.netWorth) + (P.paidUp ? ' against paid-up capital of ' + vaRM(P.paidUp) + ' (' + ratio.toFixed(2) + '×)' : ''),
+      P.netWorth < 0 ? 'Negative net worth triggers non-compliance: recapitalise (capital injection or debt-to-equity conversion) before the next filing.' : (ratio != null && ratio < 1) ? 'Net worth is below paid-up capital, which signals accumulated losses; retain earnings or inject capital to rebuild the buffer.' : null);
+  }
+  const f = P.flags || {};
+  if (!P.empty) {
+    const flagTxt = [['nonCompliance', 'non-compliance'], ['blacklisted', 'blacklisted'], ['suspended', 'suspended'], ['inactive', 'inactive'], ['yellowOrange', 'yellow/orange indicator']].filter(([k]) => f[k] > 0).map(([k, l]) => f[k] + ' SWEC ' + l);
+    chk('flags', 'Compliance', 'Non-compliance, blacklist, suspension and inactive registers', flagTxt.length ? 'risk' : 'ok', flagTxt.length ? flagTxt.join(', ') : 'No entries listed', flagTxt.length ? 'Clear the flagged SWECs first; they cannot be used for bidding until cleared.' : null);
+  }
+  if (dealers.length) chk('princ', 'Compliance', 'Principals for dealer-mode SWECs', P.principals ? 'ok' : 'warn',
+    P.principals ? P.principals + ' principal record(s) on file for ' + dealers.length + ' dealer-mode SWECs' : dealers.length + ' of ' + P.swec.length + ' SWECs are dealer mode, but no principal or appointment record is listed',
+    P.principals ? null : 'Register the principal appointments (letters and validity dates) so the ' + dealers.length + ' dealer SWECs are bid-ready.');
+
+  // certificates and registrations (licence record + supporting profile)
+  const certs = S ? S.certs : [];
+  const isoHas = k => certs.some(c => c.kind === 'ISO ' + k);
+  if (certs.length || P.external || !S) {
+    let st = 'ok';
+    const parts = certs.map(c => { let t = c.label; if (c.to) { const d = dl(c.to); st = worse(st, expStatus(d, 90, 270)); t += ' (to ' + vaFmtDate(c.to) + ')'; } return t; });
+    if (!certs.length && !P.external) st = 'warn';
+    chk('cert', 'Compliance', 'Management-system certificates', st,
+      certs.length ? parts.join(', ') + (certs[0].issuer ? '. Issued by ' + certs[0].issuer + '.' : '') : (P.external ? P.external + ' registration(s) listed on the licence record' : 'None found in the documents provided'),
+      !certs.length && !P.external ? 'Add recognised certifications that evaluators score: ISO 9001 (quality), ISO 14001 (environment), ISO 45001 (safety), and trade registrations that match the SWECs held.' : (st !== 'ok' ? 'Renew the expiring certificate before it lapses; schedule the surveillance audit early.' : null));
+    if (certs.length && !P.empty && !P.external) chk('regsync', 'Compliance', 'Registrations recorded in the licence system', 'warn', 'The licence record lists no external-body registrations, although the profile shows ' + certs.map(c => c.kind).join(', ') + (S.cidb ? ', CIDB' : '') + (S.mof ? ' and a Ministry of Finance registration' : '') + '.', 'Upload the certificates to the licence record so evaluators see them alongside the SWECs.');
+    if (certs.length && isoHas('9001') && isoHas('45001') && !isoHas('14001')) chk('iso14001', 'Compliance', 'Environmental management (ISO 14001)', 'info', 'Quality and safety are certified; environmental management is not.', 'Consider ISO 14001: refinery and petrochemical clients increasingly ask for it, and tank cleaning, desludging and waste handling are environmentally sensitive scopes.');
+  }
+  if (S && S.cidb) {
+    const d = S.cidb.to ? dl(S.cidb.to) : null;
+    chk('cidb', 'Compliance', 'CIDB contractor registration', d == null ? 'ok' : expStatus(d, 90, 365),
+      (S.cidb.grade ? 'Grade ' + S.cidb.grade : 'Registered') + (S.cidb.cats.length ? ' (' + S.cidb.cats.join(', ') + ')' : '') + (S.cidb.to ? ', valid to ' + vaFmtDate(S.cidb.to) + (d >= 0 ? ' (' + vaSpan(d) + ' left)' : '') : '') + '. ' + (S.cidb.grade === 'G7' ? 'G7 is the highest grade, with no limit on tender value.' : ''),
+      d != null && d < 365 ? 'Renew the CIDB registration before ' + vaFmtDate(S.cidb.to) + ' (start about 3 months ahead, around ' + vaFmtDate(vaAddMonths(S.cidb.to, -3)) + '); an expired registration blocks civil, building and M&E bids.' : null);
+  }
+  if (S && S.mof) {
+    const d = S.mof.to ? dl(S.mof.to) : null;
+    chk('mof', 'Compliance', 'Ministry of Finance registration', d == null ? 'ok' : expStatus(d, 90, 270), (S.mof.fields ? S.mof.fields + ' registered fields' : 'Registered') + (S.mof.to ? ', valid to ' + vaFmtDate(S.mof.to) : ''), null);
+  }
+  const bu = P.participation && P.participation.bumi;
+  if (bu) chk('bumi', 'Ownership', 'Bumiputera participation', bu.equity >= 51 && bu.directors >= 51 ? 'ok' : 'warn',
+    'Equity ' + bu.equity + '%, directors ' + bu.directors + '%, management ' + bu.management + '%, employment ' + bu.employment + '%' + (P.category ? ' · category: ' + P.category : ''),
+    bu.equity >= 51 ? null : 'Participation is below the usual 51% threshold, which limits eligibility for Bumiputera-reserved packages.');
+  if (P.topShare != null) chk('own', 'Ownership', 'Ownership concentration', P.topShare >= 90 ? 'info' : 'ok',
+    'Largest shareholder holds ' + P.topShare + '% (' + vaPlural(P.shareholders, 'shareholder') + ', ' + vaPlural(P.directors, 'director') + ')', P.topShare >= 90 ? 'Key-person risk: document a succession and delegation plan; evaluators discount experience that sits with one individual.' : null);
+
+  const pts = { lic: 10, rec: 5, spec: 10, afs: 10, nw: 10, flags: 10, princ: 5, cert: 8, cidb: 5, regsync: 3, bumi: 5 };
+  let got = 0, tot = 0;
+  R.checks.forEach(c => { const p = pts[c.id]; if (!p) return; tot += p; got += c.status === 'ok' ? p : c.status === 'warn' ? p / 2 : 0; });
+  const scored = R.checks.filter(c => pts[c.id]).length;
+  R.readiness = (tot && scored >= 4) ? Math.round(got / tot * 100) : null;
+  R.readinessParts = R.checks.filter(c => pts[c.id]).map(c => ({ label: c.label, pts: pts[c.id], got: c.status === 'ok' ? pts[c.id] : c.status === 'warn' ? pts[c.id] / 2 : 0, status: c.status }));
+
+  /* ── 2. project evidence (profile list plus licence-record experience) ── */
+  const supRecent = sup.filter(p => p.ongoing || (p.end && vaMonths(p.end, today) <= 24));
+  const supDirect = sup.filter(p => p.direct);
+  const caps = [];
+  VA_TAGS.forEach(tg => {
+    const sw = P.swec.filter(s => s.tags.includes(tg.id));
+    const ownR = own.filter(r => r.tags.includes(tg.id)), inhR = inh.filter(r => r.tags.includes(tg.id));
+    const supR = sup.filter(p => p.tags.includes(tg.id));
+    if (!sw.length && !ownR.length && !inhR.length && !supR.length) return;
+    const evid = Math.max(ownR.length, supR.length);
+    const mh = ownR.reduce((a, r) => a + (r.manhours || 0), 0);
+    const last = Math.max(ownR.reduce((a, r) => Math.max(a, r.endY || 0), 0), supR.reduce((a, p) => Math.max(a, p.endY || 0), 0)) || null;
+    const recent = supR.filter(p => p.ongoing || (p.end && vaMonths(p.end, today) <= 24)).length;
+    let verdict = 'Core strength', cls = 'ok';
+    if (sw.length && evid === 0 && inhR.length) { verdict = 'Registered, key-person experience only'; cls = 'warn'; }
+    else if (sw.length && evid === 0) { verdict = 'Registered, no project evidence'; cls = 'warn'; }
+    else if (sw.length && evid < 3) { verdict = 'Registered, thin evidence'; cls = 'warn'; }
+    else if (sw.length && last && yNow - last >= 3) { verdict = 'Registered, evidence ageing (last ' + last + ')'; cls = 'warn'; }
+    else if (!sw.length && evid) { verdict = 'Experience, not registered'; cls = 'info'; }
+    else if (!evid && inhR.length) { verdict = 'Key-person experience only'; cls = 'warn'; }
+    else if (sup.length && evid >= 3 && supR.length && !supR.some(p => p.direct)) { verdict = 'Strong, but only via other contractors'; cls = 'info'; }
+    caps.push({ id: tg.id, label: tg.label, swec: sw.length, swecTitles: sw.map(s => s.title), own: evid, inherited: inhR.length, direct: supR.filter(p => p.direct).length, recent, manhours: mh, last, verdict, cls });
+  });
+  // capabilities the profile only describes in prose (no registration, no project evidence): low weight
+  if (S && S.textTags) S.textTags.forEach(id => {
+    if (caps.some(c => c.id === id)) return;
+    const tg = VA_TAGS.find(x => x.id === id); if (!tg) return;
+    caps.push({ id, label: tg.label, swec: 0, swecTitles: [], own: 0, inherited: 0, direct: 0, recent: 0, manhours: 0, last: null, claimed: true, verdict: 'Described in the profile, not evidenced', cls: 'info' });
+  });
+  R.caps = caps;
+
+  /* ── 3. market: open opportunities ── */
+  const acp = (ctx.acp || []).filter(a => !a.stale);
+  const myTags = new Set(caps.filter(c => c.swec || c.own || c.claimed).map(c => c.id));
+  const tagStr = {}; caps.forEach(c => { tagStr[c.id] = (c.claimed ? 8 : ((c.swec ? 22 : 10) + (c.own >= 3 ? 12 : c.own ? 6 : 0) + (c.recent ? 4 : 0))) * (VA_W[c.id] || 0.7); });
+  const corpus = (sup.map(p => p.desc).join(' ') + ' ' + own.map(r => r.text).join(' ')).toLowerCase();
+  const companyOffshore = /offshore|subsea|fpso/.test(corpus);
+  const scopes = vaScopeSet(P, S, ctx);
+  R.coveredScopes = [...scopes.keys()];
+  // existing relationships: operating units the company has worked for directly
+  const rel = new Set();
+  sup.forEach(p => {
+    const t = (p.opu + ' ' + p.client).toUpperCase();
+    if (/PRPC|PREFCHEM|\bPCP\b|PENGERANG/.test(t)) rel.add('PRPC');
+    (san(p.opu + ' ' + p.client).toUpperCase().match(/AFFILIATE [A-Z]\b/g) || []).forEach(x => rel.add(x.replace('AFFILIATE', 'Affiliate')));   // neutral labels produced by the copy rules
+    if (/\bPDB\b|DAGANGAN/.test(t)) rel.add('PDB');
+    if (/PCMSB|METHANOL/.test(t)) rel.add('PCMSB');
+    if (/PLISB|LUBRICANT/.test(t)) rel.add('PLISB');
+    if (/NPOMP/.test(t)) rel.add('NPOMP');
+  });
+  const relDisp = [...rel].map(k => [k, san(k)]);
+  const stageBoost = { 'Bidding': 8, 'Pre-Tendering': 7, 'Tender Plan Approval': 7, 'Strategy Development': 5, 'Initiated with Team': 5, 'Yet to Initiate': 4, 'In progress': 3 };
+  const all = [], tagOpen = {};
+  acp.forEach(a => {
+    if (!/Pre-Award/i.test(a.awardStage || '')) return;
+    if (VA_CLOSED_STAGES.has(a.stage) || a.stageStatus === 'On hold') return;
+    const txt = vaActText(a);
+    const open = VA_OPEN_TYPES.has(a.tenderType);
+    if (open && (companyOffshore || !VA_OFFSHORE.test(txt))) VA_TAGS.forEach(tg => { if (tg.re.test(txt)) tagOpen[tg.id] = (tagOpen[tg.id] || 0) + 1; });
+    const hits = VA_TAGS.filter(tg => myTags.has(tg.id) && tg.re.test(txt));
+    const scopeHit = scopes.has(a.scope);
+    if (!hits.length && !scopeHit) return;
+    let s = 0;
+    hits.slice(0, 3).forEach((h, i) => { s += tagStr[h.id] * (i === 0 ? 1 : 0.5); });
+    if (scopeHit) s += hits.length ? 10 : 18;
+    s += stageBoost[a.stage] || 0;
+    s += open ? 8 : 0;
+    if (!companyOffshore && VA_OFFSHORE.test(txt)) s -= 25;
+    const dept = (a.dept || '').toUpperCase();
+    const relHit = relDisp.find(([k, d]) => d && dept.includes(d.toUpperCase()));
+    if (relHit) s += 8;
+    s = Math.min(100, Math.round(s));
+    if (!hits.length) s = Math.min(s, 40);
+    if (s < 25) return;
+    all.push({ id: a.id, title: a.title, bu: a.bu, dept: a.dept, stage: a.stage, type: a.tenderType, plan: a.plan, target: a.target, scope: a.scope, score: s, open,
+      fit: s >= 70 ? 'Strong' : s >= 45 ? 'Good' : 'Possible', tags: hits.map(h => h.label), scopeHit, tgtIso: vaTgtIso(a.target), relationship: relHit ? relHit[1] : null });
+  });
+  all.sort((a, b) => b.score - a.score || (a.tgtIso || '9').localeCompare(b.tgtIso || '9'));
+  R.opps = all;
+  caps.forEach(c => { c.market = tagOpen[c.id] || 0; });
+  const openOnly = all.filter(o => o.open);
+  const byCount = (arr, k) => { const m = {}; arr.forEach(x => m[x[k]] = (m[x[k]] || 0) + 1); return Object.entries(m).sort((a, b) => b[1] - a[1]); };
+  R.oppSummary = {
+    open: openOnly.length, watch: all.length - openOnly.length,
+    strong: openOnly.filter(o => o.fit === 'Strong').length,
+    actNow: openOnly.filter(o => ['Bidding', 'Pre-Tendering', 'Tender Plan Approval'].includes(o.stage)).length,
+    overdue: openOnly.filter(o => o.tgtIso && o.tgtIso < today).length,
+    withRel: openOnly.filter(o => o.relationship).length,
+    byBU: byCount(openOnly, 'bu'), byDept: byCount(openOnly, 'dept').slice(0, 6), byScope: byCount(openOnly, 'scope').slice(0, 6),
+  };
+  const deptsUp = acp.map(a => (a.dept || '').toUpperCase());
+  R.relationships = relDisp.filter(([k, d]) => d && deptsUp.some(x => x.includes(d.toUpperCase()))).map(x => x[1]);
+  R.relAll = relDisp.map(x => x[1]);
+
+  /* ── 4. demand outside current coverage ── */
+  const uncovered = {};
+  acp.forEach(a => {
+    if (!/Pre-Award/i.test(a.awardStage || '') || !VA_OPEN_TYPES.has(a.tenderType) || VA_CLOSED_STAGES.has(a.stage) || a.stageStatus === 'On hold') return;
+    if (scopes.has(a.scope)) return;
+    uncovered[a.scope] = (uncovered[a.scope] || 0) + 1;
+  });
+  R.gaps = Object.entries(uncovered).map(([scope, n]) => ({ scope, n, adjacent: (VA_ADJ[scope] || []).filter(s => scopes.has(s)) }))
+    .sort((a, b) => (b.adjacent.length ? 1000 : 0) + b.n - ((a.adjacent.length ? 1000 : 0) + a.n)).slice(0, 8);
+
+  /* ── 5. people & capacity ── */
+  const team = P.team || [];
+  const yrs = team.map(t => t.years).filter(x => x != null);
+  const roleIds = new Set(); team.forEach(t => t.roles.forEach(r => roleIds.add(r))); if (S) S.depts.forEach(d => roleIds.add(d));
+  const wanted = ['hse', 'qaqc', 'commercial', 'planner'];
+  const missingRoles = (team.length || (S && S.depts.length)) ? wanted.filter(r => !roleIds.has(r)).map(r => VA_ROLES.find(x => x.id === r).label) : [];
+  const dur = r => (r.endY != null && r.startY != null) ? r.endY - r.startY : 0;
+  const events = own.filter(r => r.manhours && dur(r) <= 1), frameworks = own.filter(r => r.manhours && dur(r) > 1);
+  const bigEvent = events.reduce((a, r) => (!a || r.manhours > a.manhours) ? r : a, null);
+  const bigFw = frameworks.reduce((a, r) => (!a || r.manhours > a.manhours) ? r : a, null);
+  const staff = P.staff ? P.staff.total : null;
+  const lead = S ? S.leaders : [];
+  R.people = {
+    teamN: team.length, avgYears: yrs.length ? Math.round(yrs.reduce((a, b) => a + b, 0) / yrs.length) : null,
+    degree: team.filter(t => ['degree', 'master', 'phd', 'bachelor'].includes(t.qual)).length,
+    certOnly: team.filter(t => t.qual === 'certificate' || t.qual === 'diploma').length, notStated: team.filter(t => t.qual === 'not stated').length,
+    pe: team.some(t => t.pe), missingRoles, roles: [...roleIds], staff, fteHours: staff ? staff * VA_HOURS_PER_FTE : null,
+    bigEvent: bigEvent ? bigEvent.manhours : null, bigFw: bigFw ? bigFw.manhours : null,
+    leaders: lead.length, leadersDegree: lead.filter(l => ['degree', 'master', 'phd'].includes(l.level)).length, leadersSafetyCert: lead.filter(l => l.safetyCert).length,
+    equip: S ? S.equip : null, depts: S ? S.depts : [],
+  };
+
+  /* ── 6. track record ── */
+  const cpPlms = vaCounterparties(own);
+  const via = sup.filter(p => !p.direct), viaCount = {};
+  via.forEach(p => { const k = p.client.replace(/\s+(Sdn\.?\s*Bhd\.?|Eng)\b.*$/i, '').trim() || p.client; viaCount[k] = (viaCount[k] || 0) + 1; });
+  const viaTop = Object.entries(viaCount).sort((a, b) => b[1] - a[1]).slice(0, 3);
+  const directClients = {}; supDirect.forEach(p => { directClients[p.opu] = (directClients[p.opu] || 0) + 1; });
+  const lastOwn = own.reduce((a, r) => Math.max(a, r.endY || 0), 0) || null;
+  const lastSup = sup.reduce((a, p) => Math.max(a, p.ongoing ? yNow : (p.endY || 0)), 0) || null;
+  const siteCount = {}; own.forEach(r => r.sites.forEach(s => siteCount[s] = (siteCount[s] || 0) + 1)); sup.forEach(p => p.sites.forEach(s => siteCount[s] = (siteCount[s] || 0) + 1));
+  const siteCountAll = {}; inh.forEach(r => r.sites.forEach(s => siteCountAll[s] = (siteCountAll[s] || 0) + 1));
+  const byYear = {}; sup.forEach(p => { const y = p.endY || p.startY; if (y) byYear[y] = (byYear[y] || 0) + 1; });
+  if (!sup.length) own.forEach(r => { const y = r.endY || r.startY; if (y) byYear[y] = (byYear[y] || 0) + 1; });
+  const byScopeSup = {}; sup.forEach(p => byScopeSup[p.scope] = (byScopeSup[p.scope] || 0) + 1);
+  R.track = {
+    total: P.exp.rows.length, own: own.length, inherited: inh.length, lastOwn, recent: own.filter(r => (r.endY || 0) >= yNow - 2).length,
+    values: own.filter(r => r.value).map(r => r.value), counterparties: cpPlms.slice(0, 4), topCpShare: cpPlms.length && own.length ? Math.round(cpPlms[0].n / own.length * 100) : null,
+    sites: Object.entries(siteCount).sort((a, b) => b[1] - a[1]), inheritedSites: Object.entries(siteCountAll).sort((a, b) => b[1] - a[1]),
+    mhOwn: events.reduce((a, r) => a + r.manhours, 0), byYear: Object.entries(byYear).sort((a, b) => a[0] - b[0]),
+    sup: sup.length ? { n: sup.length, direct: supDirect.length, via: via.length, directShare: Math.round(supDirect.length / sup.length * 100), recent24: supRecent.length, ongoing: sup.filter(p => p.ongoing).length,
+      last: lastSup, byScope: Object.entries(byScopeSup).sort((a, b) => b[1] - a[1]), viaTop, directClients: Object.entries(directClients).sort((a, b) => b[1] - a[1]),
+      tanks: S.tanks, largestTank: S.tanks ? S.tanks.maxDia : null } : null,
+  };
+
+  /* ── 7. other markets the registrations open ── */
+  R.other = { cidb: S && S.cidb, mof: S && S.mof, mofDescs: S && S.mof ? S.mof.descs : [] };
+
+  /* ── 8. SWEC tiering pathway (needs tiering data) ── */
+  R.tier = (ctx.tier && P.swec.length) ? vaTierAnalysis(P, Object.assign({}, ctx, { myTags, offshore: companyOffshore })) : null;
+
+  /* ── 9. action plan ── */
+  vaBuildActions(R, P, own, dealers, ctx);
+  return R;
+}
+
+/* ───────── tiering pathway ───────── */
+function vaNormTitle(s) {
+  return String(s).toLowerCase().replace(/&/g, ' and ').replace(/[^a-z0-9/ ]+/g, ' ').split(/\s+/)
+    .map(w => w.replace(/s$/, '')).filter(w => w && !['and', 'of', 'the', 'for', 'service', 'other', 'work', 'general', 'a', 'in', 'on'].includes(w));
+}
+function vaTierMap(P, T) {
+  const codeIdx = {};
+  T.swec.forEach(x => { const t = JSON.stringify([x.d, x.ar, x.tr, x.ae]); (t.match(/\b\d{8}[PS]\b/g) || []).forEach(c => { (codeIdx[c] ||= new Set()).add(x.c); }); });
+  const byName = {}; T.swec.forEach(x => byName[x.c] = x);
+  const key = s => vaNormTitle(s).sort().join(' ');
+  const nameIdx = {}; T.swec.forEach(x => { (nameIdx[key(x.c)] ||= []).push(x); });
+  const out = [];
+  P.swec.forEach(sw => {
+    let names = codeIdx[sw.code] ? [...codeIdx[sw.code]] : [], how = 'code';
+    if (!names.length) {
+      const k = key(sw.title);
+      if (k && nameIdx[k]) { names = [nameIdx[k].sort((a, b) => (b.s25 || 0) - (a.s25 || 0))[0].c]; how = 'name'; }
+    }
+    if (!names.length && sw.title.length >= 10) {          // titles of merged old codes are quoted in the rationale text
+      const q = sw.title.toLowerCase();
+      const hit = T.swec.find(x => String(x.ar || '').toLowerCase().includes(q));
+      if (hit) { names = [hit.c]; how = 'merged'; }
+    }
+    out.push({ sw, entries: names.map(n => byName[n]).filter(Boolean), how: names.length ? how : null });
+  });
+  return out;
+}
+function vaTierAnalysis(P, ctx) {
+  const T = ctx.tier, map = vaTierMap(P, T);
+  const held = new Map(); map.forEach(m => m.entries.forEach(e => held.set(e.c, e)));
+  const heldArr = [...held.values()];
+  const spend = heldArr.reduce((a, e) => a + (e.s25 || 0), 0);
+  const tiers = {}, arch = {}; heldArr.forEach(e => { tiers[e.t] = (tiers[e.t] || 0) + 1; arch[e.a] = (arch[e.a] || 0) + 1; });
+  const kd = ctx.kdem || {};
+  const kaoHeld = heldArr.reduce((a, e) => a + ((kd[e.c] || {}).n || 0), 0);
+  const byName = {}; T.swec.forEach(x => byName[x.c] = x);
+  const OFF = /offshore|subsea|underwater|floating|fpso|\bfso\b|flng|\bwells?\b|drilling|decommission|vessel|crew boat|helicopter|anchor|marine|seismic|metocean|diving|\brov\b|accommodation work|geophysic/i;
+  const okOff = x => ctx.offshore || !OFF.test(x.c || x);
+  const my = ctx.myTags || new Set();
+  const relev = x => vaTagsOf(x.c + ' ' + String(x.d || '').slice(0, 240)).filter(t => my.has(t)).length;
+  const t1 = [];
+  Object.entries(T.tier1s).filter(([name]) => okOff(name)).forEach(([name, v]) => {
+    const feeders = new Set(); (v.g || []).forEach(g => (g.i || []).forEach(i => feeders.add(i[0])));
+    const reach = (T.ecosystems || {});
+    const heldF = [...feeders].filter(f => held.has(f));
+    const viaEco = heldArr.filter(e => (reach[e.c] || []).includes(name)).map(e => e.c);
+    const hs = new Set([...heldF, ...viaEco]);
+    if (!hs.size) return;
+    const missing = [...feeders].filter(f => !held.has(f) && byName[f]).map(f => byName[f]);
+    const hc = new Set(heldArr.map(e => (T.classOf || {})[e.c]).filter(Boolean));
+    const cl = x => hc.has((T.classOf || {})[x.c]) ? 1 : 0;
+    t1.push({ name, vc: v.vc, held: [...hs], feeders: feeders.size, coverage: feeders.size ? Math.round(heldF.length / feeders.size * 100) : 0, missing: missing.filter(okOff).sort((a, b) => relev(b) - relev(a) || cl(b) - cl(a) || (b.s25 || 0) - (a.s25 || 0)).slice(0, 6), t1spend: (byName[name] || {}).s25 || 0, t1arch: (byName[name] || {}).a });
+  });
+  t1.sort((a, b) => b.coverage - a.coverage || b.held.length - a.held.length);
+  const classes = new Set(heldArr.map(e => (T.classOf || {})[e.c]).filter(Boolean));
+  const cand = T.swec.filter(x => okOff(x) && x.t !== 'Tier 1' && !held.has(x.c) && classes.has((T.classOf || {})[x.c]) && ['Local Self-Operated', 'Local Agent'].includes(x.sc) && (x.s25 || 0) > 0 && x.ps === 'Service')
+    .sort((a, b) => relev(b) - relev(a) || (b.s25 || 0) - (a.s25 || 0)).slice(0, 8).map(x => ({ name: x.c, tier: x.t, arch: x.a, sc: x.sc, s25: x.s25, cls: (T.classOf || {})[x.c], kao: (kd[x.c] || {}).n || 0 }));
+  return {
+    mapped: map.filter(m => m.entries.length).length, total: P.swec.length, unmapped: map.filter(m => !m.entries.length).map(m => m.sw),
+    held: heldArr.map(e => ({ name: e.c, tier: e.t, arch: e.a, s25: e.s25, sc: e.sc, kao: (kd[e.c] || {}).n || 0 })).sort((a, b) => (b.s25 || 0) - (a.s25 || 0)),
+    spend, tiers, arch, kaoHeld, t1: t1.slice(0, 5), cand,
+  };
+}
+
+/* ───────── action plan ───────── */
+function vaBuildActions(R, P, own, dealers, ctx) {
+  const A = R.actions;
+  const san = ctx.san || (x => x);
+  const add = (when, title, why, area) => A.push({ when, title, why, area });
+  const byId = Object.fromEntries(R.checks.map(c => [c.id, c]));
+  const NOW = 'Now (next 30 days)', Q = 'Next 3 months', H = 'Next 6–12 months';
+  const specAfs = !!(byId.spec && byId.spec.action && P.special && P.special.mentionsAfs);   // same fix as the audited-accounts action
+  ['spec', 'afs', 'nw', 'lic', 'flags', 'cert', 'cidb', 'mof'].forEach(id => { const c = byId[id]; if (id === 'afs' && specAfs) return; if (c && c.status === 'risk' && c.action) add(NOW, c.action, c.detail, 'Compliance'); });
+  ['afs', 'princ', 'cert', 'cidb', 'lic', 'nw', 'regsync'].forEach(id => { const c = byId[id]; if (id === 'afs' && specAfs) return; if (c && c.status === 'warn' && c.action) add(Q, c.action, c.detail, 'Compliance'); });
+  if (byId.iso14001) add(H, byId.iso14001.action, byId.iso14001.detail, 'Compliance');
+  const top = R.opps.filter(o => o.open && ['Bidding', 'Pre-Tendering', 'Tender Plan Approval'].includes(o.stage)).slice(0, 5);
+  if (top.length) add(NOW, 'Prepare bid packs for the ' + top.length + ' best-fitting tenders that are already in bidding or pre-tender (' + top.map(o => o.id).join(', ') + ').', 'Highest fit scores among tenders that can still be bid.', 'Tenders');
+  const early = R.opps.filter(o => o.open && o.fit !== 'Possible' && ['Yet to Initiate', 'Initiated with Team', 'Strategy Development'].includes(o.stage));
+  if (early.length) add(Q, 'Register interest early with the buying departments for ' + early.length + ' well-matched tenders that have not started (' + (R.oppSummary.byDept.slice(0, 3).map(d => d[0]).join(', ')) + ').', 'Early engagement shapes scope and shortlists.', 'Tenders');
+  if (R.relationships.length && R.oppSummary.withRel) add(Q, 'Ask the existing client teams (' + R.relationships.join(', ') + ') about forward plans: ' + R.oppSummary.withRel + ' matched open tenders sit in departments you have already worked for.', 'Existing relationships shorten the path to the shortlist.', 'Tenders');
+  R.caps.filter(c => /^Registered, (no project|thin|key-person)/.test(c.verdict)).slice(0, 4).forEach(c => add(Q, 'Build a project-evidence pack for "' + c.label + '" (' + c.swecTitles.slice(0, 3).join('; ') + (c.swecTitles.length > 3 ? '…' : '') + '): completion certificates, purchase orders, client references.', c.swec + ' SWEC' + (c.swec === 1 ? '' : 's') + ' registered but ' + (c.own ? 'only ' + c.own : 'no') + ' own project' + (c.own === 1 ? '' : 's') + ' documented.', 'Capability'));
+  R.caps.filter(c => /^Registered, evidence ageing/.test(c.verdict)).slice(0, 3).forEach(c => add(Q, 'Refresh the evidence for "' + c.label + '": the latest documented project ended in ' + c.last + '. Add recent work or references.', c.swec + ' registered SWEC' + (c.swec === 1 ? '' : 's') + '; recent tenders ask for recent references.', 'Capability'));
+  R.caps.filter(c => c.verdict === 'Experience, not registered').slice(0, 3).forEach(c => add(Q, 'Apply for SWEC registration covering "' + c.label + '": you already have ' + c.own + ' completed project' + (c.own === 1 ? '' : 's') + ' to support it.', 'Experience exists without a matching approved SWEC.', 'Capability'));
+  const pl = R.people;
+  if (pl.missingRoles.length) add(H, 'Add or formally designate roles for: ' + pl.missingRoles.join(', ') + '.', 'Not visible in the documents provided; evaluators check these roles in technical submissions.', 'People');
+  if (pl.teamN && pl.certOnly >= Math.ceil(pl.teamN / 3)) add(H, 'Upskill: sponsor degree-level or professional qualifications (for example an engineering degree, professional engineer or chartered status, turnaround or project-management certification) for the ' + pl.certOnly + ' certificate or diploma-qualified managers.', pl.degree + ' of ' + pl.teamN + ' listed managers hold a degree.', 'People');
+  if (pl.notStated) add(Q, 'Complete qualification details for ' + pl.notStated + ' management-team record' + (pl.notStated === 1 ? '' : 's') + ' with no qualification stated.', 'Gaps in the record weaken technical scoring.', 'People');
+  if (pl.fteHours && pl.bigEvent) add(H, 'Plan capacity for larger packages: ' + vaPlural(pl.staff, 'permanent staff member') + ' give roughly ' + Math.round(pl.fteHours / 1000) + 'k productive manhours a year (assuming ' + VA_HOURS_PER_FTE.toLocaleString('en-US') + ' hours each); the largest single event on record is ' + pl.bigEvent.toLocaleString('en-US') + ' manhours. Pre-arrange a vetted manpower pool or subcontractor panel before bidding bigger bands.', 'Capacity is the usual constraint above the 100k manhour band.', 'People');
+  const tr = R.track;
+  if (tr.inherited && tr.own && tr.inherited / tr.total >= 0.25) add(H, 'Reduce reliance on key-person experience: ' + tr.inherited + ' of ' + tr.total + ' projects on the licence record pre-date the company or belong to a shareholder\'s earlier employer. Win and document more directly-held contracts.', 'Evaluators weight the company\'s own delivered projects.', 'Track record');
+  if (tr.sup && tr.sup.directShare <= 40) add(H, 'Move more work from main-contractor subcontracts to direct purchase orders: ' + tr.sup.via + ' of ' + tr.sup.n + ' listed projects (' + (100 - tr.sup.directShare) + '%) came through other contractors' + (tr.sup.viaTop.length ? ', mainly ' + tr.sup.viaTop.slice(0, 2).map(v => v[0] + ' (' + v[1] + ')').join(' and ') : '') + '.', 'Direct awards build the company\'s own record and margins.', 'Track record');
+  else if (tr.topCpShare && tr.topCpShare >= 35 && tr.counterparties.length) add(H, 'Diversify clients: ' + tr.counterparties[0].name + ' appears in ' + tr.topCpShare + '% of your own projects. Target direct or second-tier clients to reduce dependency.', 'Concentration risk on one main contractor.', 'Track record');
+  if (tr.sup && tr.sup.directClients.length && tr.sup.directClients[0][1] >= 5) add(Q, 'Turn repeat direct work into term agreements: ' + tr.sup.directClients.slice(0, 2).map(d => san(d[0]) + ' (' + d[1] + ' orders)').join(' and ') + '. Offer a rate-card or term contract to replace one-off purchase orders.', 'Repeat small orders usually mean a term contract is cheaper for the client too.', 'Growth');
+  if (!tr.sup && tr.lastOwn && +R.today.slice(0, 4) - tr.lastOwn >= 1 && tr.recent === 0) add(Q, 'Refresh the track record: the most recent own project ended in ' + tr.lastOwn + '.', 'Recent references score higher.', 'Track record');
+  const t = R.tier;
+  if (t) {
+    const p = t.t1[0];
+    if (p && p.missing.length) add(H, 'Pathway to the "' + p.name + '" Tier 1 code: you hold ' + p.held.length + ' feeder code' + (p.held.length === 1 ? '' : 's') + '. Next best SWECs to add: ' + p.missing.slice(0, 3).map(m => m.c).join('; ') + '.', 'Tier 1 ecosystems are the largest and most strategic work packages.', 'SWEC strategy');
+    if (t.cand.length) add(H, 'Consider SWEC registrations in your current classes with the most 2025 market spend: ' + t.cand.slice(0, 3).map(c => c.name + ' (RM ' + c.s25.toFixed(1) + 'M)').join('; ') + '.', 'Adjacent, locally-served codes with proven spend.', 'SWEC strategy');
+  }
+  const g = R.gaps.filter(x => x.adjacent.length).slice(0, 3);
+  if (g.length) add(H, 'Explore adjacent scopes with open demand: ' + g.map(x => x.scope + ' (' + x.n + ' open tenders)').join('; ') + '.', 'Adjacent to scopes you already cover.', 'Growth');
+  if (R.other && R.other.mof && R.other.mofDescs.length) add(H, 'Use the Ministry of Finance registration (' + R.other.mof.fields + ' fields, valid to ' + vaFmtDate(R.other.mof.to) + ') to bid for government work alongside oil and gas: ' + R.other.mofDescs.slice(0, 4).map(d => d.replace(/^.*?:\s*/, '').replace(/\s*\(.*$/, '')).join('; ') + '.', 'Broadens the customer base beyond one sector.', 'Growth');
+  const order = { [NOW]: 0, [Q]: 1, [H]: 2 };
+  A.sort((a, b) => order[a.when] - order[b.when]);
+  const seen = new Set(); R.actions = A.filter(a => !seen.has(a.title) && seen.add(a.title));
+}
+
+
+/* ───────── Vendor Advisor: UI (upload, report, PDF) ───────── */
+const VA = { docs: [], seq: 0, R: null, bound: false, opts: { openOnly: true, fit: 'all', shown: 25 }, busy: false };
+const vaEl = id => document.getElementById(id);
+const vaE = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const vaT = s => vaE(typeof sanitizeCopy === 'function' ? sanitizeCopy(String(s == null ? '' : s)) : String(s == null ? '' : s));
+const VA_STATUS = { ok: ['OK', '#059669'], warn: ['Watch', '#d97706'], risk: ['Action needed', '#dc2626'], info: ['Note', '#2563eb'] };
+const vaPill = (text, color) => `<span class="va-pill" style="--c:${color}">${text}</span>`;
+const vaStatusPill = s => { const [t, c] = VA_STATUS[s] || VA_STATUS.info; return vaPill(t, c); };
+function vaTodayIso() { const d = new Date(), p = n => String(n).padStart(2, '0'); return d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate()); }
+function vaScopesFromText(title, code) {
+  const t = String(title).toLowerCase(), out = new Set();
+  if (typeof KEYWORD_SCOPE_MAP !== 'undefined') KEYWORD_SCOPE_MAP.forEach(([terms, scope]) => {
+    if (terms.some(k => new RegExp('(^|[^a-z])' + k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '([^a-z]|$)').test(t))) out.add(scope);
+  });
+  if (code && typeof SWEC_TO_SCOPE !== 'undefined' && SWEC_TO_SCOPE[code]) out.add(SWEC_TO_SCOPE[code]);
+  return [...out];
+}
+
+/* ── input handling ── */
+function vaClassify(t) { return (/SWEC|Scope of Works/i.test(t) && /Company Record Status|Registration Number|Company Details|Company Name\s*:/i.test(t)) ? 'plms' : 'support'; }
+function vaMsg(text, isErr) { const e = vaEl('vaMsg'); if (!e) return; e.textContent = text || ''; e.classList.toggle('err', !!isErr); }
+function vaLoadPdfJs() {
+  return new Promise((res, rej) => {
+    if (window.pdfjsLib) return res(window.pdfjsLib);
+    const s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+    s.onload = () => { window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js'; res(window.pdfjsLib); };
+    s.onerror = () => rej(new Error('The PDF reader could not be loaded. Check your connection, or paste the text instead.'));
+    document.head.appendChild(s);
+  });
+}
+async function vaPdfText(file) {
+  const lib = await vaLoadPdfJs();
+  const pdf = await lib.getDocument({ data: await file.arrayBuffer() }).promise;
+  let out = '';
+  for (let i = 1; i <= pdf.numPages; i++) {
+    const tc = await (await pdf.getPage(i)).getTextContent();
+    out += tc.items.map(it => it.str + (it.hasEOL ? '\n' : ' ')).join('') + '\n';
+  }
+  return out.replace(/[ \t\u00a0]+/g, ' ').replace(/ ?\n ?/g, '\n');   // the PDF reader emits every space as its own item
+}
+async function vaAddFiles(files) {
+  for (const f of Array.from(files || [])) {
+    try {
+      vaMsg('Reading ' + f.name + '…');
+      const isPdf = /\.pdf$/i.test(f.name) || f.type === 'application/pdf';
+      const text = isPdf ? await vaPdfText(f) : await f.text();
+      if (text.replace(/\s/g, '').length < 200) { vaMsg(f.name + ' has almost no readable text (scanned or image-only pages). Convert it to Markdown or text first, or paste the text.', true); continue; }
+      vaAddDoc(f.name, text);
+      vaMsg('');
+    } catch (e) { vaMsg(e.message || 'Could not read ' + f.name, true); }
+  }
+}
+function vaAddDoc(name, text) {
+  VA.docs.push({ id: ++VA.seq, name, text, kind: vaClassify(text) });
+  vaRenderFiles();
+}
+function vaRenderFiles() {
+  const box = vaEl('vaFiles'); if (!box) return;
+  box.innerHTML = VA.docs.map(d => `<div class="va-file"><i class="fa-solid ${d.kind === 'plms' ? 'fa-file-contract' : 'fa-file-lines'}" aria-hidden="true"></i>
+    <span class="nm" title="${vaE(d.name)}">${vaE(d.name)}</span>
+    <span class="sz">${Math.max(1, Math.round(d.text.length / 1000))}k characters</span>
+    <select data-id="${d.id}" aria-label="Type of ${vaE(d.name)}"><option value="plms"${d.kind === 'plms' ? ' selected' : ''}>Licence record</option><option value="support"${d.kind === 'support' ? ' selected' : ''}>Corporate profile</option></select>
+    <button type="button" class="va-x" data-rm="${d.id}" aria-label="Remove ${vaE(d.name)}"><i class="fa-solid fa-xmark"></i></button></div>`).join('');
+  box.querySelectorAll('select').forEach(s => s.onchange = () => { const d = VA.docs.find(x => x.id == s.dataset.id); if (d) { d.kind = s.value; vaRenderFiles(); } });
+  box.querySelectorAll('[data-rm]').forEach(b => b.onclick = () => { VA.docs = VA.docs.filter(x => x.id != b.dataset.rm); vaRenderFiles(); });
+  const run = vaEl('vaRun'); if (run) run.disabled = !VA.docs.length;
+}
+function initAdvisorTab() {
+  if (VA.bound) return; VA.bound = true;
+  const drop = vaEl('vaDrop'), inp = vaEl('vaFile');
+  drop.addEventListener('click', () => inp.click());
+  drop.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); inp.click(); } });
+  ['dragenter', 'dragover'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add('drag'); }));
+  ['dragleave', 'drop'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.remove('drag'); }));
+  drop.addEventListener('drop', e => vaAddFiles(e.dataTransfer.files));
+  inp.addEventListener('change', () => { vaAddFiles(inp.files); inp.value = ''; });
+  vaEl('vaAddPaste').addEventListener('click', () => { const t = vaEl('vaPaste').value; if (t.trim().length < 100) return vaMsg('Paste more text first.', true); vaAddDoc('Pasted text', t); vaEl('vaPaste').value = ''; vaMsg(''); });
+  vaEl('vaRun').addEventListener('click', vaGenerate);
+  vaEl('vaSample').addEventListener('click', () => { VA.docs = []; vaAddDoc('sample-licence-record.txt', VA_SAMPLE_PLMS); vaAddDoc('sample-corporate-profile.md', VA_SAMPLE_PROFILE); vaGenerate(); });
+  window.addEventListener('beforeprint', vaBeforePrint); window.addEventListener('afterprint', vaAfterPrint);
+}
+let vaOldTitle = null;
+function vaBeforePrint() {
+  const r = vaEl('vaReport'); if (!r || r.style.display === 'none' || !document.getElementById('tab-advisor').classList.contains('active')) return;
+  document.documentElement.classList.add('va-print');
+  vaOldTitle = document.title; document.title = 'Vendor report - ' + ((VA.R && VA.R.name) || 'company').replace(/[^\w .&-]+/g, '');
+}
+function vaAfterPrint() { document.documentElement.classList.remove('va-print'); if (vaOldTitle) { document.title = vaOldTitle; vaOldTitle = null; } }
+function vaPdf() { vaBeforePrint(); window.print(); setTimeout(vaAfterPrint, 1500); }
+function vaReset() { vaEl('vaReport').style.display = 'none'; document.querySelector('#tab-advisor .va-input').style.display = ''; window.scrollTo({ top: 0, behavior: 'smooth' }); }
+
+/* ── run ── */
+async function vaGenerate() {
+  if (VA.busy || !VA.docs.length) return;
+  VA.busy = true; const btn = vaEl('vaRun'); btn.disabled = true; vaMsg('Analysing…');
+  try {
+    const plms = VA.docs.filter(d => d.kind === 'plms'), sup = VA.docs.filter(d => d.kind === 'support');
+    const P = plms.length ? vaParseProfile(plms[0].text) : null;
+    const S = sup.length ? vaParseSupport(sup.map(d => d.text).join('\n\n')) : null;
+    let tierOk = false;
+    if (typeof trLoad === 'function') tierOk = await Promise.race([new Promise(res => trLoad(() => res(true))), new Promise(res => setTimeout(() => res(false), 12000))]);
+    const R = vaAnalyze(P, { today: vaTodayIso(), acp: data, tier: tierOk ? TIER_DATA : null, kdem: tierOk ? TR.kdem : {}, support: S, san: sanitizeCopy, scopesFromText: vaScopesFromText });
+    R.extraPlms = Math.max(0, plms.length - 1);
+    VA.R = R; VA.opts = { openOnly: true, fit: 'all', shown: 25 };
+    vaRenderReport();
+    document.querySelector('#tab-advisor .va-input').style.display = 'none';
+    vaEl('vaReport').style.display = '';
+    window.scrollTo({ top: 0 });
+    vaMsg('');
+  } catch (e) { console.error(e); vaMsg('Something went wrong while analysing these files: ' + (e.message || e), true); }
+  VA.busy = false; btn.disabled = !VA.docs.length;
+}
+
+/* ── report ── */
+function vaSec(id, title, sub, body) { return `<section class="va-card va-sec" id="${id}"><h3>${title}</h3>${sub ? `<p class="va-sub">${sub}</p>` : ''}${body}</section>`; }
+function vaKpi(label, value, sub, color) { return `<div class="kpi"><div class="kpi-label">${label}</div><div class="kpi-value"${color ? ` style="color:${color}"` : ''}>${value}</div><div class="kpi-sub">${sub}</div></div>`; }
+const vaN = n => Number(n).toLocaleString('en-US');
+
+function vaSummary(R) {
+  const L = [], os = R.oppSummary;
+  const risks = R.checks.filter(c => c.status === 'risk'), warns = R.checks.filter(c => c.status === 'warn');
+  if (R.readiness == null) L.push('<b>Readiness is not scored</b> because no licence record was supplied. Add it to check compliance, financial standing and expiry dates.');
+  else L.push(`<b>Readiness ${R.readiness}/100.</b> ` + (risks.length ? `${vaPlural(risks.length, 'item')} need action now: ${risks.slice(0, 3).map(c => vaT(c.label.toLowerCase())).join('; ')}.` : warns.length ? `No blocking issues; ${vaPlural(warns.length, 'item')} to tidy up.` : 'No compliance issues were found in the documents.'));
+  L.push(`<b>${vaN(os.open)} open tenders match</b> the capabilities found, of which ${vaN(os.strong)} are strong fits and ${vaN(os.actNow)} are already in bidding or pre-tender.` + (R.oppSummary.withRel ? ` ${vaN(os.withRel)} sit in departments the company has already worked for.` : ''));
+  const core = R.caps.filter(c => c.cls === 'ok').sort((a, b) => b.own - a.own).slice(0, 3);
+  if (core.length) L.push(`<b>Strongest, best-evidenced capabilities:</b> ${core.map(c => vaT(c.label.toLowerCase()) + ` (${c.own} projects, ${vaN(c.market)} open tenders)`).join('; ')}.`);
+  const gaps = R.caps.filter(c => c.cls === 'warn' || c.cls === 'info').sort((a, b) => b.market - a.market).slice(0, 3);
+  if (gaps.length) L.push(`<b>Evidence to build:</b> ${gaps.map(c => vaT(c.label.toLowerCase()) + ` (${vaT(c.verdict.toLowerCase())})`).join('; ')}.`);
+  const g = [];
+  if (R.tier && R.tier.t1[0]) g.push(`the “${vaT(R.tier.t1[0].name)}” Tier 1 pathway`);
+  if (R.gaps.filter(x => x.adjacent.length)[0]) g.push(`adjacent scopes such as ${vaT(R.gaps.filter(x => x.adjacent.length)[0].scope)}`);
+  if (R.other && R.other.mof) g.push('government work through the Ministry of Finance registration');
+  if (g.length) L.push(`<b>Growth routes:</b> ${g.join('; ')}.`);
+  return '<ul class="va-bul">' + L.map(x => `<li>${x}</li>`).join('') + '</ul>';
+}
+function vaPlural(n, w) { return n + ' ' + w + (n === 1 ? '' : 's'); }
+
+function vaRenderReport() {
+  const R = VA.R, P = R.P, S = R.S, os = R.oppSummary, root = vaEl('vaReport');
+  const chips = [];
+  if (P.regNo) chips.push('Reg. ' + P.regNo); if (P.type) chips.push(P.type); if (P.category) chips.push(P.category + ' company'); if (P.status) chips.push('Record: ' + P.status);
+  if (P.locality) chips.push(P.locality); if (P.branchNames && P.branchNames.length) chips.push('Branches: ' + P.branchNames.join(', '));
+  if (P.incYear) chips.push('Incorporated ' + P.incYear);
+  const when = vaFmtDate(R.today);
+  const docs = [R.docs.plms ? 'licence record' : null, R.docs.support ? 'corporate profile' : null].filter(Boolean).join(' and ');
+  const evGaps = R.caps.filter(c => c.cls === 'warn').length;
+  const nowActs = R.actions.filter(a => a.when.startsWith('Now'));
+  const score = R.readiness;
+  const scoreCol = score == null ? 'var(--text3)' : score >= 80 ? '#059669' : score >= 60 ? '#d97706' : '#dc2626';
+
+  let h = `<div class="va-head"><div><div class="va-eyebrow">Vendor development report</div><h2>${vaT(R.name)}</h2>
+    <div class="va-chips">${chips.map(c => `<span class="va-chip">${vaT(c)}</span>`).join('')}</div>
+    <div class="va-sub">Prepared ${when} from the ${docs}. Indicative advice based on the documents supplied; it is not an assessment or award decision.</div></div>
+    <div class="va-tools no-print"><button type="button" class="filter-btn active" onclick="vaPdf()"><i class="fa-solid fa-file-pdf"></i>&nbsp; Download PDF</button><button type="button" class="filter-btn" onclick="vaReset()"><i class="fa-solid fa-rotate-left"></i>&nbsp; New analysis</button></div></div>`;
+
+  h += `<div class="va-kpis">${vaKpi('Readiness score', score == null ? '–' : score + '/100', score == null ? 'needs the licence record' : 'compliance and financial checks', scoreCol)}${vaKpi('Matched open tenders', vaN(os.open), 'new and replacement tenders')}${vaKpi('Strong fits', vaN(os.strong), 'fit score 70 or more', '#059669')}${vaKpi('Act now', vaN(os.actNow), 'bidding or pre-tender', '#d97706')}${vaKpi('Capabilities found', R.caps.length, vaN(evGaps) + ' need evidence')}${vaKpi('Actions', R.actions.length, nowActs.length + ' due within 30 days', nowActs.length ? '#dc2626' : '')}</div>`;
+  h += vaSec('va-summary', 'Summary', '', vaSummary(R));
+  if (nowActs.length) h += `<section class="va-card va-urgent"><h3><i class="fa-solid fa-triangle-exclamation"></i> Do first (next 30 days)</h3><ol class="va-bul">${nowActs.slice(0, 5).map(a => `<li>${vaT(a.title)}<div class="va-why">${vaT(a.why)}</div></li>`).join('')}</ol></section>`;
+  h += vaSec('va-ready', 'Readiness and compliance', 'What evaluators and the licence system check first.', vaReadyHtml(R));
+  h += vaSec('va-opps', 'Upcoming tenders that fit', 'Activities from the Annual Contract Plan that are still open to new bidders (pre-award, not yet in evaluation, not on hold), scored against the capabilities, evidence and relationships found.', vaOppsShell(R));
+  h += vaSec('va-caps', 'Capability map', 'Registered scopes, documented evidence, and how much open demand there is for each.', vaCapsHtml(R));
+  h += vaSec('va-swec', 'SWEC strategy', 'How the registered codes sit in the tiering register, and where a move up or sideways is realistic.', R.tier ? vaTierHtml(R) : '<p class="va-muted">The tiering register could not be loaded, or no licence record was supplied, so this section is skipped.</p>');
+  h += vaSec('va-people', 'People, capacity and upskilling', '', vaPeopleHtml(R));
+  h += vaSec('va-track', 'Track record and relationships', '', vaTrackHtml(R));
+  if (R.other.cidb || R.other.mof) h += vaSec('va-other', 'Other markets the registrations open', '', vaOtherHtml(R));
+  h += vaSec('va-plan', 'Action plan', 'Ordered by when the action should be finished.', vaPlanHtml(R));
+  h += vaSec('va-basis', 'Basis of this report', '', vaBasisHtml(R));
+  root.innerHTML = h;
+  vaRenderOpps();
+  if (typeof enhanceTables === 'function') enhanceTables();
+}
+
+function vaReadyHtml(R) {
+  const groups = {}; R.checks.forEach(c => (groups[c.group] ||= []).push(c));
+  const rows = Object.entries(groups).map(([g, cs]) => `<tr class="va-grp"><td colspan="3">${g}</td></tr>` + cs.map(c => `<tr><td class="va-st">${vaStatusPill(c.status)}</td><td><b>${vaT(c.label)}</b></td><td>${vaT(c.detail)}${c.action ? `<div class="va-why">${vaT(c.action)}</div>` : ''}</td></tr>`).join('')).join('');
+  const parts = R.readinessParts.map(p => `<li>${vaT(p.label)}: ${p.got}/${p.pts}</li>`).join('');
+  return `<div class="va-score-wrap"><div class="va-gauge" style="--p:${R.readiness || 0};--c:${(R.readiness || 0) >= 80 ? '#059669' : (R.readiness || 0) >= 60 ? '#d97706' : '#dc2626'}"><span>${R.readiness == null ? '–' : R.readiness}</span></div>
+    <div class="va-score-txt"><b>${R.readiness == null ? 'No score' : 'Readiness ' + R.readiness + ' out of 100'}</b><br><span class="va-muted">Full marks for OK, half for Watch, none for Action needed. Notes do not count.</span>
+    <details class="no-print"><summary>How the score adds up</summary><ul class="va-bul small">${parts}</ul></details></div></div>
+    <table class="data-table va-table"><tbody>${rows}</tbody></table>`;
+}
+
+function vaOppsShell(R) {
+  const os = R.oppSummary;
+  const bars = (arr, max, col) => arr.map(([k, v]) => `<div class="bar-row"><div class="bar-label">${vaT(k)}</div><div class="bar-track"><div class="bar-fill" style="width:${(v / max * 100).toFixed(1)}%;background:${col}"></div></div><div class="bar-val">${v}</div></div>`).join('');
+  const dMax = Math.max(1, ...os.byDept.map(x => x[1])), sMax = Math.max(1, ...os.byScope.map(x => x[1])), bMax = Math.max(1, ...os.byBU.map(x => x[1]));
+  return `<div class="va-ctrl no-print"><span class="va-lbl">Show</span>
+      <button type="button" class="filter-btn active" data-vo="open">Open tenders (${vaN(os.open)})</button><button type="button" class="filter-btn" data-vo="all">Plus extensions and others (${vaN(os.open + os.watch)})</button>
+      <span class="va-lbl">Fit</span><button type="button" class="filter-btn active" data-vf="all">All</button><button type="button" class="filter-btn" data-vf="good">Good and strong</button><button type="button" class="filter-btn" data-vf="strong">Strong only</button></div>
+    <div class="va-count" id="vaOppCount"></div>
+    <div class="table-scroll"><table class="data-table va-table va-opp"><thead><tr><th>Fit</th><th>ID</th><th>Activity</th><th>Buyer</th><th>Stage</th><th>Target</th><th>Type</th></tr></thead><tbody id="vaOppBody"></tbody></table></div>
+    <div class="va-more no-print"><button type="button" class="filter-btn" id="vaOppMore">Show 25 more</button></div>
+    <div class="va-grid3"><div><h4>Buying departments</h4>${bars(os.byDept, dMax, '#1a6fba')}</div><div><h4>Business units</h4>${bars(os.byBU, bMax, '#534ab7')}</div><div><h4>Scope categories</h4>${bars(os.byScope, sMax, '#0f6e56')}</div></div>
+    ${os.overdue ? `<p class="va-muted">${vaN(os.overdue)} of the matched open tenders already show a target date in the past; they are still open in the plan, so ask the buyer for the revised timeline.</p>` : ''}`;
+}
+function vaRenderOpps() {
+  const R = VA.R, o = VA.opts;
+  let list = R.opps.filter(x => (o.openOnly ? x.open : true) && (o.fit === 'all' || (o.fit === 'good' ? x.score >= 45 : x.score >= 70)));
+  const shown = list.slice(0, o.shown);
+  const col = s => s >= 70 ? '#059669' : s >= 45 ? '#2563eb' : '#d97706';
+  const stageC = s => s === 'Bidding' ? '#059669' : /Pre-Tendering|Tender Plan/.test(s) ? '#2563eb' : s === 'In progress' ? '#6d28d9' : '#6b7280';
+  vaEl('vaOppBody').innerHTML = shown.map(x => `<tr><td><span class="va-fit" style="--c:${col(x.score)}">${x.score}<small>${x.fit}</small></span></td><td class="va-id">${vaE(x.id)}</td>
+    <td><div class="va-ttl">${vaT(x.title)}</div><div class="va-tags">${x.tags.map(t => `<span class="va-chip sm">${vaT(t)}</span>`).join('')}${x.relationship ? `<span class="va-chip sm rel">Worked for: ${vaT(x.relationship)}</span>` : ''}${x.open ? '' : '<span class="va-chip sm">Watch list</span>'}</div></td>
+    <td>${vaT(x.dept)}<br><small>${vaE(x.bu)}</small></td><td>${vaPill(vaE(x.stage), stageC(x.stage))}</td>
+    <td class="${x.tgtIso && x.tgtIso < R.today ? 'va-late' : ''}">${vaE(x.target || '–')}</td><td><small>${vaE(x.type)}</small></td></tr>`).join('') || '<tr><td colspan="7" class="va-muted">No activities match this filter.</td></tr>';
+  vaEl('vaOppCount').textContent = `Showing ${shown.length} of ${vaN(list.length)} matching activities, best fit first.`;
+  const more = vaEl('vaOppMore'); more.style.display = list.length > shown.length ? '' : 'none';
+  more.onclick = () => { VA.opts.shown += 25; vaRenderOpps(); };
+  document.querySelectorAll('#va-opps [data-vo]').forEach(b => { b.classList.toggle('active', (b.dataset.vo === 'open') === o.openOnly); b.onclick = () => { VA.opts.openOnly = b.dataset.vo === 'open'; VA.opts.shown = 25; vaRenderOpps(); }; });
+  document.querySelectorAll('#va-opps [data-vf]').forEach(b => { b.classList.toggle('active', b.dataset.vf === o.fit); b.onclick = () => { VA.opts.fit = b.dataset.vf; VA.opts.shown = 25; vaRenderOpps(); }; });
+}
+
+function vaCapsHtml(R) {
+  const rows = R.caps.slice().sort((a, b) => (b.swec + b.own) - (a.swec + a.own)).map(c => `<tr><td><b>${vaT(c.label)}</b></td><td class="num">${c.swec}</td><td class="num">${c.own}</td><td class="num">${c.direct}</td><td class="num">${c.last || '–'}</td><td class="num">${vaN(c.market)}</td><td>${vaPill(vaT(c.verdict), c.cls === 'ok' ? '#059669' : c.cls === 'warn' ? '#d97706' : '#2563eb')}</td></tr>`).join('');
+  const gaps = R.gaps.slice(0, 6).map(g => `<li><b>${vaT(g.scope)}</b>: ${vaN(g.n)} open tenders${g.adjacent.length ? `, next to what you already do (${g.adjacent.slice(0, 2).map(vaT).join(', ')})` : ''}</li>`).join('');
+  return `<div class="table-scroll"><table class="data-table va-table"><thead><tr><th>Capability</th><th class="num">SWECs</th><th class="num">Projects</th><th class="num">Direct</th><th class="num">Latest</th><th class="num">Open tenders</th><th>Assessment</th></tr></thead><tbody>${rows}</tbody></table></div>
+    <p class="va-muted">Projects is the larger of the licence-record experience and the corporate-profile project list, so the same job is not counted twice. Direct means the purchase order came from the plant owner or operating company.</p>
+    ${gaps ? `<h4>Open demand outside the current scopes</h4><ul class="va-bul">${gaps}</ul>` : ''}`;
+}
+
+function vaTierHtml(R) {
+  const t = R.tier, rm = v => 'RM ' + (v >= 100 ? Math.round(v).toLocaleString('en-US') : v.toFixed(1)) + 'M';
+  const kpis = `<div class="va-kpis small">${vaKpi('SWECs placed in the register', t.mapped + '/' + t.total, 'matched by code or exact name')}${vaKpi('2025 market spend in those codes', rm(t.spend), 'sum over matched codes')}${vaKpi('Tier mix', (t.tiers['Tier 1'] || 0) + ' / ' + (t.tiers['Tier 2'] || 0) + ' / ' + (t.tiers['Tier 3'] || 0), 'Tier 1 / 2 / 3 codes held')}${vaKpi('KAO Sabah outlook', t.kaoHeld ? Math.round(t.kaoHeld * 10) / 10 : 0, 'contracts mapped to your codes')}</div>`;
+  const held = t.held.slice(0, 8).map(h => `<tr><td>${vaT(h.name)}</td><td>${vaE(h.tier)}</td><td>${vaE(h.arch)}</td><td>${vaE(h.sc || '–')}</td><td class="num">${h.s25 != null ? rm(h.s25) : '–'}</td></tr>`).join('');
+  const t1 = t.t1.slice(0, 3).map(p => `<div class="va-path"><div class="va-path-h"><b>${vaT(p.name)}</b> ${p.t1arch ? vaPill(vaE(p.t1arch), '#6d28d9') : ''}</div>
+    <div class="va-path-bar"><div style="width:${Math.max(p.coverage, 2)}%"></div></div>
+    <div class="va-muted">You hold ${p.held.length} feeder code${p.held.length === 1 ? '' : 's'} (${p.coverage}% of the ${p.feeders} feeders). Best next additions:</div>
+    <ul class="va-bul small">${p.missing.slice(0, 4).map(m => `<li>${vaT(m.c)} <span class="va-muted">${m.t} · ${m.s25 != null ? rm(m.s25) : ''}${m.a ? ' · ' + vaE(m.a) : ''}</span></li>`).join('')}</ul></div>`).join('');
+  const cand = t.cand.slice(0, 6).map(c => `<tr><td>${vaT(c.name)}</td><td>${vaE(c.tier)}</td><td>${vaE(c.sc)}</td><td>${vaT(c.cls || '–')}</td><td class="num">${rm(c.s25)}</td></tr>`).join('');
+  return kpis + `<h4>Registered codes with the most market spend</h4><div class="table-scroll"><table class="data-table va-table"><thead><tr><th>Code in register</th><th>Tier</th><th>Archetype</th><th>Supplied by</th><th class="num">2025 spend</th></tr></thead><tbody>${held}</tbody></table></div>
+    ${t1 ? `<h4>Pathways to Tier 1</h4><div class="va-grid3">${t1}</div>` : ''}
+    ${cand ? `<h4>Codes worth registering next</h4><p class="va-muted">Services in the same classes as your current codes, supplied locally today, ranked by 2025 spend and relevance. Offshore and marine codes are left out unless the company has offshore experience. Some may already be covered by registered SWECs that could not be placed (listed below).</p><div class="table-scroll"><table class="data-table va-table"><thead><tr><th>Code in register</th><th>Tier</th><th>Supplied by</th><th>Class</th><th class="num">2025 spend</th></tr></thead><tbody>${cand}</tbody></table></div>` : ''}
+    <p class="va-muted">${t.unmapped.length} registered SWEC${t.unmapped.length === 1 ? '' : 's'} could not be placed with confidence and are left out of these figures${t.unmapped.length ? ': ' + t.unmapped.slice(0, 6).map(s => vaT(s.title)).join('; ') + (t.unmapped.length > 6 ? '…' : '') : ''}.</p>`;
+}
+
+function vaPeopleHtml(R) {
+  const p = R.people, L = [];
+  if (p.teamN) L.push(`<li><b>Management team on the licence record:</b> ${p.teamN} people, average ${p.avgYears != null ? p.avgYears + ' years' : 'n/a'} of experience; ${p.degree} with a degree, ${p.certOnly} certificate or diploma only, ${p.notStated} with no qualification stated${p.pe ? '; a professional engineer title is present' : ''}.</li>`);
+  if (p.leaders) L.push(`<li><b>Directors and key managers in the profile:</b> ${p.leadersDegree} of ${p.leaders} hold a degree or higher${p.leadersSafetyCert ? `; ${p.leadersSafetyCert} hold site-safety or gas-testing certification` : ''}.</li>`);
+  if (p.staff != null) L.push(`<li><b>Permanent staff:</b> ${p.staff}${p.fteHours ? `, about ${vaN(Math.round(p.fteHours / 1000))}k productive manhours a year (assuming ${vaN(VA_HOURS_PER_FTE)} hours each)` : ''}.${p.bigEvent ? ` Largest single event on record: ${vaN(p.bigEvent)} manhours${p.bigFw ? `; largest framework agreement: ${vaN(p.bigFw)} manhours over its term` : ''}.` : ''}</li>`);
+  if (p.depts.length) L.push(`<li><b>Functions visible in the corporate structure:</b> ${p.depts.map(d => (VA_ROLES.find(r => r.id === d) || { label: d }).label.toLowerCase()).join(', ')}.</li>`);
+  if (p.missingRoles.length) L.push(`<li><b>Not visible in the documents:</b> ${p.missingRoles.join(', ').toLowerCase()}.</li>`);
+  if (p.equip) L.push(`<li><b>Equipment listed:</b> ${p.equip.items} item types, ${vaN(p.equip.units)} units, including ${p.equip.welding} welding machines${p.equip.flange ? ', flange machining' : ''}${p.equip.coldCut ? ', cold cutting' : ''}${p.equip.breathingAir ? ' and breathing-air equipment' : ''}.</li>`);
+  const up = R.actions.filter(a => a.area === 'People');
+  return `<ul class="va-bul">${L.join('') || '<li class="va-muted">No people data was found in the documents.</li>'}</ul>${up.length ? `<h4>Upskilling and capacity recommendations</h4><ul class="va-bul">${up.map(a => `<li>${vaT(a.title)}<div class="va-why">${vaT(a.why)}</div></li>`).join('')}</ul>` : ''}`;
+}
+
+function vaTrackHtml(R) {
+  const t = R.track, s = t.sup, L = [];
+  if (s) {
+    L.push(`<li><b>Project list in the profile:</b> ${s.n} projects; ${s.direct} (${s.directShare}%) came straight from the plant owner or operating company and ${s.via} through other contractors${s.viaTop.length ? ', mainly ' + s.viaTop.slice(0, 2).map(v => vaT(v[0]) + ' (' + v[1] + ')').join(' and ') : ''}.</li>`);
+    L.push(`<li><b>Recent activity:</b> ${s.recent24} projects finished or running in the last 24 months${s.ongoing ? `, ${s.ongoing} still ongoing` : ''}; latest year ${s.last || '–'}.</li>`);
+    if (s.directClients.length) L.push(`<li><b>Repeat direct clients:</b> ${s.directClients.slice(0, 5).map(d => vaT(d[0]) + ' (' + d[1] + ')').join(', ')}.</li>`);
+    if (s.byScope.length) L.push(`<li><b>Work by scope:</b> ${s.byScope.slice(0, 6).map(d => vaT(d[0]) + ' (' + d[1] + ')').join(', ')}.</li>`);
+    if (s.tanks) L.push(`<li><b>Major tank construction references:</b> ${s.tanks.refs}, up to ${s.tanks.maxDia} m diameter.</li>`);
+  }
+  if (t.total) L.push(`<li><b>Licence-record experience:</b> ${t.total} entries; ${t.own} are the company's own and ${t.inherited} pre-date the company or belong to a shareholder's earlier employer${t.lastOwn ? `; the latest own project ended in ${t.lastOwn}` : ''}.${t.values.length ? ` Largest stated contract value: RM ${vaN(Math.max(...t.values))}.` : ''}${t.mhOwn ? ` Own single-event manhours add up to ${vaN(t.mhOwn)}.` : ''}</li>`);
+  if (t.counterparties.length && !s) L.push(`<li><b>Most-named counterparties:</b> ${t.counterparties.map(c => vaT(c.name) + ' (' + c.n + ')').join(', ')}.</li>`);
+  if (t.sites.length) L.push(`<li><b>Where the work was done:</b> ${t.sites.slice(0, 5).map(x => vaT(x[0])).join(', ')}.</li>`);
+  if (R.relationships.length) L.push(`<li><b>Buying departments already known to the company:</b> ${R.relationships.map(vaT).join(', ')}.</li>`);
+  const maxY = Math.max(1, ...t.byYear.map(y => y[1]));
+  const yr = t.byYear.length ? `<div class="va-years" role="img" aria-label="Projects per year">${t.byYear.map(([y, n]) => `<div class="va-yr"><div class="va-yr-bar" style="height:${Math.max(4, n / maxY * 60)}px"></div><b>${n}</b><span>${y}</span></div>`).join('')}</div>` : '';
+  return `<ul class="va-bul">${L.join('') || '<li class="va-muted">No project data was found.</li>'}</ul>${yr}`;
+}
+
+function vaOtherHtml(R) {
+  const o = R.other, L = [];
+  if (o.cidb) L.push(`<li><b>CIDB ${vaE(o.cidb.grade || '')}</b> ${o.cidb.cats.length ? '(' + o.cidb.cats.map(vaE).join(', ') + ')' : ''}${o.cidb.to ? ', valid to ' + vaFmtDate(o.cidb.to) : ''}: the company can tender for construction, civil and mechanical and electrical works in these categories, including packages outside oil and gas.</li>`);
+  if (o.mof) L.push(`<li><b>Ministry of Finance registration</b>${o.mof.to ? ', valid to ' + vaFmtDate(o.mof.to) : ''}${o.mof.fields ? ', ' + o.mof.fields + ' fields' : ''}: government agencies can buy from the company in these fields. These tenders are not part of the Annual Contract Plan data used elsewhere in this report.${o.mofDescs.length ? '<ul class="va-bul small">' + o.mofDescs.map(d => `<li>${vaT(d)}</li>`).join('') + '</ul>' : ''}</li>`);
+  return `<ul class="va-bul">${L.join('')}</ul>`;
+}
+
+function vaPlanHtml(R) {
+  const cols = ['Now (next 30 days)', 'Next 3 months', 'Next 6–12 months'];
+  return `<div class="va-plan">${cols.map(c => { const items = R.actions.filter(a => a.when === c); return `<div class="va-col"><h4>${c} <span class="va-muted">${items.length}</span></h4>${items.map(a => `<div class="va-act"><span class="va-chip sm">${vaE(a.area)}</span><div>${vaT(a.title)}</div><div class="va-why">${vaT(a.why)}</div></div>`).join('') || '<p class="va-muted">Nothing here.</p>'}</div>`; }).join('')}</div>`;
+}
+
+function vaBasisHtml(R) {
+  const P = R.P, S = R.S, L = [];
+  if (!P.empty) L.push(`<li><b>Licence record:</b> ${P.swec.length} SWEC rows, ${P.exp.rows.length} experience entries, ${P.team.length} management-team rows${P.staff ? ', staff counts' : ''}, financial and ownership fields, compliance registers, special conditions.${R.extraPlms ? ` ${R.extraPlms} further licence-record file(s) were ignored; only the first is used.` : ''}</li>`);
+  if (S) L.push(`<li><b>Corporate profile:</b> ${S.projects.length} project references, ${S.certs.length} management-system certificate(s)${S.cidb ? ', CIDB registration' : ''}${S.mof ? ', Ministry of Finance registration' : ''}, ${S.leaders.length} key personnel, ${S.depts.length} functions, ${S.equip ? S.equip.items + ' equipment types' : 'no equipment list'}.</li>`);
+  const warn = (P.warnings || []).concat(S && S.warnings ? S.warnings : []);
+  return `<ul class="va-bul">${L.join('')}</ul>${warn.length ? `<p class="va-warn">${warn.map(vaT).join(' ')}</p>` : ''}
+    <details open><summary><b>Parameters considered</b></summary><ul class="va-bul small"><li>Identity and standing: company type, category, record status, locality, branches, incorporation year, licence dates and expiry, special conditions, non-compliance, blacklist, suspension and inactive registers.</li>
+    <li>Financial: paid-up capital, net worth and the audited-accounts date.</li><li>Ownership: Bumiputera participation in equity, directors, management and employment; shareholder concentration.</li>
+    <li>Capability: every registered SWEC (code, title, mode, approval and expiry dates), principals for dealer codes, management roles and qualifications, staff counts, equipment.</li>
+    <li>Evidence: project history (dates, scope, manhours, value, direct or via another contractor), certificates, registrations, recognitions.</li></ul>
+    <p class="va-muted">Not used: addresses, personal names, telephone numbers, email addresses, dates of birth and the name of whoever printed the record.</p></details>
+    <details><summary><b>How the matching works</b></summary><ul class="va-bul small">
+    <li>Open tender: a plan activity that is pre-award, a new or replacement tender, not on hold and not yet in evaluation. Extensions, changes and work orders go on the watch list.</li>
+    <li>Fit score (0 to 100): capability match on the activity title (heavier for registered scopes with recent project evidence), scope category match, tender stage (bidding and pre-tender score highest), an existing relationship with the buying department, and a deduction for offshore or subsea work when the company has none.</li>
+    <li>SWEC placement: by the old code quoted in the tiering register, by exact name, or by the title of a merged old code. Loose look-alikes are not used.</li>
+    <li>Capacity assumes ${vaN(VA_HOURS_PER_FTE)} productive hours per person per year. Adjust for your own roster.</li></ul></details>`;
+}
+
+/* ───────── fictional sample files (no real company) ───────── */
+const VA_SAMPLE_PLMS = `1. Company Name : SAMPLE PLANT SERVICES SDN. BHD.
+10. Company Sector : License
+11. Company Type : PRIVATE LIMITED
+12. Date of First License : 10.03.2023
+13. License Start Date : 01.02.2026
+14. Expired Date : 31.01.2029
+15. Registration Number : 202101012345 (1412345A (ROC))
+16. Paid-up Capital : RM 500,000
+17. Audit Financial Date : 31.12.2025
+18. Net Worth : RM 820,000
+19. Participation Status
+Equity % Directors % Management % Employment %
+Bumiputera 100.0 100.0 90.0 85.0
+Non-Bumi 0.0 0.0 10.0 15.0
+Foreigner 0.0 0.0 0.0 0.0
+20. Company Category : Bumiputera
+21. Company Record Status : Active
+22. Company Locality Status : SELANGOR
+23. Company Branch State
+State
+SEL, JOH
+24. Shareholders/Owners
+No. Name Status Ordinary Shares Preferences Shares
+Shareholding (%)
+1
+DIRECTOR A Bumiputera 400,000 0 80.00 SELANGOR
+2
+DIRECTOR B Bumiputera 100,000 0 20.00 SELANGOR
+25. Directors
+No. Name Status Position Locality
+1 DIRECTOR A Bumiputera Director & Shareholder SELANGOR
+2 DIRECTOR B Bumiputera Director & Shareholder SELANGOR
+26. Subshares
+27. Top Management
+No. Name Status Position
+1 DIRECTOR A Bumiputera CEO
+28. Management Team
+No. Employee ID / Name Position Qualification Years of Experience Employee Category
+1 MANAGER ONE Operations Manager Degree 18 Permanent
+2 MANAGER TWO Project Manager Degree 12 Permanent
+3 MANAGER THREE Site Supervisor Diploma 20 Permanent
+4 MANAGER FOUR HSE Officer Certificate 8 Permanent
+29. Employment Summary
+Bumiputera Local Foreign
+1 No. of Permanent Staff 26 4 0
+2 No. of Others Staff 0 0 0
+30. Principal Info
+No. Principal ID Principal Name Person In Charge Contact No. Contact No.
+(2) Email Status
+31. Scope of Works
+No. SWEC Title Mode Of
+Operator Principal Name
+SWEC
+Approved
+Date/Time
+SWEC Expiry
+Date
+1 27121400S Shutdown/Plant Turnaround Project Management Self-operated 01.02.2026
+09:00AM 31.01.2029
+2 24241011S Desludging, Recovery & Cleaning Self-operated 01.02.2026
+09:00AM 31.01.2029
+3 24241700S Hydrojetting Self-operated 01.02.2026
+09:00AM 31.01.2029
+4 28120000S Insulation Services Self-operated 01.02.2026
+09:00AM 31.01.2029
+5 11180000S Scaffolding Services & Inspection Self-operated 01.02.2026
+09:00AM 31.01.2029
+6 19121200S Skilled Manpower Self-operated 01.02.2026
+09:00AM 31.01.2029
+7 24181500S Mobile Crane Services Self-operated 01.02.2026
+09:00AM 31.01.2029
+32. Company's Experience
+No
+.
+Project Name Project Description Client Name Start
+Date End Date
+1 Tank cleaning at crude tank Tank cleaning and desludging of a crude oil storage tank Northern Refining Sdn Bhd 05.03.20
+24 20.05.20
+24
+2 Plant shutdown support Manpower and scaffolding for a plant shutdown (42,000 manhours) Northern Refining Sdn Bhd 01.09.20
+23 30.10.20
+23
+3 Insulation replacement Insulation and scaffolding works at a utilities unit Coastal Utilities Sdn Bhd 10.01.20
+25 28.02.20
+25
+33. Company Special Condition
+No. Section Description Special Condition start date Special Condition end date
+34. Swec Special Condition
+35. Non Compliance
+36. Blacklisted
+37. Suspended
+38. Inactive
+39. Yellow & Orange
+40. Registration with External Bodies
+`;
+const VA_SAMPLE_PROFILE = `# Sample Plant Services Sdn Bhd — Corporate Profile
+
+## Certificates and registrations
+
+| Registration | Issuer | Grade / scope | Valid from | Valid to | Status |
+|---|---|---|---|---|---|
+| ISO 9001:2015 Quality Management System | Example Certification Body | Maintenance and shutdown services | 2025-03-01 | 2028-02-28 | Active |
+| CIDB contractor registration | CIDB Malaysia | Grade G5. Categories: B (B04), M (M15) | 2025-06-01 | 2027-05-31 | Active |
+
+## Key personnel
+
+| Role | Name | Qualification | Experience highlights |
+|---|---|---|---|
+| Managing Director | Director A | Bachelor of Engineering (Mechanical) | Twenty years in refinery maintenance and turnaround. |
+| Operations Manager | Manager One | Bachelor of Science | Leads site teams. |
+
+## Corporate structure
+
+- Managing Director
+  - Operations
+  - HSE Department
+  - QA / QC Department
+  - Finance Department
+
+## Project references
+
+| Scope | Client | Company / OPU | Route | PO no. | PO date | Description | Start | Finish |
+|---|---|---|---|---|---|---|---|---|
+| Tank maintenance | Northern Refining Sdn Bhd | NRSB | Direct | 4500001 | 2024-02-20 | Cleaning and desludging of crude oil storage tank | 2024-03-05 | 2024-05-20 |
+| Tank maintenance | Northern Refining Sdn Bhd | NRSB | Direct | 4500002 | 2025-01-10 | Hydrojetting and cleaning of heat exchanger bundle | 2025-01-15 | 2025-02-10 |
+| Shutdown / turnaround | Northern Refining Sdn Bhd | NRSB | Direct | 4500003 | 2023-08-15 | Manpower and scaffolding for plant shutdown | 2023-09-01 | 2023-10-30 |
+| Mechanical maintenance | Main Contractor One Sdn Bhd | NRSB | Via contractor | MC-77 | 2025-04-01 | Insulation and scaffolding works at utilities unit | 2025-04-10 | 2025-06-30 |
+| Manpower services | Main Contractor One Sdn Bhd | NRSB | Via contractor | MC-91 | 2024-06-01 | Skilled manpower supply for site maintenance | 2024-06-10 | 2024-12-20 |
+`;
+
+</script>
+<script>
 // ───────── ProcureLens shell: nav, drawer, responsive tables ─────────
 (function () {
-  const TAB_ICONS = { scope:'fa-layer-group', timeline:'fa-timeline', scopetimeline:'fa-table-cells', acl:'fa-file-contract', vendor:'fa-handshake', catalog:'fa-book-open', kao:'fa-compass', tier:'fa-sitemap', mi:'fa-newspaper', overview:'fa-gauge-high', pipeline:'fa-filter', bu:'fa-building' };
+  const TAB_ICONS = { scope:'fa-layer-group', timeline:'fa-timeline', scopetimeline:'fa-table-cells', acl:'fa-file-contract', vendor:'fa-handshake', advisor:'fa-clipboard-check', catalog:'fa-book-open', kao:'fa-compass', tier:'fa-sitemap', mi:'fa-newspaper', overview:'fa-gauge-high', pipeline:'fa-filter', bu:'fa-building' };
   const strip = document.getElementById('tabStrip');
   const list = document.getElementById('drawerList');
   const tabs = Array.from(strip.querySelectorAll('.tab'));
