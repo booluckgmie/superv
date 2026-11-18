@@ -6213,10 +6213,10 @@ function vaRenderReport() {
   const score = R.readiness;
   const scoreCol = score == null ? 'var(--text3)' : score >= 80 ? '#059669' : score >= 60 ? '#d97706' : '#dc2626';
 
-  let h = `<div class="va-head"><div><div class="va-eyebrow">Detailed report</div><h2>${vaT(R.name)}</h2>
+  let h = `<div class="va-head"><div><div class="va-eyebrow">Vendor development report</div><h2>${vaT(R.name)}</h2>
     <div class="va-chips">${chips.map(c => `<span class="va-chip">${vaT(c)}</span>`).join('')}</div>
     <div class="va-sub">Prepared ${when} from the ${docs}. Indicative advice based on the documents supplied; it is not an assessment or award decision.</div></div>
-  </div>`;
+    <div class="va-tools no-print"><button type="button" class="filter-btn active" onclick="vaPdf()"><i class="fa-solid fa-file-pdf"></i>&nbsp; Download PDF</button><button type="button" class="filter-btn" onclick="vaReset()"><i class="fa-solid fa-rotate-left"></i>&nbsp; New analysis</button></div></div>`;
 
   h += `<div class="va-kpis">${vaKpi('Readiness score', score == null ? '–' : score + '/100', score == null ? 'needs the licence record' : 'compliance and financial checks', scoreCol)}${vaKpi('Matched open tenders', vaN(os.open), 'new and replacement tenders')}${vaKpi('Strong fits', vaN(os.strong), 'fit score 70 or more', '#059669')}${vaKpi('Act now', vaN(os.actNow), 'bidding or pre-tender', '#d97706')}${vaKpi('Capabilities found', R.caps.length, vaN(evGaps) + ' need evidence')}${vaKpi('Actions', R.actions.length, nowActs.length + ' due within 30 days', nowActs.length ? '#dc2626' : '')}</div>`;
   h += vaSec('va-summary', 'Summary', '', vaSummary(R));
@@ -6230,7 +6230,7 @@ function vaRenderReport() {
   if (R.other.cidb || R.other.mof) h += vaSec('va-other', 'Other markets the registrations open', '', vaOtherHtml(R));
   h += vaSec('va-plan', 'Action plan', 'Ordered by when the action should be finished.', vaPlanHtml(R));
   h += vaSec('va-basis', 'Basis of this report', '', vaBasisHtml(R));
-  root.innerHTML = `<div class="va-switch no-print" role="tablist"><button type="button" class="filter-btn active" data-vv="full" role="tab">Full report</button><button type="button" class="filter-btn" data-vv="vendor" role="tab">Vendor copy</button><span class="va-muted">The vendor copy is short, uses ranges and names no scopes, so it is safe to share.</span></div><div class="va-pane on" id="vaPaneFull">${vaVendorHtml(R)}<div class="va-break"></div>${h}</div><div class="va-pane" id="vaPaneVendor">${vaVendorHtml(R)}</div>`;
+  root.innerHTML = `<div class="va-switch no-print" role="tablist"><button type="button" class="filter-btn active" data-vv="full" role="tab">Full report</button><button type="button" class="filter-btn" data-vv="vendor" role="tab">Vendor copy</button><span class="va-muted">The vendor copy is short, uses ranges and names no scopes, so it is safe to share.</span></div><div class="va-pane on" id="vaPaneFull">${h}</div><div class="va-pane" id="vaPaneVendor">${vaVendorHtml(R)}</div>`;
   VA.view = 'full';
   root.querySelectorAll('[data-vv]').forEach(b => b.onclick = () => vaView(b.dataset.vv));
   vaRenderOpps();
