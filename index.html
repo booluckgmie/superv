@@ -743,6 +743,19 @@
   .va-plan { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
   .va-col h4 { margin-top: 0; } .va-act { padding: 10px 0; border-top: 1px solid var(--border); font-size: 13px; } .va-act .va-chip { margin-bottom: 4px; }
   details > summary { cursor: pointer; font-size: 13px; padding: 4px 0; }
+  .va-switch { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 14px; }
+  .va-pane { display: none; } .va-pane.on { display: block; }
+  .va-vgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; margin: 6px 0 16px; }
+  .va-vbox { background: var(--surface); border: 1px solid var(--border2); border-radius: 12px; padding: 16px; }
+  .va-vbox.lead { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 7%, var(--surface)); grid-column: 1 / -1; }
+  .va-vlabel { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .6px; color: var(--text3); }
+  .va-vnum { font-size: 32px; font-weight: 700; line-height: 1.15; margin: 4px 0; letter-spacing: -.5px; }
+  .va-vbox.lead .va-vnum { font-size: 44px; color: var(--accent); }
+  .va-vnum small { font-size: 14px; font-weight: 500; color: var(--text3); }
+  .va-vtxt { font-size: 13px; color: var(--text2); }
+  .va-vwhen { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .6px; color: var(--accent); margin: 14px 0 4px; }
+  .va-vlist { margin-left: 20px; display: flex; flex-direction: column; gap: 6px; font-size: 13px; }
+  .va-vnote { font-size: 12px; color: var(--text3); max-width: 70ch; }
   @page { size: A4; margin: 12mm; }
   @media print {
     html[data-theme].va-print, html.va-print { --bg:#fff; --surface:#fff; --surface2:#f3f5f7; --border:#dde3ea; --border2:#c9d1db; --text:#111827; --text2:#374151; --text3:#4b5563; --accent:#0f766e; --gold:#b45309; --teal:#0f766e; --red:#b91c1c; color-scheme: light; }
@@ -751,6 +764,8 @@
     html.va-print body > *:not(#tab-advisor) { display: none !important; }
     html.va-print #tab-advisor { display: block !important; }
     html.va-print .no-print, html.va-print .va-input { display: none !important; }
+    html.va-print .va-pane:not(.on) { display: none !important; }
+    html.va-print .va-vbox { break-inside: avoid; } html.va-print .va-vnum { font-size: 24px; } html.va-print .va-vbox.lead .va-vnum { font-size: 32px; }
     html.va-print .main { padding: 0 !important; }
     html.va-print .va-report { max-width: none; }
     html.va-print .va-card { break-inside: auto; box-shadow: none; border-radius: 6px; padding: 12px; margin-bottom: 10px; }
@@ -5662,18 +5677,18 @@ function vaAnalyze(P, ctx) {
     const d = dl(P.licenseExpiry);
     chk('lic', 'Compliance', 'Licence validity', expStatus(d, 180, 365),
       d < 0 ? 'Licence expired on ' + vaFmtDate(P.licenseExpiry) : 'Valid until ' + vaFmtDate(P.licenseExpiry) + ' (' + vaSpan(d) + ' left)' + (P.licenseStart ? '; current term started ' + vaFmtDate(P.licenseStart) : ''),
-      d < 365 ? 'Start the licence renewal file now; renewal normally needs current audited accounts and updated SWEC evidence.' : null);
+      d < 365 ? 'Start the licence renewal now. It usually needs current audited accounts and fresh SWEC evidence.' : null);
   }
   if (P.status) chk('rec', 'Compliance', 'Company record status', /^active$/i.test(P.status) ? 'ok' : 'risk', P.status);
   if (P.special && P.special.deadline) {
     const d = dl(P.special.deadline);
     chk('spec', 'Compliance', 'Special condition on the company record', d < 0 ? 'risk' : d <= 30 ? 'risk' : d <= 90 ? 'warn' : 'ok',
-      (d < 0 ? 'Deadline passed ' + vaSpan(d) + ' ago (' + vaFmtDate(P.special.deadline) + ')' : 'Due ' + vaFmtDate(P.special.deadline) + ' (' + vaSpan(d) + ' left)') + ': ' + (P.special.mentionsAfs ? 'latest audited accounts must be uploaded' : 'see company record') + (P.special.mentionsNetWorth ? '; a negative net worth, or missing the deadline, turns the status to Non-Compliance' : '') + '.',
-      P.special.mentionsAfs ? 'Upload the latest audited financial statements (and make sure they match the SSM filing) before ' + vaFmtDate(P.special.deadline) + '.' : 'Close out the special condition before ' + vaFmtDate(P.special.deadline) + '.');
+      (d < 0 ? 'The deadline passed ' + vaSpan(d) + ' ago, on ' + vaFmtDate(P.special.deadline) + '.' : 'Due ' + vaFmtDate(P.special.deadline) + ', ' + vaSpan(d) + ' from now.') + (P.special.mentionsAfs ? ' The latest audited accounts have to be uploaded by then.' : ' See the company record for what is needed.') + (P.special.mentionsNetWorth ? ' Miss it, or show a negative net worth, and the status goes to Non-Compliance.' : ''),
+      P.special.mentionsAfs ? 'Upload the latest audited accounts before ' + vaFmtDate(P.special.deadline) + ', and check they match what was filed with SSM.' : 'Close out the special condition before ' + vaFmtDate(P.special.deadline) + '.');
   }
   if (P.auditDate) {
     const m = vaMonths(P.auditDate, today);
-    chk('afs', 'Financial', 'Audited accounts on file', m <= 11 ? 'ok' : m <= 17 ? 'warn' : 'risk', 'Latest audited year-end on file: ' + vaFmtDate(P.auditDate) + ' (' + m + ' months ago)', m > 11 ? 'File the next audited accounts; tender evaluations normally look at the latest audited year.' : null);
+    chk('afs', 'Financial', 'Audited accounts on file', m <= 11 ? 'ok' : m <= 17 ? 'warn' : 'risk', 'Latest audited year-end on file: ' + vaFmtDate(P.auditDate) + ' (' + m + ' months ago)', m > 11 ? 'File the next set of audited accounts. Tender evaluators look at the latest year.' : null);
   }
   if (P.netWorth != null) {
     const ratio = P.paidUp ? P.netWorth / P.paidUp : null;
@@ -5688,7 +5703,7 @@ function vaAnalyze(P, ctx) {
   }
   if (dealers.length) chk('princ', 'Compliance', 'Principals for dealer-mode SWECs', P.principals ? 'ok' : 'warn',
     P.principals ? P.principals + ' principal record(s) on file for ' + dealers.length + ' dealer-mode SWECs' : dealers.length + ' of ' + P.swec.length + ' SWECs are dealer mode, but no principal or appointment record is listed',
-    P.principals ? null : 'Register the principal appointments (letters and validity dates) so the ' + dealers.length + ' dealer SWECs are bid-ready.');
+    P.principals ? null : 'Register the principal appointments (letters and validity dates) so the ' + dealers.length + ' dealer-mode SWECs are ready to bid.');
 
   // certificates and registrations (licence record + supporting profile)
   const certs = S ? S.certs : [];
@@ -5699,9 +5714,9 @@ function vaAnalyze(P, ctx) {
     if (!certs.length && !P.external) st = 'warn';
     chk('cert', 'Compliance', 'Management-system certificates', st,
       certs.length ? parts.join(', ') + (certs[0].issuer ? '. Issued by ' + certs[0].issuer + '.' : '') : (P.external ? P.external + ' registration(s) listed on the licence record' : 'None found in the documents provided'),
-      !certs.length && !P.external ? 'Add recognised certifications that evaluators score: ISO 9001 (quality), ISO 14001 (environment), ISO 45001 (safety), and trade registrations that match the SWECs held.' : (st !== 'ok' ? 'Renew the expiring certificate before it lapses; schedule the surveillance audit early.' : null));
-    if (certs.length && !P.empty && !P.external) chk('regsync', 'Compliance', 'Registrations recorded in the licence system', 'warn', 'The licence record lists no external-body registrations, although the profile shows ' + certs.map(c => c.kind).join(', ') + (S.cidb ? ', CIDB' : '') + (S.mof ? ' and a Ministry of Finance registration' : '') + '.', 'Upload the certificates to the licence record so evaluators see them alongside the SWECs.');
-    if (certs.length && isoHas('9001') && isoHas('45001') && !isoHas('14001')) chk('iso14001', 'Compliance', 'Environmental management (ISO 14001)', 'info', 'Quality and safety are certified; environmental management is not.', 'Consider ISO 14001: refinery and petrochemical clients increasingly ask for it, and tank cleaning, desludging and waste handling are environmentally sensitive scopes.');
+      !certs.length && !P.external ? 'Get the certificates evaluators score: ISO 9001 for quality, ISO 14001 for environment, ISO 45001 for safety, plus any trade registration that fits the SWECs held.' : (st !== 'ok' ? 'Renew the expiring certificate before it lapses, and book the surveillance audit early.' : null));
+    if (certs.length && !P.empty && !P.external) chk('regsync', 'Compliance', 'Registrations recorded in the licence system', 'warn', 'The licence record lists no external-body registrations, although the profile shows ' + certs.map(c => c.kind).join(', ') + (S.cidb ? ', CIDB' : '') + (S.mof ? ' and a Ministry of Finance registration' : '') + '.', 'Upload the certificates to the licence record so evaluators can see them next to the SWECs.');
+    if (certs.length && isoHas('9001') && isoHas('45001') && !isoHas('14001')) chk('iso14001', 'Compliance', 'Environmental management (ISO 14001)', 'info', 'Quality and safety are certified. Environmental management is not.', 'Worth considering ISO 14001. Refinery and petrochemical clients are asking for it more often, and cleaning and waste handling are the kind of work they look at closely.');
   }
   if (S && S.cidb) {
     const d = S.cidb.to ? dl(S.cidb.to) : null;
@@ -5718,7 +5733,7 @@ function vaAnalyze(P, ctx) {
     'Equity ' + bu.equity + '%, directors ' + bu.directors + '%, management ' + bu.management + '%, employment ' + bu.employment + '%' + (P.category ? ' · category: ' + P.category : ''),
     bu.equity >= 51 ? null : 'Participation is below the usual 51% threshold, which limits eligibility for Bumiputera-reserved packages.');
   if (P.topShare != null) chk('own', 'Ownership', 'Ownership concentration', P.topShare >= 90 ? 'info' : 'ok',
-    'Largest shareholder holds ' + P.topShare + '% (' + vaPlural(P.shareholders, 'shareholder') + ', ' + vaPlural(P.directors, 'director') + ')', P.topShare >= 90 ? 'Key-person risk: document a succession and delegation plan; evaluators discount experience that sits with one individual.' : null);
+    'Largest shareholder holds ' + P.topShare + '% (' + vaPlural(P.shareholders, 'shareholder') + ', ' + vaPlural(P.directors, 'director') + ')', P.topShare >= 90 ? 'Too much rests on one person. Write down who steps in and who signs off, because evaluators give less credit to experience that sits with a single individual.' : null);
 
   const pts = { lic: 10, rec: 5, spec: 10, afs: 10, nw: 10, flags: 10, princ: 5, cert: 8, cidb: 5, regsync: 3, bumi: 5 };
   let got = 0, tot = 0;
@@ -5884,7 +5899,49 @@ function vaAnalyze(P, ctx) {
 
   /* ── 9. action plan ── */
   vaBuildActions(R, P, own, dealers, ctx);
+  R.vendor = vaVendorView(R);
   return R;
+}
+
+/* ───────── vendor copy: short, ranges only, no scope names ───────── */
+function vaRange(n) {
+  if (n <= 0) return 'none yet';
+  if (n < 10) return Math.max(1, n - 2) + ' to ' + (n + 2);
+  const step = n < 60 ? 5 : n < 300 ? 10 : 25;
+  return Math.floor(n * 0.85 / step) * step + ' to ' + Math.ceil(n * 1.15 / step) * step;
+}
+function vaBand(r) { if (r == null) return null; const lo = Math.floor(r / 5) * 5; return lo + ' to ' + (lo + 5); }
+function vaVendorView(R) {
+  const P = R.P, S = R.S, today = R.today;
+  const open = R.opps.filter(o => o.open);
+  // now: a solid fit. next: a near miss, or held back only because the proof on file is thin.
+  const good = open.filter(o => o.score >= 55), close = open.filter(o => o.score >= 70);
+  const soon = good.filter(o => ['Bidding', 'Pre-Tendering', 'Tender Plan Approval'].includes(o.stage));
+  const thinTags = new Set(R.caps.filter(c => c.cls === 'warn').map(c => c.label));
+  const more = open.filter(o => o.score < 55 && o.score >= 35 && (o.score >= 45 || o.tags.some(t => thinTags.has(t)))).length;
+  const by = Object.fromEntries(R.checks.map(c => [c.id, c]));
+  const todo = [], add = (when, text) => todo.push({ when, text });
+  const NOW = 'Now', Q = 'Next 3 months', L = 'Later this year or next';
+  if (by.spec && by.spec.status !== 'ok' && P.special && P.special.deadline) {
+    const d = vaDays(today, P.special.deadline);
+    add(NOW, 'Upload your latest audited accounts by ' + vaFmtDate(P.special.deadline) + (d >= 0 ? ' (' + vaSpan(d) + ' from now)' : ' (already passed)') + '. This one can\'t wait, because missing it can change your record status.');
+  } else if (by.afs && by.afs.status !== 'ok') add(NOW, 'File your next set of audited accounts. Buyers look at the latest year.');
+  if (by.lic && by.lic.status !== 'ok') add(Q, 'Start your licence renewal. It runs out on ' + vaFmtDate(P.licenseExpiry) + '.');
+  if (by.cidb && by.cidb.status !== 'ok' && S && S.cidb && S.cidb.to) add(Q, 'Renew your CIDB registration before ' + vaFmtDate(S.cidb.to) + '. Starting about three months ahead gives you room.');
+  const dealers = P.swec.filter(s => s.mode === 'Dealer').length;
+  if (by.princ && by.princ.status !== 'ok') add(Q, 'Send in the principal appointment letters for your dealer codes (' + dealers + ' of your ' + P.swec.length + ' codes are dealer mode).');
+  if (by.regsync) add(Q, 'Upload your certificates to the licence record so buyers can see them next to your codes.');
+  if (by.cert && by.cert.status === 'warn' && !(S && S.certs.length)) add(Q, 'Get a management-system certificate. ISO 9001 is the usual first one.');
+  const thin = R.caps.filter(c => c.cls === 'warn').length;
+  if (thin) add(Q, 'Collect completion letters, purchase orders or client references for the ' + thin + ' registered areas where you have little on file.');
+  if (R.track.sup && R.track.sup.directShare <= 40) add(L, 'Try to win more jobs directly. Roughly ' + Math.round((100 - R.track.sup.directShare) / 5) * 5 + '% of your listed projects came through other contractors, and direct awards build your own record.');
+  if (R.people.fteHours && R.people.bigEvent) add(L, 'Before you bid for bigger jobs, line up extra people or a subcontractor panel you can call on.');
+  if (R.people.missingRoles.length) add(L, 'Make sure safety, quality and contracts people are named clearly in your team details.');
+  if (by.iso14001) add(L, 'Think about ISO 14001 too. Some buyers ask for it.');
+  const order = { [NOW]: 0, [Q]: 1, [L]: 2 };
+  todo.sort((a, b) => order[a.when] - order[b.when]);
+  return { good: good.length, close: close.length, soon: soon.length, more, readiness: R.readiness, band: vaBand(R.readiness),
+    ranges: { good: vaRange(good.length), close: vaRange(close.length), soon: vaRange(soon.length), more: vaRange(more) }, todo: todo.slice(0, 7) };
 }
 
 /* ───────── tiering pathway ───────── */
@@ -5963,33 +6020,33 @@ function vaBuildActions(R, P, own, dealers, ctx) {
   ['afs', 'princ', 'cert', 'cidb', 'lic', 'nw', 'regsync'].forEach(id => { const c = byId[id]; if (id === 'afs' && specAfs) return; if (c && c.status === 'warn' && c.action) add(Q, c.action, c.detail, 'Compliance'); });
   if (byId.iso14001) add(H, byId.iso14001.action, byId.iso14001.detail, 'Compliance');
   const top = R.opps.filter(o => o.open && ['Bidding', 'Pre-Tendering', 'Tender Plan Approval'].includes(o.stage)).slice(0, 5);
-  if (top.length) add(NOW, 'Prepare bid packs for the ' + top.length + ' best-fitting tenders that are already in bidding or pre-tender (' + top.map(o => o.id).join(', ') + ').', 'Highest fit scores among tenders that can still be bid.', 'Tenders');
+  if (top.length) add(NOW, 'Start the bid packs for the ' + top.length + ' best-fitting tenders that are already in bidding or pre-tender (' + top.map(o => o.id).join(', ') + ').', 'They score highest among the tenders you can still bid for.', 'Tenders');
   const early = R.opps.filter(o => o.open && o.fit !== 'Possible' && ['Yet to Initiate', 'Initiated with Team', 'Strategy Development'].includes(o.stage));
-  if (early.length) add(Q, 'Register interest early with the buying departments for ' + early.length + ' well-matched tenders that have not started (' + (R.oppSummary.byDept.slice(0, 3).map(d => d[0]).join(', ')) + ').', 'Early engagement shapes scope and shortlists.', 'Tenders');
-  if (R.relationships.length && R.oppSummary.withRel) add(Q, 'Ask the existing client teams (' + R.relationships.join(', ') + ') about forward plans: ' + R.oppSummary.withRel + ' matched open tenders sit in departments you have already worked for.', 'Existing relationships shorten the path to the shortlist.', 'Tenders');
-  R.caps.filter(c => /^Registered, (no project|thin|key-person)/.test(c.verdict)).slice(0, 4).forEach(c => add(Q, 'Build a project-evidence pack for "' + c.label + '" (' + c.swecTitles.slice(0, 3).join('; ') + (c.swecTitles.length > 3 ? '…' : '') + '): completion certificates, purchase orders, client references.', c.swec + ' SWEC' + (c.swec === 1 ? '' : 's') + ' registered but ' + (c.own ? 'only ' + c.own : 'no') + ' own project' + (c.own === 1 ? '' : 's') + ' documented.', 'Capability'));
-  R.caps.filter(c => /^Registered, evidence ageing/.test(c.verdict)).slice(0, 3).forEach(c => add(Q, 'Refresh the evidence for "' + c.label + '": the latest documented project ended in ' + c.last + '. Add recent work or references.', c.swec + ' registered SWEC' + (c.swec === 1 ? '' : 's') + '; recent tenders ask for recent references.', 'Capability'));
-  R.caps.filter(c => c.verdict === 'Experience, not registered').slice(0, 3).forEach(c => add(Q, 'Apply for SWEC registration covering "' + c.label + '": you already have ' + c.own + ' completed project' + (c.own === 1 ? '' : 's') + ' to support it.', 'Experience exists without a matching approved SWEC.', 'Capability'));
+  if (early.length) add(Q, 'Get in front of the buying departments early on the ' + early.length + ' good-fit tenders that have not started yet (' + (R.oppSummary.byDept.slice(0, 3).map(d => d[0]).join(', ')) + ').', 'Talking early can shape the scope and the shortlist.', 'Tenders');
+  if (R.relationships.length && R.oppSummary.withRel) add(Q, 'Ask the client teams you already know (' + R.relationships.join(', ') + ') what is coming. ' + R.oppSummary.withRel + ' of the matched open tenders sit in departments you have worked for.', 'People who know your work are quicker to shortlist you.', 'Tenders');
+  R.caps.filter(c => /^Registered, (no project|thin|key-person)/.test(c.verdict)).slice(0, 4).forEach(c => add(Q, 'Pull together proof of work for "' + c.label + '" (' + c.swecTitles.slice(0, 3).join('; ') + (c.swecTitles.length > 3 ? ', and more' : '') + '): completion letters, purchase orders, client references.', c.swec + ' SWEC' + (c.swec === 1 ? ' is' : 's are') + ' registered, but ' + (c.own ? 'only ' + c.own : 'no') + ' project' + (c.own === 1 ? ' is' : 's are') + ' documented.', 'Capability'));
+  R.caps.filter(c => /^Registered, evidence ageing/.test(c.verdict)).slice(0, 3).forEach(c => add(Q, 'Bring the proof for "' + c.label + '" up to date. The latest documented project ended in ' + c.last + '.', 'Tenders usually ask for recent references.', 'Capability'));
+  R.caps.filter(c => c.verdict === 'Experience, not registered').slice(0, 3).forEach(c => add(Q, 'Apply for a SWEC that covers "' + c.label + '". You already have ' + c.own + ' completed project' + (c.own === 1 ? '' : 's') + ' to back it up.', 'The experience is there, but no approved SWEC matches it.', 'Capability'));
   const pl = R.people;
-  if (pl.missingRoles.length) add(H, 'Add or formally designate roles for: ' + pl.missingRoles.join(', ') + '.', 'Not visible in the documents provided; evaluators check these roles in technical submissions.', 'People');
-  if (pl.teamN && pl.certOnly >= Math.ceil(pl.teamN / 3)) add(H, 'Upskill: sponsor degree-level or professional qualifications (for example an engineering degree, professional engineer or chartered status, turnaround or project-management certification) for the ' + pl.certOnly + ' certificate or diploma-qualified managers.', pl.degree + ' of ' + pl.teamN + ' listed managers hold a degree.', 'People');
-  if (pl.notStated) add(Q, 'Complete qualification details for ' + pl.notStated + ' management-team record' + (pl.notStated === 1 ? '' : 's') + ' with no qualification stated.', 'Gaps in the record weaken technical scoring.', 'People');
-  if (pl.fteHours && pl.bigEvent) add(H, 'Plan capacity for larger packages: ' + vaPlural(pl.staff, 'permanent staff member') + ' give roughly ' + Math.round(pl.fteHours / 1000) + 'k productive manhours a year (assuming ' + VA_HOURS_PER_FTE.toLocaleString('en-US') + ' hours each); the largest single event on record is ' + pl.bigEvent.toLocaleString('en-US') + ' manhours. Pre-arrange a vetted manpower pool or subcontractor panel before bidding bigger bands.', 'Capacity is the usual constraint above the 100k manhour band.', 'People');
+  if (pl.missingRoles.length) add(H, 'Add or formally designate roles for: ' + pl.missingRoles.join(', ') + '.', 'They do not show up in the documents, and evaluators look for them in technical submissions.', 'People');
+  if (pl.teamN && pl.certOnly >= Math.ceil(pl.teamN / 3)) add(H, 'Help the ' + pl.certOnly + ' managers who hold a certificate or diploma to go further, for example an engineering degree, professional engineer or chartered status, or a turnaround or project-management certification.', 'Only ' + pl.degree + ' of the ' + pl.teamN + ' listed managers hold a degree.', 'People');
+  if (pl.notStated) add(Q, 'Fill in the qualification for ' + pl.notStated + ' management-team record' + (pl.notStated === 1 ? '' : 's') + ' that leave it blank.', 'Blank fields cost marks in technical scoring.', 'People');
+  if (pl.fteHours && pl.bigEvent) add(H, 'Plan for bigger jobs. ' + vaPlural(pl.staff, 'permanent staff member') + ' gives roughly ' + Math.round(pl.fteHours / 1000) + 'k productive manhours a year (at ' + VA_HOURS_PER_FTE.toLocaleString('en-US') + ' hours each), and the biggest single event on record is ' + pl.bigEvent.toLocaleString('en-US') + ' manhours. Line up a manpower pool or subcontractor panel before bidding for bigger bands.', 'Capacity is usually what stops a company above the 100k manhour band.', 'People');
   const tr = R.track;
-  if (tr.inherited && tr.own && tr.inherited / tr.total >= 0.25) add(H, 'Reduce reliance on key-person experience: ' + tr.inherited + ' of ' + tr.total + ' projects on the licence record pre-date the company or belong to a shareholder\'s earlier employer. Win and document more directly-held contracts.', 'Evaluators weight the company\'s own delivered projects.', 'Track record');
-  if (tr.sup && tr.sup.directShare <= 40) add(H, 'Move more work from main-contractor subcontracts to direct purchase orders: ' + tr.sup.via + ' of ' + tr.sup.n + ' listed projects (' + (100 - tr.sup.directShare) + '%) came through other contractors' + (tr.sup.viaTop.length ? ', mainly ' + tr.sup.viaTop.slice(0, 2).map(v => v[0] + ' (' + v[1] + ')').join(' and ') : '') + '.', 'Direct awards build the company\'s own record and margins.', 'Track record');
-  else if (tr.topCpShare && tr.topCpShare >= 35 && tr.counterparties.length) add(H, 'Diversify clients: ' + tr.counterparties[0].name + ' appears in ' + tr.topCpShare + '% of your own projects. Target direct or second-tier clients to reduce dependency.', 'Concentration risk on one main contractor.', 'Track record');
-  if (tr.sup && tr.sup.directClients.length && tr.sup.directClients[0][1] >= 5) add(Q, 'Turn repeat direct work into term agreements: ' + tr.sup.directClients.slice(0, 2).map(d => san(d[0]) + ' (' + d[1] + ' orders)').join(' and ') + '. Offer a rate-card or term contract to replace one-off purchase orders.', 'Repeat small orders usually mean a term contract is cheaper for the client too.', 'Growth');
-  if (!tr.sup && tr.lastOwn && +R.today.slice(0, 4) - tr.lastOwn >= 1 && tr.recent === 0) add(Q, 'Refresh the track record: the most recent own project ended in ' + tr.lastOwn + '.', 'Recent references score higher.', 'Track record');
+  if (tr.inherited && tr.own && tr.inherited / tr.total >= 0.25) add(H, 'Lean less on key-person experience. ' + tr.inherited + ' of the ' + tr.total + ' projects on the licence record pre-date the company or come from a shareholder\'s earlier job. Win and document more contracts the company holds itself.', 'Evaluators give more weight to the company\'s own delivered projects.', 'Track record');
+  if (tr.sup && tr.sup.directShare <= 40) add(H, 'Move more work from subcontracts to direct purchase orders. ' + tr.sup.via + ' of the ' + tr.sup.n + ' listed projects (' + (100 - tr.sup.directShare) + '%) came through other contractors' + (tr.sup.viaTop.length ? ', mostly ' + tr.sup.viaTop.slice(0, 2).map(v => v[0] + ' (' + v[1] + ')').join(' and ') : '') + '.', 'Direct awards build your own record and your margins.', 'Track record');
+  else if (tr.topCpShare && tr.topCpShare >= 35 && tr.counterparties.length) add(H, 'Spread the client base. ' + tr.counterparties[0].name + ' shows up in ' + tr.topCpShare + '% of the company\'s own projects. Go after direct or second-tier clients to cut the dependency.', 'Too much rides on one main contractor.', 'Track record');
+  if (tr.sup && tr.sup.directClients.length && tr.sup.directClients[0][1] >= 5) add(Q, 'Turn repeat direct work into term agreements with ' + tr.sup.directClients.slice(0, 2).map(d => san(d[0]) + ' (' + d[1] + ' orders)').join(' and ') + '. Offer a rate card or term contract in place of one-off purchase orders.', 'When small orders keep repeating, a term contract is usually cheaper for the client too.', 'Growth');
+  if (!tr.sup && tr.lastOwn && +R.today.slice(0, 4) - tr.lastOwn >= 1 && tr.recent === 0) add(Q, 'Freshen up the track record. The most recent own project ended in ' + tr.lastOwn + '.', 'Recent references score higher.', 'Track record');
   const t = R.tier;
   if (t) {
     const p = t.t1[0];
-    if (p && p.missing.length) add(H, 'Pathway to the "' + p.name + '" Tier 1 code: you hold ' + p.held.length + ' feeder code' + (p.held.length === 1 ? '' : 's') + '. Next best SWECs to add: ' + p.missing.slice(0, 3).map(m => m.c).join('; ') + '.', 'Tier 1 ecosystems are the largest and most strategic work packages.', 'SWEC strategy');
-    if (t.cand.length) add(H, 'Consider SWEC registrations in your current classes with the most 2025 market spend: ' + t.cand.slice(0, 3).map(c => c.name + ' (RM ' + c.s25.toFixed(1) + 'M)').join('; ') + '.', 'Adjacent, locally-served codes with proven spend.', 'SWEC strategy');
+    if (p && p.missing.length) add(H, 'Moving up to the "' + p.name + '" Tier 1 code: you already hold ' + p.held.length + ' of its feeder codes. Adding these next would help most: ' + p.missing.slice(0, 3).map(m => m.c).join('; ') + '.', 'Tier 1 covers the biggest and most strategic work packages.', 'SWEC strategy');
+    if (t.cand.length) add(H, 'Look at registering these SWECs in the classes you already work in. They have the most 2025 market spend: ' + t.cand.slice(0, 3).map(c => c.name + ' (RM ' + c.s25.toFixed(1) + 'M)').join('; ') + '.', 'They sit next to what you do and local vendors already supply them.', 'SWEC strategy');
   }
   const g = R.gaps.filter(x => x.adjacent.length).slice(0, 3);
-  if (g.length) add(H, 'Explore adjacent scopes with open demand: ' + g.map(x => x.scope + ' (' + x.n + ' open tenders)').join('; ') + '.', 'Adjacent to scopes you already cover.', 'Growth');
-  if (R.other && R.other.mof && R.other.mofDescs.length) add(H, 'Use the Ministry of Finance registration (' + R.other.mof.fields + ' fields, valid to ' + vaFmtDate(R.other.mof.to) + ') to bid for government work alongside oil and gas: ' + R.other.mofDescs.slice(0, 4).map(d => d.replace(/^.*?:\s*/, '').replace(/\s*\(.*$/, '')).join('; ') + '.', 'Broadens the customer base beyond one sector.', 'Growth');
+  if (g.length) add(H, 'Look at nearby scopes with open demand: ' + g.map(x => x.scope + ' (' + x.n + ' open tenders)').join('; ') + '.', 'They sit close to scopes you already cover.', 'Growth');
+  if (R.other && R.other.mof && R.other.mofDescs.length) add(H, 'Use the Ministry of Finance registration (' + R.other.mof.fields + ' fields, valid to ' + vaFmtDate(R.other.mof.to) + ') to bid for government work next to oil and gas: ' + R.other.mofDescs.slice(0, 4).map(d => d.replace(/^.*?:\s*/, '').replace(/\s*\(.*$/, '')).join('; ') + '.', 'It widens the customer base beyond one sector.', 'Growth');
   const order = { [NOW]: 0, [Q]: 1, [H]: 2 };
   A.sort((a, b) => order[a.when] - order[b.when]);
   const seen = new Set(); R.actions = A.filter(a => !seen.has(a.title) && seen.add(a.title));
@@ -6082,10 +6139,16 @@ let vaOldTitle = null;
 function vaBeforePrint() {
   const r = vaEl('vaReport'); if (!r || r.style.display === 'none' || !document.getElementById('tab-advisor').classList.contains('active')) return;
   document.documentElement.classList.add('va-print');
-  vaOldTitle = document.title; document.title = 'Vendor report - ' + ((VA.R && VA.R.name) || 'company').replace(/[^\w .&-]+/g, '');
+  vaOldTitle = document.title; document.title = (VA.view === 'vendor' ? 'Tender snapshot - ' : 'Vendor report - ') + ((VA.R && VA.R.name) || 'company').replace(/[^\w .&-]+/g, '');
 }
 function vaAfterPrint() { document.documentElement.classList.remove('va-print'); if (vaOldTitle) { document.title = vaOldTitle; vaOldTitle = null; } }
 function vaPdf() { vaBeforePrint(); window.print(); setTimeout(vaAfterPrint, 1500); }
+function vaView(v) {
+  VA.view = v;
+  document.querySelectorAll('#vaReport [data-vv]').forEach(b => b.classList.toggle('active', b.dataset.vv === v));
+  vaEl('vaPaneFull').classList.toggle('on', v === 'full'); vaEl('vaPaneVendor').classList.toggle('on', v === 'vendor');
+  window.scrollTo({ top: 0 });
+}
 function vaReset() { vaEl('vaReport').style.display = 'none'; document.querySelector('#tab-advisor .va-input').style.display = ''; window.scrollTo({ top: 0, behavior: 'smooth' }); }
 
 /* ── run ── */
@@ -6115,21 +6178,22 @@ function vaSec(id, title, sub, body) { return `<section class="va-card va-sec" i
 function vaKpi(label, value, sub, color) { return `<div class="kpi"><div class="kpi-label">${label}</div><div class="kpi-value"${color ? ` style="color:${color}"` : ''}>${value}</div><div class="kpi-sub">${sub}</div></div>`; }
 const vaN = n => Number(n).toLocaleString('en-US');
 
+const vaList = arr => arr.length < 2 ? arr.join('') : arr.slice(0, -1).join(', ') + ' and ' + arr[arr.length - 1];
 function vaSummary(R) {
   const L = [], os = R.oppSummary;
   const risks = R.checks.filter(c => c.status === 'risk'), warns = R.checks.filter(c => c.status === 'warn');
-  if (R.readiness == null) L.push('<b>Readiness is not scored</b> because no licence record was supplied. Add it to check compliance, financial standing and expiry dates.');
-  else L.push(`<b>Readiness ${R.readiness}/100.</b> ` + (risks.length ? `${vaPlural(risks.length, 'item')} need action now: ${risks.slice(0, 3).map(c => vaT(c.label.toLowerCase())).join('; ')}.` : warns.length ? `No blocking issues; ${vaPlural(warns.length, 'item')} to tidy up.` : 'No compliance issues were found in the documents.'));
-  L.push(`<b>${vaN(os.open)} open tenders match</b> the capabilities found, of which ${vaN(os.strong)} are strong fits and ${vaN(os.actNow)} are already in bidding or pre-tender.` + (R.oppSummary.withRel ? ` ${vaN(os.withRel)} sit in departments the company has already worked for.` : ''));
+  if (R.readiness == null) L.push('There is no readiness score because no licence record came with this. Add one and the report can check compliance, finances and expiry dates.');
+  else L.push(`On readiness the company scores ${R.readiness} out of 100. ` + (risks.length ? `${risks.length === 1 ? 'One thing needs' : risks.length + ' things need'} sorting out now: ${vaList(risks.slice(0, 3).map(c => vaT(c.label.toLowerCase())))}.` : warns.length ? `Nothing is blocking, but ${vaPlural(warns.length, 'item')} should be tidied up.` : 'The documents show no compliance problems.'));
+  L.push(`About ${vaN(os.open)} open tenders fit what they do, and ${vaN(os.strong)} of those are a close match. ${vaN(os.actNow)} are already in bidding or pre-tender, so the clock is running on them.` + (os.withRel ? ` ${vaN(os.withRel)} sit with buyers the company has already worked for.` : ''));
   const core = R.caps.filter(c => c.cls === 'ok').sort((a, b) => b.own - a.own).slice(0, 3);
-  if (core.length) L.push(`<b>Strongest, best-evidenced capabilities:</b> ${core.map(c => vaT(c.label.toLowerCase()) + ` (${c.own} projects, ${vaN(c.market)} open tenders)`).join('; ')}.`);
+  if (core.length) L.push(`They are strongest where the proof runs deepest: ${vaList(core.map(c => vaT(c.label.toLowerCase()) + ` (${c.own} projects)`))}.`);
   const gaps = R.caps.filter(c => c.cls === 'warn' || c.cls === 'info').sort((a, b) => b.market - a.market).slice(0, 3);
-  if (gaps.length) L.push(`<b>Evidence to build:</b> ${gaps.map(c => vaT(c.label.toLowerCase()) + ` (${vaT(c.verdict.toLowerCase())})`).join('; ')}.`);
+  if (gaps.length) L.push(`A few areas have little proof behind them yet: ${vaList(gaps.map(c => vaT(c.label.toLowerCase())))}.`);
   const g = [];
   if (R.tier && R.tier.t1[0]) g.push(`the “${vaT(R.tier.t1[0].name)}” Tier 1 pathway`);
-  if (R.gaps.filter(x => x.adjacent.length)[0]) g.push(`adjacent scopes such as ${vaT(R.gaps.filter(x => x.adjacent.length)[0].scope)}`);
+  if (R.gaps.filter(x => x.adjacent.length)[0]) g.push(`nearby scopes such as ${vaT(R.gaps.filter(x => x.adjacent.length)[0].scope)}`);
   if (R.other && R.other.mof) g.push('government work through the Ministry of Finance registration');
-  if (g.length) L.push(`<b>Growth routes:</b> ${g.join('; ')}.`);
+  if (g.length) L.push(`For growth, the clearest routes are ${vaList(g)}.`);
   return '<ul class="va-bul">' + L.map(x => `<li>${x}</li>`).join('') + '</ul>';
 }
 function vaPlural(n, w) { return n + ' ' + w + (n === 1 ? '' : 's'); }
@@ -6164,9 +6228,31 @@ function vaRenderReport() {
   if (R.other.cidb || R.other.mof) h += vaSec('va-other', 'Other markets the registrations open', '', vaOtherHtml(R));
   h += vaSec('va-plan', 'Action plan', 'Ordered by when the action should be finished.', vaPlanHtml(R));
   h += vaSec('va-basis', 'Basis of this report', '', vaBasisHtml(R));
-  root.innerHTML = h;
+  root.innerHTML = `<div class="va-switch no-print" role="tablist"><button type="button" class="filter-btn active" data-vv="full" role="tab">Full report</button><button type="button" class="filter-btn" data-vv="vendor" role="tab">Vendor copy</button><span class="va-muted">The vendor copy is short, uses ranges and names no scopes, so it is safe to share.</span></div><div class="va-pane on" id="vaPaneFull">${h}</div><div class="va-pane" id="vaPaneVendor">${vaVendorHtml(R)}</div>`;
+  VA.view = 'full';
+  root.querySelectorAll('[data-vv]').forEach(b => b.onclick = () => vaView(b.dataset.vv));
   vaRenderOpps();
   if (typeof enhanceTables === 'function') enhanceTables();
+}
+
+function vaVendorHtml(R) {
+  const v = R.vendor, name = vaT(R.name);
+  const box = (label, num, text, cls) => `<div class="va-vbox ${cls || ''}"><div class="va-vlabel">${label}</div><div class="va-vnum">${num}</div><div class="va-vtxt">${text}</div></div>`;
+  const bandTxt = v.readiness == null ? '' : v.readiness >= 80 ? 'You\'re in good shape. Keep the records current.' : v.readiness >= 60 ? 'Fair. Most of what\'s costing points is paperwork and records.' : 'There is work to do. Sort the items below before you bid.';
+  const when = ['Now', 'Next 3 months', 'Later this year or next'];
+  const todo = when.map(w => { const it = v.todo.filter(t => t.when === w); return it.length ? `<div class="va-vwhen">${w}</div><ol class="va-vlist">${it.map(t => `<li>${vaT(t.text)}</li>`).join('')}</ol>` : ''; }).join('');
+  return `<div class="va-head"><div><div class="va-eyebrow">Your tender snapshot</div><h2>${name}</h2>
+    <div class="va-sub">Prepared ${vaFmtDate(R.today)} from the documents you sent us. It\'s a guide, not a promise.</div></div>
+    <div class="va-tools no-print"><button type="button" class="filter-btn active" onclick="vaPdf()"><i class="fa-solid fa-file-pdf"></i>&nbsp; Download PDF</button><button type="button" class="filter-btn" onclick="vaReset()"><i class="fa-solid fa-rotate-left"></i>&nbsp; New analysis</button></div></div>
+    <div class="va-vgrid">
+      ${box('You can go for these now', v.ranges.good, 'open tenders in the current plan look like a good fit for what you do.', 'lead')}
+      ${box('Very close match', v.ranges.close, 'of those suit you especially well.')}
+      ${box('Already moving', v.ranges.soon, 'are in bidding or pre-tender, so the clock is running.')}
+      ${box('Within reach next', v.ranges.more, 'more could open up once you sort the items below and widen what you\'re registered for.')}
+      ${v.band ? box('Readiness', v.band + '<small> out of 100</small>', bandTxt) : ''}
+    </div>
+    <section class="va-card"><h3>Do these first</h3>${todo || '<p class="va-muted">Nothing urgent came up.</p>'}</section>
+    <p class="va-vnote">Numbers are ranges on purpose. They count open tenders in the current plan that match what\'s in your documents. Contract values aren\'t included, and a good fit isn\'t an award. Check each tender\'s own requirements before you bid.</p>`;
 }
 
 function vaReadyHtml(R) {
