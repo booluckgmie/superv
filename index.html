@@ -5942,7 +5942,23 @@ function vaVendorView(R) {
   if (by.iso14001) add(L, 'Think about ISO 14001 too. Some buyers ask for it.');
   const order = { [NOW]: 0, [Q]: 1, [L]: 2 };
   todo.sort((a, b) => order[a.when] - order[b.when]);
-  return { good: good.length, close: close.length, soon: soon.length, more, readiness: R.readiness, band: vaBand(R.readiness),
+  // what is in the company's favour, in plain words (no scope names)
+  const st = [], bu = P.participation && P.participation.bumi, sup = R.track.sup;
+  if (S && S.certs.length) st.push(S.certs.map(c => c.kind).join(' and ') + ' certificates in place');
+  if (S && S.cidb && S.cidb.grade) st.push('a CIDB ' + S.cidb.grade + ' registration');
+  if (bu && bu.equity >= 51) st.push(bu.equity >= 100 ? 'full Bumiputera ownership' : 'Bumiputera ownership of ' + bu.equity + '%');
+  if (P.netWorth != null && P.netWorth > 0) st.push('a positive net worth');
+  if (sup && sup.n >= 10) st.push('a long project record (about ' + vaRange(sup.n).replace(' to ', ' to ') + ' jobs listed)');
+  if (sup && sup.directClients.length && sup.directClients[0][1] >= 5) st.push('repeat orders from clients who buy direct');
+  if (S && S.mof) st.push('a Ministry of Finance registration, which opens government work');
+  const r1 = R.readiness == null ? null : R.readiness >= 80 ? 'On the records we have seen, you are in good shape.' : R.readiness >= 60 ? 'On the records we have seen, you are in fair shape. What is holding the score back is mostly paperwork and records.' : 'The records need work before you bid.';
+  const read = [];
+  if (r1) read.push(r1);
+  read.push('We found roughly ' + vaRange(good.length) + ' open tenders that suit what you do today, and ' + vaRange(close.length) + ' of them suit you especially well. Roughly ' + vaRange(soon.length) + ' are already in bidding or pre-tender, so those need a quick decision.');
+  read.push('Another ' + vaRange(more) + ' could come within reach once the items below are done and you widen what you are registered for.');
+  if (st.length) read.push('In your favour: ' + (st.length < 2 ? st[0] : st.slice(0, 5).slice(0, -1).join(', ') + ' and ' + st.slice(0, 5).slice(-1)[0]) + '.');
+  if (sup && sup.directShare <= 40) read.push('Most of your listed work came through other contractors. A few direct awards would strengthen your own record.');
+  return { read: read.map(x => x.replace(/ are /g, ' are ').replace(/\bwe have\b/g, 'we\'ve').replace(/\byou are\b/g, 'you\'re').replace(/\bis holding\b/g, 'is holding').replace(/\bwhat is\b/gi, m => m[0] === 'W' ? 'What\'s' : 'what\'s')), itemsNow: todo.filter(t => t.when === NOW).length, items: todo.length, good: good.length, close: close.length, soon: soon.length, more, readiness: R.readiness, band: vaBand(R.readiness),
     ranges: { good: vaRange(good.length), close: vaRange(close.length), soon: vaRange(soon.length), more: vaRange(more) }, todo: todo.slice(0, 7) };
 }
 
@@ -6239,21 +6255,15 @@ function vaRenderReport() {
 
 function vaVendorHtml(R) {
   const v = R.vendor, name = vaT(R.name);
-  const box = (label, num, text, cls) => `<div class="va-vbox ${cls || ''}"><div class="va-vlabel">${label}</div><div class="va-vnum">${num}</div><div class="va-vtxt">${text}</div></div>`;
-  const bandTxt = v.readiness == null ? '' : v.readiness >= 80 ? 'You\'re in good shape. Keep the records current.' : v.readiness >= 60 ? 'Fair. Most of what\'s costing points is paperwork and records.' : 'There is work to do. Sort the items below before you bid.';
   const when = ['Now', 'Next 3 months', 'Later this year or next'];
   const todo = when.map(w => { const it = v.todo.filter(t => t.when === w); return it.length ? `<div class="va-vwhen">${w}</div><ol class="va-vlist">${it.map(t => `<li>${vaT(t.text)}</li>`).join('')}</ol>` : ''; }).join('');
-  return `<div class="va-head"><div><div class="va-eyebrow">Your tender snapshot</div><h2>${name}</h2>
-    <div class="va-sub">Prepared ${vaFmtDate(R.today)} from the documents you sent us. It\'s a guide, not a promise.</div></div>
+  const word = v.readiness == null ? '' : v.readiness >= 80 ? 'in good shape' : v.readiness >= 60 ? 'fair' : 'needs work';
+  return `<div class="va-head"><div><div class="va-eyebrow">Tender readiness assessment</div><h2>${name}</h2>
+    <div class="va-sub">An evaluator's note, prepared ${vaFmtDate(R.today)} from the documents you sent us. It\'s a guide, not a promise.</div></div>
     <div class="va-tools no-print"><button type="button" class="filter-btn active" onclick="vaPdf()"><i class="fa-solid fa-file-pdf"></i>&nbsp; Download PDF</button><button type="button" class="filter-btn" onclick="vaReset()"><i class="fa-solid fa-rotate-left"></i>&nbsp; New analysis</button></div></div>
-    <div class="va-vgrid">
-      ${box('You can go for these now', v.ranges.good, 'open tenders in the current plan look like a good fit for what you do.', 'lead')}
-      ${box('Very close match', v.ranges.close, 'of those suit you especially well.')}
-      ${box('Already moving', v.ranges.soon, 'are in bidding or pre-tender, so the clock is running.')}
-      ${box('Within reach next', v.ranges.more, 'more could open up once you sort the items below and widen what you\'re registered for.')}
-      ${v.band ? box('Readiness', v.band + '<small> out of 100</small>', bandTxt) : ''}
-    </div>
-    <section class="va-card"><h3>Do these first</h3>${todo || '<p class="va-muted">Nothing urgent came up.</p>'}</section>
+    <div class="va-kpis">${v.band ? vaKpi('Readiness', v.band + '/100', word) : ''}${vaKpi('You can go for now', v.ranges.good, 'open tenders that fit')}${vaKpi('Very close fit', v.ranges.close, 'suit you especially well')}${vaKpi('Already moving', v.ranges.soon, 'in bidding or pre-tender')}${vaKpi('Within reach next', v.ranges.more, 'after a few fixes')}${vaKpi('Items to sort', v.items, v.itemsNow + ' due now')}</div>
+    <section class="va-card"><h3>Our read</h3><ul class="va-bul">${v.read.map(x => `<li>${vaT(x)}</li>`).join('')}</ul></section>
+    <section class="va-card"><h3>What we'd want sorted first</h3>${todo || '<p class="va-muted">Nothing urgent came up.</p>'}</section>
     <p class="va-vnote">Numbers are ranges on purpose. They count open tenders in the current plan that match what\'s in your documents. Contract values aren\'t included, and a good fit isn\'t an award. Check each tender\'s own requirements before you bid.</p>`;
 }
 
